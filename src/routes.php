@@ -51,7 +51,7 @@ Route::group(['namespace' => 'ViKon\Wiki\Http\Controller'], function () {
 
     Route::get('logout', [
         'as'   => 'auth.logout',
-        'uses' => 'auth\LoginController@logout',
+        'uses' => 'LoginController@logout',
     ]);
 
     Route::get('__ajax/modal/settings', [
