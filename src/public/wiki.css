@@ -1,0 +1,200 @@
+.table.vertical-align-middle td,
+.table td.vertical-align-middle {
+    vertical-align: middle;
+}
+
+.btn[disabled="disabled"] {
+    pointer-events: auto;
+}
+
+.form-inline .has-feedback .form-control-feedback {
+    top: 0;
+}
+
+.page-header {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.page-header .row {
+    position: relative;
+}
+
+.page-navbar hr {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.page-navbar .navbar {
+    min-height: 30px;
+    margin-bottom: 10px;
+}
+
+.page-navbar .navbar-nav > li > a {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.page-navbar .breadcrumb {
+    margin: 0 10px;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    background: none;
+}
+
+.page-header ul > li {
+    list-style: none;
+    display: inline-block;
+}
+
+.page-header ul > li + li:before {
+    padding: 0 5px;
+    content: "|";
+}
+
+.nav.nav-tabs {
+    margin-bottom: 15px;
+}
+
+.wiki-page-title {
+    margin-bottom: 10px;
+}
+
+.wiki-page-toc {
+    margin-top: 10px;
+}
+
+.wiki-page-toc.affix {
+    top: 0;
+}
+
+.wiki-navbar-toc .nav > li > a {
+    display: block;
+    padding: 4px 20px;
+}
+
+.wiki-navbar-toc .nav > li > a:hover,
+.wiki-navbar-toc .nav > li > a:focus {
+    padding-left: 19px;
+    background-color: transparent;
+    border-left: 1px solid #7a8288;
+}
+
+.wiki-navbar-toc .nav > li.active > a,
+.wiki-navbar-toc .nav > li.active:hover > a,
+.wiki-navbar-toc .nav > li.active:focus > a {
+    padding-left: 18px;
+    border-left: 2px solid #7a8288
+}
+
+.wiki-navbar-toc .nav .nav {
+    display: none;
+    padding-bottom: 10px
+}
+
+.wiki-navbar-toc .nav > li.active > .nav {
+    display: block;
+}
+
+.wiki-navbar-toc .nav .nav > li > a {
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 30px;
+    font-size: small;
+}
+
+.wiki-navbar-toc .nav .nav > li > a:hover,
+.wiki-navbar-toc .nav .nav > li > a:focus {
+    padding-left: 29px
+}
+
+.wiki-navbar-toc .nav .nav > li.active > a,
+.wiki-navbar-toc .nav .nav > li.active:hover > a,
+.wiki-navbar-toc .nav .nav > li.active:focus > a {
+    padding-left: 28px;
+}
+
+.wiki-navbar-toc .nav .nav .nav > li > a {
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 40px;
+    font-size: small;
+}
+
+.wiki-navbar-toc .nav .nav .nav > li > a:hover,
+.wiki-navbar-toc .nav .nav .nav > li > a:focus {
+    padding-left: 39px
+}
+
+.wiki-navbar-toc .nav .nav .nav > li.active > a,
+.wiki-navbar-toc .nav .nav .nav > li.active:hover > a,
+.wiki-navbar-toc .nav .nav .nav > li.active:focus > a {
+    padding-left: 38px;
+}
+
+.wiki-diff-group {
+    /*border: 1px solid #EDEDED;*/
+    font-family: monospace;
+    margin: 10px 0;
+}
+
+.wiki-diff-group:first-child {
+    margin-top: 0;
+}
+
+.wiki-diff-group:last-child {
+    margin-bottom: 0;
+}
+
+.wiki-diff-group-header {
+    /*background: #EDEDED;*/
+}
+
+.wiki-history table {
+    table-layout: fixed;
+    word-wrap: break-word;
+}
+
+.wiki-history table .line {
+    width: 40px;
+    text-align: right;
+    font-size: small;
+    vertical-align: middle;
+}
+
+.wiki-history .table > tbody > tr > td {
+    border-top: none;
+    white-space: pre-wrap;
+}
+
+.wiki-history-diff {
+    display: none;
+}
+
+.wiki-history-diff.active {
+    display: block;
+}
+
+.CodeMirror {
+    border: 1px solid #eee;
+    height: auto;
+}
+
+.CodeMirror-scroll {
+    overflow-y: hidden;
+    overflow-x: auto;
+}
+
+@media (min-width: 768px) {
+
+    .row {
+        position: relative;
+    }
+
+    .valign-bottom {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+    }
+}
