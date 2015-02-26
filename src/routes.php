@@ -8,7 +8,9 @@
 Route::group(['namespace' => 'ViKon\Wiki\Http\Controller'], function () {
     Route::get('/', [
         'as'   => 'home',
-        'uses' => '',
+        'uses' => function () {
+            return redirect(route('wiki.show'));
+        },
     ]);
 
     // --------------------------------------------------------------
