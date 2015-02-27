@@ -100,7 +100,7 @@
 
                 @if($destroyable)
                     <a href="#" class="btn btn-danger js-btn-page-destroy">
-                        <i class="icon-io-remove2"></i>
+                        <i class="icon-io-bin2"></i>
                         <span class="hidden-sm">&nbsp;@lang('wiki::page/show.btn.destroy.content')</span>
                     </a>
                 @endif

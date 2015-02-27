@@ -13,6 +13,8 @@ return [
         'page' => [
             'show'       => 'wiki::page/show',
             'not-exists' => 'wiki::page/not-exists',
+            'create'     => 'wiki::page/create',
+            'edit'       => 'wiki::page/edit',
         ],
     ],
 ];

@@ -55,7 +55,7 @@ class Page extends \Eloquent {
     public function userDraft() {
         return $this->contents()
             ->where('draft', true)
-            ->where('created_by_user_id', \Auth::getUser()->id)
+            ->where('created_by_user_id', \Auth::user()->id)
             ->orderBy('created_at', 'desc')
             ->first();
     }

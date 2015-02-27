@@ -111,15 +111,18 @@
                 <div class="col-sm-6 text-right search-form valign-bottom">
 
                     {!!app('form')->open(['method' => 'get', 'class' => 'form-inline', 'role' => 'search'])!!}
+
                     <div class="form-group">
                         <div class="input-group">
                             {!!app('form')->text('search', null, ['class' => 'form-control input-sm'])!!}
-                            <span class="input-group-btn">
-                                    <input class="btn btn-sm btn-primary" type="submit" value="Search">
-                                </span>
+                            <div class="input-group-btn">
+                                <input class="btn btn-sm btn-primary" type="submit" value="Search">
+                            </div>
                         </div>
                     </div>
+
                     {!!app('form')->close()!!}
+
                 </div>
 
             </div>

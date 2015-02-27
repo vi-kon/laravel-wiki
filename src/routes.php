@@ -5,6 +5,8 @@
 //        ->first();
 //});
 
+Route::model('pageId', 'ViKon\Wiki\Models\Page');
+
 Route::group(['namespace' => 'ViKon\Wiki\Http\Controller'], function () {
     Route::get('/', [
         'as'   => 'home',
@@ -22,20 +24,51 @@ Route::group(['namespace' => 'ViKon\Wiki\Http\Controller'], function () {
         'uses' => 'PageController@show',
     ])->where('url', '.+');
 
-    Route::get('wiki-edit/{url?}', [
-        'as'   => 'wiki.edit',
-        'uses' => 'PageController@edit',
+    Route::get('wiki-create/{url?}', [
+        'roles' => 'wiki.create',
+        'as'    => 'wiki.create',
+        'uses'  => 'PageController@create',
     ])->where('url', '.+');
 
-    Route::get('__ajax/modal/wiki/history/{page}', [
+    Route::get('wiki-edit/{url?}', [
+        'as'    => 'wiki.edit',
+        'roles' => 'wiki.edit',
+        'uses'  => 'PageController@edit',
+    ])->where('url', '.+');
+
+    Route::get('__ajax/modal/wiki/{pageId}/history', [
         'as'   => 'ajax.modal.wiki.history',
         'uses' => 'PageController@modalHistory',
-    ])->where('page', '\d+');
+    ])->where('pageId', '\d+');
 
-    Route::get('__ajax/modal/wiki/link/{page}', [
+    Route::get('__ajax/modal/wiki/{pageId}/link', [
         'as'   => 'ajax.modal.wiki.link',
         'uses' => 'PageController@modalLink',
-    ])->where('page', '\d+');
+    ])->where('pageId', '\d+');
+
+    Route::post('__ajax/wiki/{pageId}/create/store', [
+        'roles' => 'wiki.create',
+        'as'    => 'ajax.wiki.create.store',
+        'uses'  => 'PageController@ajaxStore',
+    ])->where('pageId', '\d+');
+
+    Route::post('__ajax/wiki/{pageId}/create/store-draft', [
+        'roles' => 'wiki.create',
+        'as'    => 'ajax.wiki.create.store-draft',
+        'uses'  => 'PageController@ajaxStoreDraft',
+    ])->where('pageId', '\d+');
+
+    Route::post('__ajax/modal/wiki/{pageId}/create/preview', [
+        'roles' => 'wiki.create',
+        'as'    => 'ajax.modal.wiki.create.preview',
+        'uses'  => 'PageController@ajaxModalPreview',
+    ])->where('pageId', '\d+');
+
+    Route::post('__ajax/modal/wiki/{pageId}/create/cancel', [
+        'roles' => 'wiki.create',
+        'as'    => 'ajax.modal.wiki.create.cancel',
+        'uses'  => 'PageController@ajaxCancel',
+    ])->where('pageId', '\d+');
 
     // --------------------------------------------------------------
     // AUTH
