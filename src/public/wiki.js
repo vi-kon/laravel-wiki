@@ -41,9 +41,7 @@ Ajax.prototype.ajax = function (url, options) {
 Ajax.prototype.registerErrorHandler = function (jqXHR, options) {
     jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
         if (options.openModalOnError) {
-            modal.open({
-                content: options.errorModalDialogContent
-            });
+            modal.open(options.errorModalDialogContent);
         }
         try {
             console.log(errorThrown, $.parseJSON(jqXHR.responseText));
@@ -80,21 +78,18 @@ Modal.prototype.ajax = function (url, options) {
     self = this;
     options = $.extend({}, Modal.default.ajaxOpen, options);
 
-    self.open({
-        size   : 'sm',
-        content: options.loadingModalContent
+    self.open(options.loadingModalContent, {
+        size: 'sm'
     });
 
     jqXHR = ajax.ajax(url, options.ajax);
 
     jqXHR.done(function (data) {
-        self.open({
-            content: data
-        });
+        self.open(data);
     });
 };
 
-Modal.prototype.open = function (options) {
+Modal.prototype.open = function (content, options) {
     options = $.extend({}, Modal.default.open, options);
 
     this._dialog.removeClass('modal-sm');
@@ -103,7 +98,7 @@ Modal.prototype.open = function (options) {
     } else if (options.size !== 'sm') {
         this._dialog.removeClass('modal-sm');
     }
-    this._content.html(options.content);
+    this._content.html(content);
     this._modal.modal({
         backdrop: 'static',
         keyboard: false
