@@ -11,9 +11,14 @@ class LoginRequest extends Request {
      * @return bool
      */
     public function authorize() {
-        return true;
+        return !\Auth::check();
     }
 
+    /**
+     * @param \Illuminate\Validation\Factory $factory
+     *
+     * @return \Illuminate\Validation\Validator
+     */
     public function validator(ValidationFactory $factory) {
         $validator = $factory->make(
             $this->all(), $this->container->call([$this, 'rules']), $this->messages()

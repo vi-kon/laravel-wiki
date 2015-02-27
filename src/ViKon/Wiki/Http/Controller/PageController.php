@@ -2,6 +2,7 @@
 
 namespace ViKon\Wiki\Http\Controller;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use ViKon\Wiki\Models\Page;
 use ViKon\Wiki\Models\PageContent;
@@ -83,6 +84,25 @@ class PageController extends BaseController {
             ->with('draftExists', $draftExists)
             ->with('userDraft', $userDraft)
             ->with('lastContent', $lastContent);
+    }
+
+    public function ajaxStoreDraft(Page $page, Request $request) {
+        $draftPageContent = $page->userDraft();
+
+        if ($draftPageContent === null) {
+            $draftPageContent = new PageContent();
+            $draftPageContent->page_id = $page->id;
+            $draftPageContent->created_by_user_id = \Auth::user()->id;
+            $draftPageContent->draft = true;
+        }
+
+        $draftPageContent->title = $request->get('title', '');
+        $draftPageContent->content = $request->get('content', '');
+        $draftPageContent->created_at = new Carbon();
+
+        $draftPageContent->save();
+
+        return response()->json();
     }
 
     /**

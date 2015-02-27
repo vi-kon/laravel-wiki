@@ -23,15 +23,30 @@
             autoSaveTimeout = null;
 
             autoSave = function () {
+                var btn = $('.js-btn-save-draft');
+
+                btn.button('loading');
                 autoSaveTimeout = null;
                 editor.save();
                 ajax.ajax('{!!route('ajax.wiki.create.store-draft', ['page' => $page->id])!!}', {
+                    type            : 'post',
                     data            : $('#editor').closest('form').serialize(),
                     openModalOnError: false
-                }).done(function (data) {
-                    if (data !== undefined && data.hasOwnProperty('success') && data.success) {
-                        $('time').html($.timeago(new Date()));
-                    }
+                }).done(function () {
+                    $('.draft-saved-at')
+                            .html('@lang('wiki::page/create.form.alert.saved-draft.content', ['time' => '<time></time>'])')
+                            .find('time').attr('datetime', new Date().toISOString()).timeago();
+                }).fail(function () {
+                    var time, draftSavedAt;
+
+                    draftSavedAt = $('.draft-saved-at');
+                    time = draftSavedAt.find('time');
+                    draftSavedAt
+                            .html($('<div class="text-danger"/>')
+                                    .html('@lang('wiki::page/create.form.alert.error-saving-draft.content', ['time' => '<time></time>'])'))
+                            .find('time').attr('datetime', time.attr('datetime')).timeago();
+                }).always(function () {
+                    btn.button('reset');
                 });
             };
 
@@ -45,7 +60,7 @@
                 lineWrapping  : true,
                 viewportMargin: Infinity
             });
-            editor.on("change", function (cm) {
+            editor.on("change", function () {
                 changed = true;
                 if (autoSaveTimeout === null) {
                     autoSaveTimeout = setTimeout(autoSave, 1000);
@@ -55,16 +70,17 @@
             $('.js-btn-save').click(function () {
                 editor.save();
                 ajax.ajax('{!!route('ajax.wiki.create.store', ['page' => $page->id])!!}', {
+                    type: 'post',
                     data: $('#editor').closest('form').serialize()
                 }).done(function (data) {
                     var content;
 
                     if (data === undefined || !data.hasOwnProperty('success') || !data.success) {
-                        content = '@lang('wiki::page/create.modal.save.msg.error')';
+                        content = '@lang('wiki::page/create.modal.save.alert.error')';
                         if (data.hasOwnProperty('type')) {
                             switch (data.type) {
                                 case 'not-modified':
-                                    content = '@lang('wiki::page/create.modal.save.msg.not-modified')';
+                                    content = '@lang('wiki::page/create.modal.save.alert.not-modified')';
                                     break;
                             }
                         }
@@ -116,8 +132,8 @@
             <h1>@lang('wiki::page/create.title')</h1>
         </div>
         <div class="col-sm-6 text-right valign-bottom">
-            <p>
-                @lang('wiki::page/create.form.msg.saved-draft.content', ['time' => '<time datetime="' . $userDraft->created_at->toATOMString(). '"></time>'])
+            <p class="draft-saved-at">
+                @lang('wiki::page/create.form.alert.saved-draft.content', ['time' => '<time datetime="' . $userDraft->created_at->toATOMString(). '"></time>'])
             </p>
 
             <div class="btn-group btn-group-sm hidden-xs">
@@ -149,7 +165,7 @@
             @if($draftExists)
                 @include('bootstrap::alert/alert', [
                         'type'        => 'info',
-                        'message'     => trans('wiki::page/create.form.msg.draft-exists.content'),
+                        'message'     => trans('wiki::page/create.form.alert.draft-exists.content'),
                         'dismissible' => true,
                     ])
             @endif

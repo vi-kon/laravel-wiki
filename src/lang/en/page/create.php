@@ -4,11 +4,14 @@ return [
     'title' => 'New page',
 
     'form'  => [
-        'msg'   => [
-            'saved-draft'  => [
+        'alert' => [
+            'saved-draft'        => [
                 'content' => ':time saved as draft',
             ],
-            'draft-exists' => [
+            'error-saving-draft' => [
+                'content' => 'Error during save, successfully saved :time as draft',
+            ],
+            'draft-exists'       => [
                 'content' => 'This page is saved as draft',
             ],
         ],
@@ -38,7 +41,7 @@ return [
     'modal' => [
         'save'    => [
             'title' => 'Save page',
-            'msg'   => [
+            'alert' => [
                 'error'        => 'Hiba történt a mentés során.',
                 'not-modified' => 'Az oldalon nem történt változás.',
             ],
