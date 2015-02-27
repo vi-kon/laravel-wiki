@@ -7,7 +7,10 @@
 
 Route::model('pageId', 'ViKon\Wiki\Models\Page');
 
-Route::group(['namespace' => 'ViKon\Wiki\Http\Controller'], function () {
+Route::group([
+    'namespace'  => 'ViKon\Wiki\Http\Controller',
+    'middleware' => 'auth.role',
+], function () {
     Route::get('/', [
         'as'   => 'home',
         'uses' => function () {
@@ -80,7 +83,15 @@ Route::group(['namespace' => 'ViKon\Wiki\Http\Controller'], function () {
     ]);
 
     Route::post('__ajax/modal/login', [
-        'as'   => 'ajax.modal.auth.check',
+        'uses' => 'LoginController@check',
+    ]);
+
+    Route::get('login', [
+        'as'   => 'auth.login',
+        'uses' => 'LoginController@login',
+    ]);
+
+    Route::post('login', [
         'uses' => 'LoginController@check',
     ]);
 
