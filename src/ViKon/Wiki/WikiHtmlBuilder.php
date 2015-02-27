@@ -26,8 +26,8 @@ class WikiHtmlBuilder extends \Illuminate\Html\HtmlBuilder {
      * Create a listing HTML element.
      *
      * @param  string $type
-     * @param  array $list
-     * @param  array $attributes
+     * @param  array  $list
+     * @param  array  $attributes
      *
      * @return string
      */
@@ -53,7 +53,7 @@ class WikiHtmlBuilder extends \Illuminate\Html\HtmlBuilder {
     /**
      * Create the HTML for a listing element.
      *
-     * @param  mixed $key
+     * @param  mixed  $key
      * @param  string $type
      * @param  string $value
      *
@@ -70,7 +70,7 @@ class WikiHtmlBuilder extends \Illuminate\Html\HtmlBuilder {
     /**
      * Create the HTML for a nested listing attribute.
      *
-     * @param  mixed $key
+     * @param  mixed  $key
      * @param  string $type
      * @param  string $value
      *

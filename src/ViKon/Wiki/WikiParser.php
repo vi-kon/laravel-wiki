@@ -12,7 +12,6 @@ use ViKon\ParserMarkdown\MarkdownSet;
 use ViKon\ParserMarkdown\rule\single\HeaderAtx;
 use ViKon\ParserMarkdown\rule\single\HeaderSetext;
 use ViKon\ParserMarkdown\rule\single\LinkInline;
-use ViKon\ParserMarkdown\rule\single\LinkReference;
 use ViKon\ParserMarkdown\rule\single\Reference;
 
 /**
@@ -92,9 +91,9 @@ class WikiParser {
         \Event::listen($events, [$this, 'registerTOC']);
 
         \Event::listen('vikon.parser.token.render.' . LinkInline::NAME, [$this, 'registerLinkInline']);
-        \Event::listen('vikon.parser.token.render.' . LinkReference::NAME, [$this, 'registerLinkReference']);
+//        \Event::listen('vikon.parser.token.render.' . LinkReference::NAME, [$this, 'registerLinkReference']);
 
-        $this->toc = [\HTML::link('#' . self::generateId($title), $title)];
+        $this->toc = [app('html')->link('#' . self::generateId($title), $title)];
 
         return [
             $parser->render("\n" . $content . "\n", 'bootstrap'),
@@ -109,7 +108,7 @@ class WikiParser {
     public function registerTOC(Token $token) {
         $content = $token->get('content', '');
         $level = $token->get('level');
-        $link = \HTML::link('#' . $this->generateId($content), $content);
+        $link = app('html')->link('#' . $this->generateId($content), $content);
         $temp =& $this->toc;
         for ($i = $level; $i > 1; $i--) {
             if (empty($temp)) {

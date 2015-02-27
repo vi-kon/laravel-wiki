@@ -5,13 +5,13 @@ namespace ViKon\Wiki\Models;
 /**
  * \ViKon\Wiki\Models\Page
  *
- * @property integer                                                           $id
- * @property string                                                            $url
- * @property string                                                            $type
- * @property string                                                            $title
- * @property string                                                            $toc
- * @property string                                                            $content
- * @property boolean                                                           $draft
+ * @property integer                                                                        $id
+ * @property string                                                                         $url
+ * @property string                                                                         $type
+ * @property string                                                                         $title
+ * @property string                                                                         $toc
+ * @property string                                                                         $content
+ * @property boolean                                                                        $draft
  * @property-read \Illuminate\Database\Eloquent\Collection|\ViKon\Wiki\Models\PageContent[] $contents
  * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Models\Page whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Models\Page whereUrl($value)

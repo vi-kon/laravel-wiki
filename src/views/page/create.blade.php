@@ -68,35 +68,37 @@
             });
 
             $('.js-btn-save').click(function () {
+                var form = $('#editor').closest('form');
+
                 editor.save();
                 ajax.ajax('{!!route('ajax.wiki.create.store', ['page' => $page->id])!!}', {
-                    type: 'post',
-                    data: $('#editor').closest('form').serialize()
-                }).done(function (data) {
-                    var content;
+                    type            : 'post',
+                    data            : form.serialize(),
+                    openModalOnError: false
+                }).done(function () {
+                    window.location.href = "{!!route('wiki.show', ['url' => $page->url])!!}";
+                }).fail(function (jqXHR) {
+                    var name;
 
-                    if (data === undefined || !data.hasOwnProperty('success') || !data.success) {
-                        content = '@lang('wiki::page/create.modal.save.alert.error')';
-                        if (data.hasOwnProperty('type')) {
-                            switch (data.type) {
-                                case 'not-modified':
-                                    content = '@lang('wiki::page/create.modal.save.alert.not-modified')';
-                                    break;
+                    if (jqXHR.status === 422) {
+                        form.children('.error-block').remove();
+
+                        for (name in jqXHR.responseJSON) {
+                            if (jqXHR.responseJSON.hasOwnProperty(name)) {
+                                if (name === 'form') {
+                                    $('<div class="error-block"/>')
+                                            .append($('<div class="alert alert-danger"/>')
+                                                    .append($('<button type="button" class="close" data-dismiss="alert"/>')
+                                                            .append($('<span aria-hidden="true"/>')
+                                                                    .html('&times;'))
+                                                            .append($('<span class="sr-only"/>')
+                                                                    .html('Close')))
+                                                    .append(jqXHR.responseJSON[name]))
+                                            .prependTo(form);
+                                }
                             }
                         }
-                        openModal({
-                            content: '<div class="modal-header">' +
-                            '' + '<span class="icon-io-disk"></span> @lang('wiki::page/create.modal.save.title')' +
-                            '' + '<button type="button" class="close" data-dismiss="modal">' +
-                            '' + '' + '<span aria-hidden="true">&times;</span><span class="sr-only">@lang('base.modal.btn.close.content')</span>' +
-                            '' + '</button>' +
-                            '</div>' +
-                            '<div class="modal-body">' +
-                            '' + '<div class="alert alert-warning">' + content + '</div>' +
-                            '</div>'
-                        });
                     } else {
-                        window.location.href = "{!!route('wiki.show', ['url' => $page->url])!!}";
                     }
                 });
             });

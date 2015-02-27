@@ -86,6 +86,14 @@ class PageController extends BaseController {
             ->with('lastContent', $lastContent);
     }
 
+    /**
+     * Handle draft save
+     *
+     * @param \ViKon\Wiki\Models\Page  $page
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function ajaxStoreDraft(Page $page, Request $request) {
         $draftPageContent = $page->userDraft();
 
@@ -101,6 +109,50 @@ class PageController extends BaseController {
         $draftPageContent->created_at = new Carbon();
 
         $draftPageContent->save();
+
+        return response()->json();
+    }
+
+    /**
+     * Handle page store
+     *
+     * @param \ViKon\Wiki\Models\Page  $page
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Exception
+     */
+    public function ajaxStore(Page $page = null, Request $request) {
+        list($content, $toc, $urls) = WikiParser::parsePage($request->get('title', ''), $request->get('content', ''));
+
+        if ($page->content == $content) {
+            return response()->json(['form' => [trans('wiki::page/create.form.alert.not-modified.content')]], 422);
+        }
+
+        \DB::connection()->transaction(function () use ($page, $toc, $content, $request) {
+
+            $page->toc = $toc;
+            $page->title = $request->get('title', '');
+            $page->content = $content;
+            $page->draft = false;
+            $page->save();
+
+            $userDraft = $page->userDraft();
+
+            if ($userDraft === null) {
+                $userDraft = new PageContent();
+                $userDraft->page_id = $page->id;
+                $userDraft->created_by_user_id = \Auth::user()->id;
+            }
+
+            $userDraft->draft = false;
+            $userDraft->title = $request->get('title', '');
+            $userDraft->content = $request->get('content', '');
+            $userDraft->created_at = new Carbon();
+
+            $page->contents()
+                ->save($userDraft);
+        });
 
         return response()->json();
     }

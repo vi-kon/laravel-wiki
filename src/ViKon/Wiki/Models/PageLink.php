@@ -5,9 +5,9 @@ namespace ViKon\Wiki\Models;
 /**
  * \ViKon\Wiki\Models\PageLink
  *
- * @property integer         $id
- * @property integer         $source_page_id
- * @property integer         $target_page_id
+ * @property integer                      $id
+ * @property integer                      $source_page_id
+ * @property integer                      $target_page_id
  * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Models\PageLink whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Models\PageLink whereSourcePageId($value)
  * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Models\PageLink whereTargetPageId($value)

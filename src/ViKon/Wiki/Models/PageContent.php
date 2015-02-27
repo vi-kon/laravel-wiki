@@ -7,16 +7,16 @@ use Carbon\Carbon;
 /**
  * \ViKon\Wiki\Models\PageContent
  *
- * @property integer                      $id
- * @property string                       $title
- * @property string                       $content
- * @property integer                      $views
- * @property boolean                      $draft
- * @property integer                      $page_id
- * @property integer                      $created_by_user_id
- * @property \Carbon\Carbon               $created_at
+ * @property integer                                   $id
+ * @property string                                    $title
+ * @property string                                    $content
+ * @property integer                                   $views
+ * @property boolean                                   $draft
+ * @property integer                                   $page_id
+ * @property integer                                   $created_by_user_id
+ * @property \Carbon\Carbon                            $created_at
  * @property-read \ViKon\Wiki\Models\Page              $page
- * @property-read \ViKon\Auth\Models\User $createdByUser
+ * @property-read \ViKon\Auth\Models\User              $createdByUser
  * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Models\PageContent whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Models\PageContent whereTitle($value)
  * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Models\PageContent whereContent($value)

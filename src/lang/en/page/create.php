@@ -6,13 +6,16 @@ return [
     'form'  => [
         'alert' => [
             'saved-draft'        => [
-                'content' => ':time saved as draft',
+                'content' => 'Page :time saved as draft',
             ],
             'error-saving-draft' => [
                 'content' => 'Error during save, successfully saved :time as draft',
             ],
             'draft-exists'       => [
                 'content' => 'This page is saved as draft',
+            ],
+            'not-modified'       => [
+                'content' => 'Can\'t save page, because title or content is not modificated',
             ],
         ],
         'field' => [
