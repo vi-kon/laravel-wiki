@@ -15,6 +15,9 @@ return [
             'not-exists' => 'wiki::page/not-exists',
             'create'     => 'wiki::page/create',
             'edit'       => 'wiki::page/edit',
+            'modal'      => [
+                'preview' => 'wiki::page/create-modal-preview',
+            ]
         ],
     ],
 ];

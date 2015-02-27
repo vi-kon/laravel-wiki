@@ -10,6 +10,8 @@ use ViKon\Wiki\WikiParser;
 class PageController extends BaseController {
 
     /**
+     * Show page
+     *
      * @param string $url
      *
      * @return \Illuminate\View\View
@@ -42,6 +44,14 @@ class PageController extends BaseController {
             ->with('creatable', $creatable);
     }
 
+    /**
+     * Show page edit
+     *
+     * @param string $url
+     *
+     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
+     * @throws \Exception
+     */
     public function edit($url = '') {
         /** @var Page $page */
         $page = Page::where('url', $url)->first();
@@ -75,10 +85,16 @@ class PageController extends BaseController {
             ->with('lastContent', $lastContent);
     }
 
+    /**
+     * @param \ViKon\Wiki\Models\Page  $page
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\View\View
+     */
     public function ajaxModalPreview(Page $page, Request $request) {
         $content = WikiParser::parseContent($request->get('content', ''));
 
-        return \View::make('wiki::page/create-modal-preview')
+        return view(config('wiki.views.page.modal.preview'))
             ->with('content', $content)
             ->with('url', $page->url);
 
