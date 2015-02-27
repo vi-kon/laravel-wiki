@@ -15,7 +15,7 @@ return [
                 'content' => 'This page is saved as draft',
             ],
             'not-modified'       => [
-                'content' => 'Can\'t save page, because title or content is not modificated',
+                'content' => 'Page not saved, because title or content is not modificated',
             ],
         ],
         'field' => [
