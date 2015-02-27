@@ -67,9 +67,14 @@ Route::group([
         'uses'  => 'PageController@ajaxModalPreview',
     ])->where('pageId', '\d+');
 
-    Route::post('__ajax/modal/wiki/{pageId}/create/cancel', [
+    Route::get('__ajax/modal/wiki/{pageId}/create/cancel', [
         'roles' => 'wiki.create',
         'as'    => 'ajax.modal.wiki.create.cancel',
+        'uses'  => 'PageController@ajaxModalCancel',
+    ])->where('pageId', '\d+');
+
+    Route::post('__ajax/modal/wiki/{pageId}/create/cancel', [
+        'roles' => 'wiki.create',
         'uses'  => 'PageController@ajaxCancel',
     ])->where('pageId', '\d+');
 

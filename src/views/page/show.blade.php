@@ -108,6 +108,15 @@
         </div>
     </div>
     <hr/>
+
+    @if($message)
+        @include('bootstrap::alert/alert', [
+                        'type'        => 'success',
+                        'message'     => $message,
+                        'dismissible' => true,
+                    ])
+    @endif
+
     <div class="row">
         <div class="col-sm-9" style="margin-right: -1px; border-right: 1px solid #eee;">
             {!!$page->content!!}

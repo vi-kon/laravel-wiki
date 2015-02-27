@@ -150,7 +150,7 @@
                 </a>
 
                 <a href="#" class="btn btn-default js-btn-preview">
-                    <i class="icon-io-file-text"></i>
+                    <i class="icon-io-eye"></i>
                     <span class="hidden-sm">&nbsp;@lang('wiki::page/create.form.btn.preview.content')</span>
                 </a>
 

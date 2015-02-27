@@ -3,6 +3,15 @@
 return [
     'title' => 'New page',
 
+    'alert' => [
+        'saved'     => [
+            'content' => 'Page changes saved',
+        ],
+        'cancelled' => [
+            'content' => 'Page editing canceled',
+        ],
+    ],
+
     'form'  => [
         'alert' => [
             'saved-draft'        => [
@@ -42,36 +51,29 @@ return [
         ],
     ],
     'modal' => [
-        'save'    => [
-            'title' => 'Save page',
-            'alert' => [
-                'error'        => 'Hiba történt a mentés során.',
-                'not-modified' => 'Az oldalon nem történt változás.',
-            ],
-        ],
         'cancel'  => [
-            'title'    => 'Oldal létrehozásának elvetése',
-            'question' => 'Az edigg megszerkesztett oldal tartalma elvész. Biztosan elveted az oldal létrehozását?',
-            'note'     => 'Ez a művelet nem vonható vissza.',
+            'title'    => 'Cancel page draft',
+            'question' => 'Currently created/edited content lost. Are you sure to cancel this?',
+            'note'     => 'This action can\'t undone.',
             'btn'      => [
                 'yes' => [
-                    'content' => 'Igen',
-                    'loading' => 'Elvetés...',
+                    'content' => 'Yes',
+                    'loading' => 'Canceling...',
                 ],
                 'no'  => [
-                    'content' => 'Nem',
+                    'content' => 'No',
                 ],
             ],
         ],
         'preview' => [
-            'title' => 'Előnézet',
+            'title' => 'Content preview',
             'btn'   => [
                 'save' => [
-                    'content' => 'Mentés',
-                    'loading' => 'Mentés...',
+                    'content' => 'Save',
+                    'loading' => 'Saving...',
                 ],
                 'back' => [
-                    'content' => 'Vissza a szerkesztéshez',
+                    'content' => 'Back to edit',
                 ],
             ],
         ],

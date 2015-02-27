@@ -13,7 +13,8 @@ class PageController extends BaseController {
     /**
      * Show page
      *
-     * @param string $url
+     * @param \Illuminate\Http\Request $request
+     * @param string                   $url
      *
      * @return \Illuminate\View\View
      */
@@ -35,6 +36,7 @@ class PageController extends BaseController {
                 ->with('movable', $movable)
                 ->with('destroyable', $destroyable)
                 ->with('titleId', $titleId)
+                ->with('message', \Session::get('message', null))
                 ->with('page', $page);
         }
 
@@ -154,6 +156,8 @@ class PageController extends BaseController {
                 ->save($userDraft);
         });
 
+        \Session::flash('message', trans('wiki::page/create.alert.saved.content'));
+
         return response()->json();
     }
 
@@ -170,5 +174,32 @@ class PageController extends BaseController {
             ->with('content', $content)
             ->with('url', $page->url);
 
+    }
+
+    /**
+     * @param \ViKon\Wiki\Models\Page $page
+     *
+     * @return \Illuminate\View\View
+     */
+    public function ajaxModalCancel(Page $page) {
+        return view(config('wiki.views.page.modal.cancel'))
+            ->with('page', $page);
+    }
+
+    /**
+     * @param \ViKon\Wiki\Models\Page $page
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Exception
+     */
+    public function ajaxCancel(Page $page) {
+        if ($page->userDraft() !== null) {
+            $page->userDraft()
+                ->delete();
+        }
+
+        \Session::flash('message', trans('wiki::page/create.alert.cancelled.content'));
+
+        return response()->json();
     }
 }
