@@ -13,8 +13,7 @@ class PageController extends BaseController {
     /**
      * Show page
      *
-     * @param \Illuminate\Http\Request $request
-     * @param string                   $url
+     * @param string $url
      *
      * @return \Illuminate\View\View
      */
@@ -45,6 +44,49 @@ class PageController extends BaseController {
         return view(config('wiki.views.page.not-exists'))
             ->with('url', $url)
             ->with('creatable', $creatable);
+    }
+
+    /**
+     * @param string $url
+     *
+     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
+     */
+    public function create($url = '') {
+        /** @var Page $page */
+        $page = Page::where('url', $url)
+            ->first();
+
+        if ($page !== null && !$page->draft) {
+            return redirect()->route('wiki.edit', ['url' => $url]);
+        }
+
+        $draftExists = true;
+        $page = \DB::connection()->transaction(function () use ($url, $page, &$draftExists) {
+            if ($page === null) {
+                $page = new Page();
+                $page->url = $url;
+                $page->save();
+            }
+
+            if (($pageContent = $page->userDraft()) === null) {
+                $pageContent = new PageContent();
+                $pageContent->draft = true;
+                $pageContent->created_by_user_id = app('auth.role.user')->getUserId();
+                $page->contents()->save($pageContent);
+
+                $draftExists = false;
+            }
+
+            return $page;
+        });
+        $userDraft = $page->userDraft();
+        $lastContent = $page->lastContent();
+
+        return view(config('wiki.views.page.create'))
+            ->with('page', $page)
+            ->with('draftExists', $draftExists)
+            ->with('userDraft', $userDraft)
+            ->with('lastContent', $lastContent);
     }
 
     /**
