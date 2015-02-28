@@ -22,7 +22,8 @@ return [
             'edit'       => 'wiki::page/edit',
             'modal'      => [
                 'preview' => 'wiki::page/create-modal-preview',
-                'cancel'  => 'wiki::page/create-modal-cancel'
+                'cancel'  => 'wiki::page/create-modal-cancel',
+                'history' => 'wiki::page/show-modal-history',
             ]
         ],
     ],

@@ -41,7 +41,7 @@ Route::group([
 
     Route::get('__ajax/modal/wiki/{pageId}/history', [
         'as'   => 'ajax.modal.wiki.history',
-        'uses' => 'PageController@modalHistory',
+        'uses' => 'PageController@ajaxModalHistory',
     ])->where('pageId', '\d+');
 
     Route::get('__ajax/modal/wiki/{pageId}/link', [

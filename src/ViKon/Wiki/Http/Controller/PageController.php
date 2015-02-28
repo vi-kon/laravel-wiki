@@ -4,6 +4,7 @@ namespace ViKon\Wiki\Http\Controller;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use ViKon\Diff\Diff;
 use ViKon\Wiki\Models\Page;
 use ViKon\Wiki\Models\PageContent;
 use ViKon\Wiki\WikiParser;
@@ -169,8 +170,13 @@ class PageController extends BaseController {
     public function ajaxStore(Page $page = null, Request $request) {
         list($content, $toc, $urls) = WikiParser::parsePage($request->get('title', ''), $request->get('content', ''));
 
-        if ($page->title === trim($request->get('title', '')) && $page->content === $content) {
-            return response()->json(['form' => [trans('wiki::page/create.form.alert.not-modified.content')]], 422);
+        $absoluteUrl = preg_quote(route('wiki.show') . '/', '/');
+        $relativeUrl = preg_quote(str_replace(url('/'), '', route('wiki.show')) . '/', '/');
+
+        foreach ($urls as $url) {
+            if (preg_match('/^(?:' . $absoluteUrl . '|' . $relativeUrl . ')/', $url)) {
+                // TODO
+            }
         }
 
         \DB::connection()->transaction(function () use ($page, $toc, $content, $request) {
@@ -243,5 +249,31 @@ class PageController extends BaseController {
         \Session::flash('message', trans('wiki::page/create.alert.cancelled.content'));
 
         return response()->json();
+    }
+
+    /**
+     * @param \ViKon\Wiki\Models\Page $page
+     *
+     * @return \Illuminate\View\View
+     */
+    public function ajaxModalHistory(Page $page) {
+        $contents = $page->contents()
+            ->where('draft', false)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $oldContent = '';
+        for ($i = $contents->count() - 1; $i >= 0; $i--) {
+            $contents[$i] = [
+                'content' => $contents[$i],
+                'diff'    => Diff::compare($oldContent, $contents[$i]->content),
+            ];
+
+            $oldContent = $contents[$i]['content']->content;
+        }
+
+        return view(config('wiki.views.page.modal.history'))
+            ->with('page', $page)
+            ->with('contents', $contents);
     }
 }
