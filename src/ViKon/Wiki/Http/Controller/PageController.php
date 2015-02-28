@@ -169,7 +169,7 @@ class PageController extends BaseController {
     public function ajaxStore(Page $page = null, Request $request) {
         list($content, $toc, $urls) = WikiParser::parsePage($request->get('title', ''), $request->get('content', ''));
 
-        if ($page->content == $content) {
+        if ($page->title === trim($request->get('title', '')) && $page->content === $content) {
             return response()->json(['form' => [trans('wiki::page/create.form.alert.not-modified.content')]], 422);
         }
 
@@ -190,7 +190,7 @@ class PageController extends BaseController {
             }
 
             $userDraft->draft = false;
-            $userDraft->title = $request->get('title', '');
+            $userDraft->title = trim($request->get('title', ''));
             $userDraft->content = $request->get('content', '');
             $userDraft->created_at = new Carbon();
 
