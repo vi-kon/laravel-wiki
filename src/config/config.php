@@ -2,7 +2,7 @@
 
 return [
     'views' => [
-        'auth' => [
+        'auth'  => [
             'login' => 'wiki::auth/login',
             'modal' => [
                 'login'         => 'wiki::auth/modal-login',
@@ -10,7 +10,12 @@ return [
                 'logged'        => 'wiki::auth/modal-logged',
             ],
         ],
-        'page' => [
+        'admin' => [
+            'home' => [
+                'index' => 'wiki::admin/home/index',
+            ]
+        ],
+        'page'  => [
             'show'       => 'wiki::page/show',
             'not-exists' => 'wiki::page/not-exists',
             'create'     => 'wiki::page/create',
