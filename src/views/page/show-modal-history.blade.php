@@ -30,10 +30,10 @@
         <div class="col-sm-8">
             @foreach($contents as $content)
                 <div id="diff-{{$content['content']->id}}" class="wiki-history-diff">
-                    @foreach($content['diff']->getGroups() as $group)
+                    @foreach($content['diff']->getGroups() as $i => $group)
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                {{$group->getFirstPosition() + 1}} - {{$group->getLastPosition() + 1}}
+                                @lang('wiki::page/show.modal.history.lines', ['hunk' => $i + 1, 'lines' => ($group->getFirstPosition() + 1) . ' - ' . ($group->getLastPosition() + 1)])
                             </div>
                             <table class="table table-condensed">
                                 @foreach($group->getEntries() as $entry)

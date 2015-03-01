@@ -28,6 +28,7 @@ return [
     'modal'  => [
         'history' => [
             'title' => 'History',
+            'lines' => 'Hunk :hunk : Lines :lines',
         ],
     ],
 ];
