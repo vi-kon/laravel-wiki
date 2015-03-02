@@ -138,7 +138,7 @@
             @yield('content')
         </div>
 
-        <footer class="footer">
+        <footer class="footer text-center">
             <hr/>
             @lang('wiki::base.footer.author', ['name'=>'Kovács Vince'])
         </footer>
