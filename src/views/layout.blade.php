@@ -15,7 +15,6 @@
 @section('styles')
     <link type="text/css" rel="stylesheet" media="all" href="{!!asset('vendor/bootstrap/bootstrap.min.css')!!}"/>
     <link type="text/css" rel="stylesheet" media="all" href="{!!asset('vendor/icomoon/style.css')!!}"/>
-{{--    <link type="text/css" rel="stylesheet" media="all" href="{!!asset('vendor/bootstrap-multiselect/jquery.bootstrap-multiselect.css')!!}"/>--}}
     <link type="text/css" rel="stylesheet" media="all" href="{!!asset('vendor/wiki/wiki.css')!!}"/>
 @append
 
@@ -23,8 +22,6 @@
     <script type="text/javascript" src="{!!asset('vendor/jquery-2.1.3.min.js')!!}"></script>
     <script type="text/javascript" src="{!!asset('vendor/jquery.timeago.js')!!}"></script>
     <script type="text/javascript" src="{!!asset('vendor/bootstrap/bootstrap.min.js')!!}"></script>
-    {{--<script type="text/javascript" src="{!!asset('vendor/jquery-ui/jquery-ui.min.js')!!}"></script>--}}
-{{--    <script type="text/javascript" src="{!!asset('vendor/bootstrap-multiselect/jquery.bootstrap-multiselect.js')!!}"></script>--}}
 @append
 
 

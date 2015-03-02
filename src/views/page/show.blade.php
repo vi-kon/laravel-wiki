@@ -11,6 +11,10 @@
             $('.js-btn-page-link').click(function () {
                 modal.ajax('{!!route('ajax.modal.wiki.link', ['page' => $page->id])!!}');
             });
+
+            $('.js-btn-page-move').click(function () {
+                modal.ajax('{!!route('ajax.modal.wiki.move', ['page' => $page->id])!!}');
+            });
         }(jQuery));
     </script>
 @append

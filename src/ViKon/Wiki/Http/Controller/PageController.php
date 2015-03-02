@@ -5,6 +5,7 @@ namespace ViKon\Wiki\Http\Controller;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use ViKon\Diff\Diff;
+use ViKon\Wiki\Http\Requests\PageMoveRequest;
 use ViKon\Wiki\Models\Page;
 use ViKon\Wiki\Models\PageContent;
 use ViKon\Wiki\WikiParser;
@@ -132,7 +133,7 @@ class PageController extends BaseController {
     }
 
     /**
-     * Handle draft save
+     * Handle draft save request
      *
      * @param \ViKon\Wiki\Models\Page  $page
      * @param \Illuminate\Http\Request $request
@@ -159,7 +160,7 @@ class PageController extends BaseController {
     }
 
     /**
-     * Handle page store
+     * Handle page store request
      *
      * @param \ViKon\Wiki\Models\Page  $page
      * @param \Illuminate\Http\Request $request
@@ -210,6 +211,8 @@ class PageController extends BaseController {
     }
 
     /**
+     * Show preview modal dialog
+     *
      * @param \ViKon\Wiki\Models\Page  $page
      * @param \Illuminate\Http\Request $request
      *
@@ -225,6 +228,8 @@ class PageController extends BaseController {
     }
 
     /**
+     * Show cancel modal dialog
+     *
      * @param \ViKon\Wiki\Models\Page $page
      *
      * @return \Illuminate\View\View
@@ -235,6 +240,8 @@ class PageController extends BaseController {
     }
 
     /**
+     * Handle cancel request
+     *
      * @param \ViKon\Wiki\Models\Page $page
      *
      * @return \Symfony\Component\HttpFoundation\Response
@@ -252,6 +259,8 @@ class PageController extends BaseController {
     }
 
     /**
+     * Show history modal dialog
+     *
      * @param \ViKon\Wiki\Models\Page $page
      *
      * @return \Illuminate\View\View
@@ -275,5 +284,36 @@ class PageController extends BaseController {
         return view(config('wiki.views.page.modal.history'))
             ->with('page', $page)
             ->with('contents', $contents);
+    }
+
+    /**
+     * Show move modal dialog
+     *
+     * @param \ViKon\Wiki\Models\Page $page
+     *
+     * @return \Illuminate\View\View
+     */
+    public function ajaxModalMove(Page $page) {
+        return view(config('wiki.views.page.modal.move'))
+            ->with('page', $page);
+    }
+
+    /**
+     * Handle move request
+     *
+     * @param \ViKon\Wiki\Models\Page                   $page
+     * @param \ViKon\Wiki\Http\Requests\PageMoveRequest $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function ajaxMove(Page $page, PageMoveRequest $request) {
+        $source = $page->url;
+
+        $page->url = $request->get('destination');
+        $page->save();
+
+        return view(config('wiki.views.page.modal.move-success'))
+            ->with('source', $source)
+            ->with('page', $page);
     }
 }

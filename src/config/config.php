@@ -21,10 +21,12 @@ return [
             'create'     => 'wiki::page/create',
             'edit'       => 'wiki::page/edit',
             'modal'      => [
-                'preview' => 'wiki::page/create-modal-preview',
-                'cancel'  => 'wiki::page/create-modal-cancel',
-                'history' => 'wiki::page/show-modal-history',
-            ]
+                'preview'      => 'wiki::page/create-modal-preview',
+                'cancel'       => 'wiki::page/create-modal-cancel',
+                'history'      => 'wiki::page/show-modal-history',
+                'move'         => 'wiki::page/show-modal-move',
+                'move-success' => 'wiki::page/show-modal-move-success',
+            ],
         ],
     ],
 ];

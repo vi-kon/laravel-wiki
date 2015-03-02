@@ -26,9 +26,35 @@ return [
         ],
     ],
     'modal'  => [
-        'history' => [
+        'history'      => [
             'title' => 'History',
             'lines' => 'Hunk :hunk : Lines :lines',
+        ],
+        'move'         => [
+            'title' => 'Move page',
+            'form'  => [
+                'field' => [
+                    'source'      => [
+                        'label' => 'Source URL',
+                    ],
+                    'destination' => [
+                        'label' => 'Destination URL',
+                    ],
+                ],
+            ],
+            'btn'   => [
+                'save'   => [
+                    'content' => 'Move',
+                    'loading' => 'Move...',
+                ],
+                'cancel' => [
+                    'content' => 'Cancel',
+                ],
+            ],
+        ],
+        'move-success' => [
+            'title'   => 'Move page',
+            'content' => 'Page successfully moved from <strong>:source</strong> to <strong>:destination</strong>',
         ],
     ],
 ];
