@@ -50,12 +50,14 @@ Route::group([
     ])->where('pageId', '\d+');
 
     Route::get('__ajax/modal/wiki/{pageId}/move', [
-        'as'   => 'ajax.modal.wiki.move',
-        'uses' => 'PageController@ajaxModalMove',
+        'roles' => 'wiki.move',
+        'as'    => 'ajax.modal.wiki.move',
+        'uses'  => 'PageController@ajaxModalMove',
     ])->where('pageId', '\d+');
 
     Route::post('__ajax/modal/wiki/{pageId}/move', [
-        'uses' => 'PageController@ajaxMove',
+        'roles' => 'wiki.move',
+        'uses'  => 'PageController@ajaxMove',
     ]);
 
     Route::post('__ajax/wiki/{pageId}/create/store', [
