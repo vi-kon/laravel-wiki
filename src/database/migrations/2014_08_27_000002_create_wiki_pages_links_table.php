@@ -23,6 +23,8 @@ class CreateWikiPagesLinksTable extends Migration {
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
 
+            $table->string('url');
+
             $table->unsignedInteger('target_page_id')
                 ->nullable();
             $table->foreign('target_page_id')

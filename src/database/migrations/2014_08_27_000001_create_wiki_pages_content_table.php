@@ -37,6 +37,8 @@ class CreateWikiPagesContentTable extends Migration {
                 ->onDelete('cascade');
             $table->timestamp('created_at');
         });
+
+        //
     }
 
     /**
