@@ -1,6 +1,7 @@
 <?php
 
 namespace ViKon\Wiki\Models;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * \ViKon\Wiki\Models\PageLink
@@ -14,7 +15,7 @@ namespace ViKon\Wiki\Models;
  * @property-read \ViKon\Wiki\Models\Page $sourcePage
  * @property-read \ViKon\Wiki\Models\Page $targetPage
  */
-class PageLink extends \Eloquent {
+class PageLink extends Model {
 
     /**
      *

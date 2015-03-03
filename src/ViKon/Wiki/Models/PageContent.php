@@ -3,6 +3,7 @@
 namespace ViKon\Wiki\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * \ViKon\Wiki\Models\PageContent
@@ -26,7 +27,7 @@ use Carbon\Carbon;
  * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Models\PageContent whereCreatedByUserId($value)
  * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Models\PageContent whereCreatedAt($value)
  */
-class PageContent extends \Eloquent {
+class PageContent extends Model {
 
     /**
      *

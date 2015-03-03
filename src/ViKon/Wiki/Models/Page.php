@@ -2,6 +2,8 @@
 
 namespace ViKon\Wiki\Models;
 
+use Illuminate\Database\Eloquent\Model;
+
 /**
  * \ViKon\Wiki\Models\Page
  *
@@ -21,7 +23,7 @@ namespace ViKon\Wiki\Models;
  * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Models\Page whereDraft($value)
  * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Models\Page whereContent($value)
  */
-class Page extends \Eloquent {
+class Page extends Model {
 
     const TYPE_MARKDOWN = 'markdown';
 
