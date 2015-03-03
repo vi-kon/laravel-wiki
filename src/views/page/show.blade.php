@@ -15,6 +15,10 @@
             $('.js-btn-page-move').click(function () {
                 modal.ajax('{!!route('ajax.modal.wiki.move', ['page' => $page->id])!!}');
             });
+
+            $('.js-btn-page-destroy').click(function () {
+                modal.ajax('{!!route('ajax.modal.wiki.destroy', ['page' => $page->id])!!}');
+            });
         }(jQuery));
     </script>
 @append

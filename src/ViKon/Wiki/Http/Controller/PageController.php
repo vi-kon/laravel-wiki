@@ -316,4 +316,31 @@ class PageController extends BaseController {
             ->with('source', $source)
             ->with('page', $page);
     }
+
+    /**
+     * @param \ViKon\Wiki\Models\Page $page
+     *
+     * @return \Illuminate\View\View
+     */
+    public function ajaxModalDestroy(Page $page) {
+        return view(config('wiki.views.page.modal.destroy'))
+            ->with('page', $page);
+    }
+
+    /**
+     * @param \ViKon\Wiki\Models\Page $page
+     *
+     * @return \Illuminate\View\View
+     *
+     * @throws \Exception
+     */
+    public function ajaxDestroy(Page $page) {
+        $title = $page->title;
+        $url = $page->url;
+        $page->delete();
+
+        return view(config('wiki.views.page.modal.destroy-success'))
+            ->with('title', $title)
+            ->with('url', $url);
+    }
 }

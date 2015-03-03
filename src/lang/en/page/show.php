@@ -56,5 +56,19 @@ return [
             'title'   => 'Move page',
             'content' => 'Page successfully moved from <strong>:source</strong> to <strong>:destination</strong>',
         ],
+        'destroy'      => [
+            'title'    => 'Delete page',
+            'question' => 'Delete page with their content?',
+            'note'     => 'This action can\'t be undone.',
+            'btn'      => [
+                'yes' => [
+                    'content' => 'Yes',
+                    'loading' => 'Deleting...',
+                ],
+                'no'  => [
+                    'content' => 'No',
+                ],
+            ],
+        ],
     ],
 ];

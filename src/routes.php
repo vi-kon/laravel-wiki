@@ -87,6 +87,17 @@ Route::group([
         'uses'  => 'PageController@ajaxCancel',
     ])->where('pageId', '\d+');
 
+    Route::get('__ajax/modal/wiki/{pageId}/destroy', [
+        'roles' => 'wiki.destroy',
+        'as'    => 'ajax.modal.wiki.destroy',
+        'uses'  => 'PageController@ajaxModalDestroy',
+    ])->where('pageId', '\d+');
+
+    Route::post('__ajax/modal/wiki/{pageId}/destroy', [
+        'roles' => 'wiki.destroy',
+        'uses'  => 'PageController@ajaxDestroy',
+    ])->where('pageId', '\d+');
+
     // --------------------------------------------------------------
     // AUTH
     // --------------------------------------------------------------
