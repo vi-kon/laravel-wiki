@@ -14,24 +14,24 @@ class CreateWikiPagesLinksTable extends Migration {
         Schema::create('wiki_pages_links', function (Blueprint $table) {
             $table->engine = 'InnoDB';
 
-            $table->increments('id');
-
-            $table->unsignedInteger('source_page_id');
-            $table->foreign('source_page_id')
+            $table->unsignedInteger('page_id');
+            $table->foreign('page_id')
                 ->references('id')
                 ->on('wiki_pages')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
 
-            $table->string('url');
-
-            $table->unsignedInteger('target_page_id')
+            $table->unsignedInteger('refers_to_page_id')
                 ->nullable();
-            $table->foreign('target_page_id')
+            $table->foreign('refers_to_page_id')
                 ->references('id')
                 ->on('wiki_pages')
                 ->onUpdate('cascade')
                 ->onDelete('set null');
+
+            $table->string('url');
+
+            $table->softDeletes();
         });
     }
 

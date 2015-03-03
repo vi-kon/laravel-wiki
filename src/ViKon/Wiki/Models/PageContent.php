@@ -4,6 +4,7 @@ namespace ViKon\Wiki\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * \ViKon\Wiki\Models\PageContent
@@ -28,6 +29,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Models\PageContent whereCreatedAt($value)
  */
 class PageContent extends Model {
+    use SoftDeletes;
 
     /**
      *

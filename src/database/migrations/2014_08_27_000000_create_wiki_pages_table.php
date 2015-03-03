@@ -25,6 +25,8 @@ class CreateWikiPagesTable extends Migration {
 
             $table->enum('type', ['markdown'])
                 ->default('markdown');
+
+            $table->softDeletes();
         });
     }
 

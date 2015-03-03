@@ -3,6 +3,7 @@
 namespace ViKon\Wiki\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * \ViKon\Wiki\Models\Page
@@ -24,6 +25,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Models\Page whereContent($value)
  */
 class Page extends Model {
+    use SoftDeletes;
 
     const TYPE_MARKDOWN = 'markdown';
 
@@ -44,11 +46,34 @@ class Page extends Model {
 
     protected $fillable = ['url', 'type'];
 
+    public static function boot() {
+        parent::boot();
+
+        static::deleted(function (Page $page) {
+            $page->contents()->delete();
+        });
+    }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function contents() {
         return $this->hasMany('\ViKon\Wiki\Models\PageContent', 'page_id', 'id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function refersTo() {
+        return $this->belongsToMany('ViKon\Wiki\Models\Page', 'wiki_pages_links', 'page_id', 'refers_to_page_id')
+            ->withPivot('url');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function refersFrom() {
+        return $this->belongsToMany('ViKon\Wiki\Models\Page', 'wiki_pages_links', 'refers_to_page_id', 'page_id');
     }
 
     /**
