@@ -1,6 +1,7 @@
 <?php
-use ViKon\Utilities\Seeder;
-
+use Illuminate\Database\Seeder;
+use ViKon\Auth\AuthSeederTrait;
+use ViKon\Utilities\SeederProgressBarTrait;
 
 /**
  * Class AuthSeeder
@@ -9,7 +10,7 @@ use ViKon\Utilities\Seeder;
  *
  */
 class AuthSeeder extends Seeder {
-    use \ViKon\Auth\AuthSeeder;
+    use AuthSeederTrait, SeederProgressBarTrait;
 
     /**
      * Run the database seeds.
@@ -18,31 +19,51 @@ class AuthSeeder extends Seeder {
      */
     public function run() {
         $roles = $this->createRoles();
-        $this->createUsers($roles);
+        $users = $this->createUsers($roles);
     }
 
-    public function createUsers($roles) {
-        $this->startTable('users');
+    /**
+     * Create users
+     *
+     * @param \ViKon\Auth\Models\Role[] $roles
+     *
+     * @return \ViKon\Auth\Models\User[]
+     */
+    private function createUsers($roles) {
+        $progress = $this->createProgressBar();
 
         $users = [
+//            'username'    => ['home route name', 'is static', 'is hidden'],
             'admin' => [null, true, true],
             'test'  => [null, false, false],
-//            'username'    => ['home route name', 'is static', 'is hidden'],
         ];
 
-        $this->setMaxEntryCount(count($users));
+
+        $progress->start(count($users));
         foreach ($users as $username => &$options) {
             $options = $this->createUser($username, $username, $username . '@wiki.hu', $options[0], $options[1], $options[2]);
 
             $options->roles()
                 ->saveMany($roles);
+
+            /** @noinspection DisconnectedForeachInstructionInspection */
+            $progress->advance();
         }
+        unset($options);
+
+        $progress->finish();
+        $this->command->getOutput()->writeln('');
 
         return $users;
     }
 
+    /**
+     * Create roles
+     *
+     * @return \ViKon\Auth\Models\Role[]
+     */
     private function createRoles() {
-        $this->startTable('user_roles');
+        $progress = $this->createProgressBar();
 
         $roles = [
             'admin.index'         => 'Show administration panel',
@@ -68,10 +89,17 @@ class AuthSeeder extends Seeder {
             'wiki.destroy'        => 'Destroy Wiki page',
         ];
 
-        $this->setMaxEntryCount(count($roles));
+        $progress->start(count($roles));
         foreach ($roles as $name => &$description) {
             $description = $this->createRole($name, $description);
+
+            /** @noinspection DisconnectedForeachInstructionInspection */
+            $progress->advance();
         }
+        unset($description);
+
+        $progress->finish();
+        $this->command->getOutput()->writeln('');
 
         return $roles;
     }

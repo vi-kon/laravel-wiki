@@ -23,7 +23,7 @@ Ajax.default = {
 };
 
 /**
- *
+ * @param {String} url
  * @param {object} options
  * @returns {*}
  */

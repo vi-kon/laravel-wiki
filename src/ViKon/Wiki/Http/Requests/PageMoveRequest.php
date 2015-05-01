@@ -30,7 +30,7 @@ class PageMoveRequest extends FormRequest {
     public function validator(ValidationFactory $factory) {
         $input = $this->all();
 
-        if (isset($input['destination'])) {
+        if (array_key_exists('destination', $input)) {
             $input['destination'] = trim($input['destination'], " /\t\n\r\0\x0B");
             $this->getInputSource()->set('destination', $input['destination']);
         }

@@ -3,16 +3,17 @@
 
 namespace ViKon\Wiki;
 
-use ViKon\Parser\lexer\Lexer;
+use ViKon\Parser\Lexer\Lexer;
 use ViKon\Parser\Parser;
-use ViKon\Parser\renderer\Renderer;
+use ViKon\Parser\Renderer\Renderer;
 use ViKon\Parser\Token;
 use ViKon\Parser\TokenList;
-use ViKon\ParserMarkdown\MarkdownSet;
-use ViKon\ParserMarkdown\rule\single\HeaderAtx;
-use ViKon\ParserMarkdown\rule\single\HeaderSetext;
-use ViKon\ParserMarkdown\rule\single\LinkInline;
-use ViKon\ParserMarkdown\rule\single\Reference;
+use ViKon\ParserMarkdown\MarkdownRuleSet;
+use ViKon\ParserMarkdown\Rule\Single\HeaderAtxRule;
+use ViKon\ParserMarkdown\Rule\Single\HeaderSetextRule;
+use ViKon\ParserMarkdown\rule\single\LinkInlineRule;
+use ViKon\ParserMarkdown\Rule\Single\LinkReferenceRule;
+use ViKon\ParserMarkdown\Rule\Single\ReferenceRule;
 
 /**
  * Class WikiParser
@@ -57,7 +58,7 @@ class WikiParser {
         $lexer = new Lexer();
         $renderer = new Renderer();
 
-        $markdownSet = new MarkdownSet();
+        $markdownSet = new MarkdownRuleSet();
         $markdownSet->init($parser, $lexer, $renderer);
 
         return $parser->render("\n" . $content . "\n", 'bootstrap');
@@ -81,17 +82,17 @@ class WikiParser {
         $lexer = new Lexer();
         $renderer = new Renderer();
 
-        $markdownSet = new MarkdownSet();
+        $markdownSet = new MarkdownRuleSet();
         $markdownSet->init($parser, $lexer, $renderer);
 
         $events = [
-            'vikon.parser.token.render.' . HeaderSetext::NAME,
-            'vikon.parser.token.render.' . HeaderAtx::NAME
+            'vikon.parser.token.render.' . HeaderSetextRule::NAME,
+            'vikon.parser.token.render.' . HeaderAtxRule::NAME
         ];
         \Event::listen($events, [$this, 'registerTOC']);
 
-        \Event::listen('vikon.parser.token.render.' . LinkInline::NAME, [$this, 'registerLinkInline']);
-//        \Event::listen('vikon.parser.token.render.' . LinkReference::NAME, [$this, 'registerLinkReference']);
+        \Event::listen('vikon.parser.token.render.' . LinkInlineRule::NAME, [$this, 'registerLinkInline']);
+        \Event::listen('vikon.parser.token.render.' . LinkReferenceRule::NAME, [$this, 'registerLinkReference']);
 
         $this->toc = [app('html')->link('#' . self::generateId($title), $title)];
 
@@ -108,10 +109,10 @@ class WikiParser {
     public function registerTOC(Token $token) {
         $content = $token->get('content', '');
         $level = $token->get('level');
-        $link = app('html')->link('#' . $this->generateId($content), $content);
+        $link = app('html')->link('#' . self::generateId($content), $content);
         $temp =& $this->toc;
         for ($i = $level; $i > 1; $i--) {
-            if (empty($temp)) {
+            if (count($temp) === 0) {
                 $temp[] = [];
             } elseif (is_string(end($temp))) {
                 $last = array_pop($temp);
@@ -155,7 +156,7 @@ class WikiParser {
             }
 
             $tokens = $tokenList->getTokensByCallback(function (Token $token) use ($reference) {
-                return $token->getName() === Reference::NAME && $token->get('reference', null) === $reference;
+                return $token->getName() === ReferenceRule::NAME && $token->get('reference', null) === $reference;
             });
 
             if (($referenceToken = reset($tokens)) === false) {

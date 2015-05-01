@@ -24,7 +24,7 @@ return [
                 'content' => 'This page is saved as draft',
             ],
             'not-modified'       => [
-                'content' => 'Page not saved, because title or content is not modificated',
+                'content' => 'Page not saved, because title or content is not changed',
             ],
         ],
         'field' => [
@@ -54,7 +54,7 @@ return [
         'cancel'  => [
             'title'    => 'Cancel page draft',
             'question' => 'Currently created/edited content lost. Are you sure to cancel this?',
-            'note'     => 'This action can\'t undone.',
+            'note'     => 'This action cannot undone.',
             'btn'      => [
                 'yes' => [
                     'content' => 'Yes',

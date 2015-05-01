@@ -59,7 +59,7 @@ return [
         'destroy'      => [
             'title'    => 'Delete page',
             'question' => 'Delete page with their content?',
-            'note'     => 'This action can\'t be undone.',
+            'note'     => 'This action cannot undone.',
             'btn'      => [
                 'yes' => [
                     'content' => 'Yes',

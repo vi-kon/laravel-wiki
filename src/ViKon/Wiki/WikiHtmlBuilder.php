@@ -1,6 +1,7 @@
 <?php
 
 namespace ViKon\Wiki;
+use Illuminate\Html\HtmlBuilder;
 
 /**
  * Class WikiHtmlBuilder
@@ -9,7 +10,7 @@ namespace ViKon\Wiki;
  *
  * @package ViKon\Wiki
  */
-class WikiHtmlBuilder extends \Illuminate\Html\HtmlBuilder {
+class WikiHtmlBuilder extends HtmlBuilder {
     /**
      * Generate an un-ordered list of items.
      *
@@ -18,23 +19,23 @@ class WikiHtmlBuilder extends \Illuminate\Html\HtmlBuilder {
      *
      * @return string
      */
-    public function toc($list, $attributes = []) {
+    public function toc($list, array $attributes = []) {
         return $this->tocListing('ul', $list, $attributes);
     }
 
     /**
      * Create a listing HTML element.
      *
-     * @param  string $type
-     * @param  array  $list
-     * @param  array  $attributes
+     * @param  string  $type
+     * @param  array   $list
+     * @param  mixed[] $attributes
      *
      * @return string
      */
-    protected function tocListing($type, $list, $attributes = []) {
+    protected function tocListing($type, array $list, array $attributes = []) {
         $html = '';
 
-        if (count($list) == 0) {
+        if (count($list) === 0) {
             return $html;
         }
 
@@ -53,9 +54,9 @@ class WikiHtmlBuilder extends \Illuminate\Html\HtmlBuilder {
     /**
      * Create the HTML for a listing element.
      *
-     * @param  mixed  $key
-     * @param  string $type
-     * @param  string $value
+     * @param  mixed           $key
+     * @param  string          $type
+     * @param  string|string[] $value
      *
      * @return string
      */

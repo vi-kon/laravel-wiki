@@ -1,7 +1,8 @@
 <?php
 
+use Illuminate\Database\Seeder;
 use ViKon\DbConfig\Models\Config;
-use ViKon\Utilities\Seeder;
+use ViKon\Utilities\SeederProgressBarTrait;
 
 /**
  * Class DbConfigSeeder
@@ -10,29 +11,37 @@ use ViKon\Utilities\Seeder;
  *
  */
 class DbConfigSeeder extends Seeder {
+    use SeederProgressBarTrait;
+
+    protected $output;
+
     /**
      * Run the database seeds.
      *
      * @return void
      */
     public function run() {
-        $this->startTable('config');
+        $progress = $this->createProgressBar();
 
         $config = [
             'title' => ['wiki', 'string', 'Wiki name'],
         ];
 
-        $this->setMaxEntryCount(count($config));
+        $progress->start(count($config));
 
         foreach ($config as $key => $value) {
+            list($group, $type, $value) = $value;
             Config::create([
                 'key'   => $key,
-                'group' => $value[0],
-                'type'  => $value[1],
-                'value' => $value[2],
+                'group' => $group,
+                'type'  => $type,
+                'value' => $value,
             ]);
-
-            $this->incProcessedEntryCount();
+            /** @noinspection DisconnectedForeachInstructionInspection */
+            $progress->advance();
         }
+
+        $progress->finish();
+        $this->command->getOutput()->writeln('');
     }
 }

@@ -14,9 +14,15 @@
     }
   ],
   "require"          : {
-    "php"               : ">=5.4.0",
-    "illuminate/support": "~5.0",
-    "illuminate/html"   : "~5.0"
+    "php"                           : ">=5.4.0",
+    "illuminate/support"            : "~5.0",
+    "illuminate/html"               : "~5.0",
+    "vi-kon/laravel-auth"           : "~2.0",
+    "vi-kon/laravel-bootstrap"      : "~1.0",
+    "vi-kon/laravel-db-config"      : "~1.0",
+    "vi-kon/laravel-diff"           : "~1.0",
+    "vi-kon/laravel-parser-markdown": "~1.0",
+    "vi-kon/laravel-utilities"      : "~2.1"
   },
   "autoload"         : {
     "psr-0": {

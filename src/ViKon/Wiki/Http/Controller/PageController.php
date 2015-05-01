@@ -3,6 +3,7 @@
 namespace ViKon\Wiki\Http\Controller;
 
 use Carbon\Carbon;
+use Illuminate\Database\DatabaseManager;
 use Illuminate\Http\Request;
 use ViKon\Diff\Diff;
 use ViKon\Wiki\Http\Requests\PageMoveRequest;
@@ -49,11 +50,12 @@ class PageController extends BaseController {
     }
 
     /**
-     * @param string $url
+     * @param \Illuminate\Database\DatabaseManager $db
+     * @param string                               $url
      *
-     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
-    public function create($url = '') {
+    public function create(DatabaseManager $db, $url = '') {
         /** @var Page $page */
         $page = Page::where('url', $url)
             ->first();
@@ -63,7 +65,7 @@ class PageController extends BaseController {
         }
 
         $draftExists = true;
-        $page = \DB::connection()->transaction(function () use ($url, $page, &$draftExists) {
+        $page = $db->connection()->transaction(function () use ($url, $page, &$draftExists) {
             if ($page === null) {
                 $page = new Page();
                 $page->url = $url;
@@ -94,12 +96,13 @@ class PageController extends BaseController {
     /**
      * Show page edit
      *
-     * @param string $url
+     * @param \Illuminate\Database\DatabaseManager $db
+     * @param string                               $url
      *
-     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
      * @throws \Exception
      */
-    public function edit($url = '') {
+    public function edit(DatabaseManager $db, $url = '') {
         /** @var Page $page */
         $page = Page::where('url', $url)->first();
 
@@ -109,7 +112,7 @@ class PageController extends BaseController {
 
         $draftExists = true;
         $lastContent = $page->lastContent();
-        \DB::connection()->transaction(function () use ($url, $page, $lastContent, &$draftExists) {
+        $db->connection()->transaction(function () use ($url, $page, $lastContent, &$draftExists) {
 
             if (($pageContent = $page->userDraft()) === null) {
                 $pageContent = new PageContent();
@@ -162,13 +165,14 @@ class PageController extends BaseController {
     /**
      * Handle page store request
      *
-     * @param \ViKon\Wiki\Models\Page  $page
-     * @param \Illuminate\Http\Request $request
+     * @param \Illuminate\Database\DatabaseManager $db
+     * @param \ViKon\Wiki\Models\Page              $page
+     * @param \Illuminate\Http\Request             $request
      *
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      */
-    public function ajaxStore(Page $page = null, Request $request) {
+    public function ajaxStore(DatabaseManager $db, Page $page = null, Request $request) {
         list($content, $toc, $urls) = WikiParser::parsePage($request->get('title', ''), $request->get('content', ''));
 
         $absoluteUrl = preg_quote(route('wiki.show') . '/', '/');
@@ -180,7 +184,7 @@ class PageController extends BaseController {
             }
         }
 
-        \DB::connection()->transaction(function () use ($page, $toc, $content, $request) {
+        $db->connection()->transaction(function () use ($page, $toc, $content, $request) {
 
             $page->toc = $toc;
             $page->title = $request->get('title', '');
