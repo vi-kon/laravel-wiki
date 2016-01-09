@@ -19,7 +19,7 @@
     "php"                           : ">=5.5.9",
     "illuminate/config"             : "~5.1",
     "illuminate/database"           : "~5.1",
-    "illuminate/html"               : "~5.1",
+    "laravelcollective/html"        : "~5.1",
     "illuminate/support"            : "~5.1",
     "illuminate/view"               : "~5.1",
     "vi-kon/laravel-auth"           : "dev-develop",
