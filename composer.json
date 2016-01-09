@@ -16,14 +16,14 @@
   ],
 
   "require"          : {
-    "php"                           : ">=5.4.0",
+    "php"                           : ">=5.5.9",
     "illuminate/config"             : "~5.1",
     "illuminate/database"           : "~5.1",
     "illuminate/html"               : "~5.1",
     "illuminate/support"            : "~5.1",
     "illuminate/view"               : "~5.1",
     "vi-kon/laravel-auth"           : "dev-develop",
-    "vi-kon/laravel-bootstrap"      : "~1.0",
+    "vi-kon/laravel-bootstrap"      : "dev-develop",
     "vi-kon/laravel-db-config"      : "dev-develop",
     "vi-kon/laravel-diff"           : "dev-develop",
     "vi-kon/laravel-parser-markdown": "dev-develop",
