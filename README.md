@@ -1,6 +1,6 @@
-# Wiki for Laravel 5
+# Wiki for Laravel 5.1
 
-This is wiki for **Laravel 5**. 
+This is wiki for **Laravel 5.1**.
 
 ## Table of content
 

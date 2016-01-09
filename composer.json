@@ -1,29 +1,34 @@
 {
   "name"             : "vi-kon/laravel-wiki",
-  "description"      : "Wiki Engine for Laravel 5, based on Markdown syntax",
+  "description"      : "Wiki Engine for Laravel 5.1, based on Markdown syntax",
   "keywords"         : [
     "laravel",
     "wiki",
     "markdown"
   ],
   "license"          : "MIT",
+
   "authors"          : [
     {
       "name" : "Kovács Vince",
       "email": "vincekovacs@hotmail.com"
     }
   ],
+
   "require"          : {
     "php"                           : ">=5.4.0",
-    "illuminate/support"            : "~5.0",
-    "illuminate/html"               : "~5.0",
-    "vi-kon/laravel-auth"           : "~2.0",
+    "illuminate/config"             : "~5.1",
+    "illuminate/database"           : "~5.1",
+    "illuminate/html"               : "~5.1",
+    "illuminate/support"            : "~5.1",
+    "illuminate/view"               : "~5.1",
+    "vi-kon/laravel-auth"           : "dev-develop",
     "vi-kon/laravel-bootstrap"      : "~1.0",
-    "vi-kon/laravel-db-config"      : "~1.0",
-    "vi-kon/laravel-diff"           : "~1.0",
-    "vi-kon/laravel-parser-markdown": "~1.0",
-    "vi-kon/laravel-utilities"      : "~2.1"
+    "vi-kon/laravel-db-config"      : "dev-develop",
+    "vi-kon/laravel-diff"           : "dev-develop",
+    "vi-kon/laravel-parser-markdown": "dev-develop",
   },
+
   "autoload"         : {
     "psr-0": {
       "ViKon\\Wiki\\": "src/"
