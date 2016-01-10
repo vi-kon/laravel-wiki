@@ -5,6 +5,7 @@ namespace ViKon\Wiki\Http\Controller;
 use Carbon\Carbon;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Http\Request;
+use ViKon\Auth\Guard;
 use ViKon\Diff\Diff;
 use ViKon\Wiki\Http\Requests\PageMoveRequest;
 use ViKon\Wiki\Models\Page;
@@ -24,7 +25,7 @@ class PageController extends BaseController {
         /** @var Page $page */
         $page = Page::where('url', $url)->first();
 
-        $authUser = app('auth.role.user');
+        $authUser = app(Guard::class);
 
         if ($page !== null && !$page->draft) {
             $titleId = WikiParser::generateId($page->title);
@@ -75,7 +76,7 @@ class PageController extends BaseController {
             if (($pageContent = $page->userDraft()) === null) {
                 $pageContent = new PageContent();
                 $pageContent->draft = true;
-                $pageContent->created_by_user_id = app('auth.role.user')->getUserId();
+                $pageContent->created_by_user_id = app(Guard::class)->id();
                 $page->contents()->save($pageContent);
 
                 $draftExists = false;
@@ -119,7 +120,7 @@ class PageController extends BaseController {
                 $pageContent->title = $lastContent->title;
                 $pageContent->content = $lastContent->content;
                 $pageContent->draft = true;
-                $pageContent->created_by_user_id = app('auth.role.user')->getUserId();
+                $pageContent->created_by_user_id = app(Guard::class)->id();
                 $page->contents()->save($pageContent);
 
                 $draftExists = false;
