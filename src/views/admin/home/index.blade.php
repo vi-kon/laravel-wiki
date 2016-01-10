@@ -12,7 +12,7 @@
         <div class="col-sm-6">
             <div class="list-group">
 
-                @if(app('auth.role.user')->hasRole('admin.user.index'))
+                @if(app(\ViKon\Auth\Guard::class)->hasRole('admin.user.index'))
                     <a href="{!!route('admin.user.index')!!}" class="list-group-item">
                         <h4 class="list-group-item-heading">
                             <i class="icon-io-users"></i>&nbsp;

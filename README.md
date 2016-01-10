@@ -25,6 +25,13 @@ Via `composer`:
 composer require vi-kon/laravel-wiki
 ```
 
+Add following lines `providers` array found in `app.php` file:
+
+```php
+\ViKon\Wiki\WikiServiceProvider::class,
+// Dependencies
+```
+
 ---
 [Back to top][url]
 
