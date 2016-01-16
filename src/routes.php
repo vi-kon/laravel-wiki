@@ -127,10 +127,10 @@ Route::group([
         'uses' => 'LoginController@logout',
     ]);
 
-    Route::get('__ajax/modal/settings', [
+    /* Route::get('__ajax/modal/settings', [
         'as'   => 'ajax.modal.user.settings',
         'uses' => '',
-    ]);
+    ]); */
 
     // --------------------------------------------------------------
     // ADMIN
