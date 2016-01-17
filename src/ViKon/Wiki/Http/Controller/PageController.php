@@ -33,14 +33,14 @@ class PageController extends BaseController
         /** @type \ViKon\Wiki\Model\Page $page */
         $page = Page::where('url', $url)->first();
 
-        $authUser = app(Guard::class);
+        $guard = app(Guard::class);
 
         if ($page !== null && !$page->draft) {
             $titleId = WikiParser::generateId($page->title);
 
-            $editable    = $authUser->hasRole('wiki.edit');
-            $movable     = $authUser->hasRole('wiki.move');
-            $destroyable = $authUser->hasRole('wiki.destroy');
+            $editable    = $guard->hasRole('wiki.edit');
+            $movable     = $guard->hasRole('wiki.move');
+            $destroyable = $guard->hasRole('wiki.destroy');
 
             return view(config('wiki.views.page.show'))
                 ->with('editable', $editable)
@@ -51,7 +51,7 @@ class PageController extends BaseController
                 ->with('page', $page);
         }
 
-        $creatable = $authUser->hasRole('wiki.create');
+        $creatable = $guard->hasRole('wiki.create');
 
         return view(config('wiki.views.page.not-exists'))
             ->with('url', $url)
@@ -210,7 +210,7 @@ class PageController extends BaseController
             if ($userDraft === null) {
                 $userDraft                     = new PageContent();
                 $userDraft->page_id            = $page->id;
-                $userDraft->created_by_user_id = \Auth::user()->id;
+                $userDraft->created_by_user_id = $this->container->make(Guard::class)->id();
             }
 
             $userDraft->draft      = false;
