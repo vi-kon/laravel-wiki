@@ -19,11 +19,12 @@ This is wiki for **Laravel 5.1**.
 
 ## Installation
 
-Via `composer`:
+1. Create your laravel project as usual.
+2. Via `composer` (make sure to allow dev stability): `composer require vi-kon/laravel-wiki`
+3. In your `app.php` add the entry `ViKon\Wiki\WikiServiceProvider::class,` to the providers array.
+4. Call `php artisan vendor:publish --provider="ViKon\Wiki\WikiServiceProvider"`
 
-```bash
-composer require vi-kon/laravel-wiki
-```
+Now browse to the path `/wiki` of your project.
 
 Add following lines `providers` array found in `app.php` file:
 
