@@ -1,1 +1,0 @@
-@extends('wiki::page/create')

@@ -26,8 +26,8 @@ class WikiServiceProvider extends ServiceProvider
     {
         $this->loadRoutes();
 
-        $this->loadViewsFrom(__DIR__ . '/../../views', 'wiki');
-        $this->loadTranslationsFrom(__DIR__ . '/../../lang', 'wiki');
+        $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'wiki');
+        $this->loadTranslationsFrom(__DIR__ . '/../../resources/lang', 'wiki');
 
         $this->publishes([
                              __DIR__ . '/../../config/config.php' => config_path('wiki.php'),
