@@ -1,8 +1,8 @@
-@extends('utilities::html5-layout')
+@extends('vi-kon.support::layout-html5')
 
 
 @section('title')
-    @lang('site.title')
+    {!! config_db('wiki::title','Wiki') !!}
 @stop
 
 
@@ -13,21 +13,15 @@
 
 
 @section('styles')
-    <link type="text/css" rel="stylesheet" media="all" href="{!!asset('vendor/bootstrap/bootstrap.min.css')!!}"/>
-    <link type="text/css" rel="stylesheet" media="all" href="{!!asset('vendor/icomoon/style.css')!!}"/>
-    <link type="text/css" rel="stylesheet" media="all" href="{!!asset('vendor/wiki/wiki.css')!!}"/>
+    <link type="text/css" rel="stylesheet" media="all" href="{!! elixir('css/wiki.min.css') !!}"/>
 @append
 
 @section('scripts-head')
-    <script type="text/javascript" src="{!!asset('vendor/jquery-2.1.3.min.js')!!}"></script>
-    <script type="text/javascript" src="{!!asset('vendor/jquery.timeago.js')!!}"></script>
-    <script type="text/javascript" src="{!!asset('vendor/bootstrap/bootstrap.min.js')!!}"></script>
+    <script type="text/javascript" src="{!! elixir('js/wiki.min.js') !!}"></script>
 @append
 
 
 @section('scripts')
-    <script type="text/javascript" src="{!!asset('vendor/wiki/wiki.js')!!}"></script>
-
     <script type="text/javascript">
         (function ($) {
             $(document).ready(function () {
@@ -54,11 +48,11 @@
                 }
 
                 $('.js-btn-login').click(function () {
-                    modal.ajax('{!!route('ajax.modal.auth.login')!!}', {ajax: {type: 'get'}});
+                    window.modal.ajax('{!! route('ajax.modal.auth.login') !!}', {ajax: {type: 'get'}});
                 });
 
                 $('.js-btn-settings').click(function () {
-                    modal.ajax('{!!route('ajax.modal.user.settings')!!}', {ajax: {type: 'get'}});
+                    window.modal.ajax('{!! route('ajax.modal.user.settings') !!}', {ajax: {type: 'get'}});
                 });
             });
         }(jQuery));
@@ -72,29 +66,29 @@
             <div class="row">
                 <div class="col-sm-6">
                     <h1 class="wiki-page-header">
-                        <a href="{!!route('home')!!}">{!!config_db('wiki::title')!!}</a>
+                        <a href="{!! route('home') !!}">{!! config_db('wiki::title') !!}</a>
                     </h1>
                 </div>
                 <div class="col-sm-6 text-right">
                     <ul>
-                        @if(Auth::check())
+                        @if(app(\ViKon\Auth\Guard::class)->check())
 
                             <li>
-                                {!!$user->username!!}
+                                {!! $user->username !!}
                             </li>
 
                             <li>
                                 <a href="#" class="js-btn-settings">@lang('wiki::base.header.btn.settings.content')</a>
                             </li>
 
-                            @if(user_has_role('admin.index'))
+                            @if(app(\ViKon\Auth\Guard::class)->hasRole('admin.index'))
                                 <li>
-                                    <a href="{!!route('admin.index')!!}">@lang('wiki::base.header.btn.admin.content')</a>
+                                    <a href="{!! route('admin.index') !!}">@lang('wiki::base.header.btn.admin.content')</a>
                                 </li>
                             @endif
 
                             <li>
-                                <a href="{!!route('auth.logout')!!}">@lang('wiki::base.header.btn.logout.content')</a>
+                                <a href="{!! route('auth.logout') !!}">@lang('wiki::base.header.btn.logout.content')</a>
                             </li>
 
                         @else
@@ -107,18 +101,24 @@
 
                 <div class="col-sm-6 text-right search-form valign-bottom">
 
-                    {!!app('form')->open(['method' => 'get', 'class' => 'form-inline', 'role' => 'search'])!!}
+                    <form method="get" class="form-inline" role="search">
 
-                    <div class="form-group">
-                        <div class="input-group">
-                            {!!app('form')->text('search', null, ['class' => 'form-control input-sm'])!!}
-                            <div class="input-group-btn">
-                                <input class="btn btn-sm btn-primary" type="submit" value="Search">
+                        <div class="form-group">
+                            <div class="input-group">
+                                {!! app(\ViKon\Bootstrap\FormBuilder::class)->text('search', null, [
+                                    'field' => [
+                                    'class' => 'form-control input-sm',
+                                    ]
+                                ]) !!}
+
+                                {{--{!!app('form')->text('search', null, ['class' => 'form-control input-sm'])!!}--}}
+                                <div class="input-group-btn">
+                                    <input class="btn btn-sm btn-primary" type="submit" value="Search">
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    {!!app('form')->close()!!}
+                    </form>
 
                 </div>
 
@@ -137,11 +137,11 @@
 
         <footer class="footer text-center">
             <hr/>
-            @lang('wiki::base.footer.author', ['name'=>'Kovács Vince'])
+            @lang('wiki::base.footer.author', ['name' => 'Kovács Vince'])
         </footer>
     </div>
 
-    <div id="modal" class="modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div id="modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content"></div>
         </div>
