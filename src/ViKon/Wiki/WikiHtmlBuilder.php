@@ -7,9 +7,9 @@ use Illuminate\Html\HtmlBuilder;
 /**
  * Class WikiHtmlBuilder
  *
- * @author  Kovács Vince <vincekovacs@hotmail.com>
- *
  * @package ViKon\Wiki
+ *
+ * @author  Kovács Vince<vincekovacs@hotmail.com>
  */
 class WikiHtmlBuilder extends HtmlBuilder
 {

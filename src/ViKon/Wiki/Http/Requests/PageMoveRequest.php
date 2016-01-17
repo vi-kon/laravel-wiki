@@ -8,9 +8,9 @@ use Illuminate\Validation\Factory as ValidationFactory;
 /**
  * Class PageMoveRequest
  *
- * @author  Kovács Vince <vincekovacs@hotmail.com>
- *
  * @package ViKon\Wiki\Http\Requests
+ *
+ * @author  Kovács Vince<vincekovacs@hotmail.com>
  */
 class PageMoveRequest extends FormRequest
 {

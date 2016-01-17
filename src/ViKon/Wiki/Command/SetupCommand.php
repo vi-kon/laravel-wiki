@@ -5,6 +5,13 @@ namespace ViKon\Wiki\Command;
 use Illuminate\Console\Command;
 use ViKon\Auth\Model\User;
 
+/**
+ * Class SetupCommand
+ *
+ * @package ViKon\Wiki\Command
+ *
+ * @author  Kovács Vince<vincekovacs@hotmail.com>
+ */
 class SetupCommand extends Command
 {
     /**

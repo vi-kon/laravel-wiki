@@ -9,9 +9,9 @@ use Illuminate\Routing\Controller;
 /**
  * Class BaseController
  *
- * @author  Kovács Vince <vincekovacs@hotmail.com>
- *
  * @package ViKon\Wiki\Http\Controller
+ *
+ * @author  Kovács Vince<vincekovacs@hotmail.com>
  */
 class BaseController extends Controller
 {

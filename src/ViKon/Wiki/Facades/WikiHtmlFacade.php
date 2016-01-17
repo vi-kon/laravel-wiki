@@ -5,11 +5,11 @@ namespace ViKon\Wiki\Facades;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * Class WikiHtmlFacades
- *
- * @author  Kovács Vince <vincekovacs@hotmail.com>
+ * Class WikiHtmlFacade
  *
  * @package ViKon\Wiki\Facades
+ *
+ * @author  Kovács Vince<vincekovacs@hotmail.com>
  */
 class WikiHtmlFacade extends Facade
 {

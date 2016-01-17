@@ -27,6 +27,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Models\PageContent wherePageId($value)
  * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Models\PageContent whereCreatedByUserId($value)
  * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Models\PageContent whereCreatedAt($value)
+ *
+ * @author Kovács Vince<vincekovacs@hotmail.com>
  */
 class PageContent extends Model
 {

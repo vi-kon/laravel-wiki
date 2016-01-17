@@ -23,6 +23,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Models\Page whereToc($value)
  * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Models\Page whereDraft($value)
  * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Models\Page whereContent($value)
+ *
+ * @author Kovács Vince<vincekovacs@hotmail.com>
  */
 class Page extends Model
 {

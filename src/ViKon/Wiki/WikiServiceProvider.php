@@ -12,9 +12,9 @@ use ViKon\Wiki\Models\Page;
 /**
  * Class WikiServiceProvider
  *
- * @author  Kovács Vince <vincekovacs@hotmail.com>
+ * @package ViKon\Wiki
  *
- * @package ViKon\Wiki\Facades
+ * @author  Kovács Vince<vincekovacs@hotmail.com>
  */
 class WikiServiceProvider extends ServiceProvider
 {

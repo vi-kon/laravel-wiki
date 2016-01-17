@@ -12,6 +12,13 @@ use ViKon\Wiki\Models\Page;
 use ViKon\Wiki\Models\PageContent;
 use ViKon\Wiki\WikiParser;
 
+/**
+ * Class PageController
+ *
+ * @package ViKon\Wiki\Http\Controller
+ *
+ * @author  Kovács Vince<vincekovacs@hotmail.com>
+ */
 class PageController extends BaseController
 {
 

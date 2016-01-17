@@ -4,6 +4,13 @@ namespace ViKon\Wiki\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Class PageRequest
+ *
+ * @package ViKon\Wiki\Http\Requests
+ *
+ * @author  Kovács Vince<vincekovacs@hotmail.com>
+ */
 class PageRequest extends FormRequest
 {
 

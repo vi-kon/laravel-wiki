@@ -2,7 +2,15 @@
 
 use App\Http\Requests\Request;
 use Illuminate\Validation\Factory as ValidationFactory;
+use ViKon\Auth\Guard;
 
+/**
+ * Class LoginRequest
+ *
+ * @package ViKon\Wiki\Http\Requests
+ *
+ * @author  Kovács Vince<vincekovacs@hotmail.com>
+ */
 class LoginRequest extends Request
 {
 

@@ -17,9 +17,9 @@ use ViKon\ParserMarkdown\Rule\Single\ReferenceRule;
 /**
  * Class WikiParser
  *
- * @author  Kovács Vince <vincekovacs@hotmail.com>
- *
  * @package ViKon\Wiki
+ *
+ * @author  Kovács Vince<vincekovacs@hotmail.com>
  */
 class WikiParser
 {

@@ -5,6 +5,13 @@ namespace ViKon\Wiki\Http\Controller;
 use Illuminate\Http\Request;
 use ViKon\Wiki\Http\Requests\LoginRequest;
 
+/**
+ * Class LoginController
+ *
+ * @package ViKon\Wiki\Http\Controller
+ *
+ * @author  Kovács Vince<vincekovacs@hotmail.com>
+ */
 class LoginController extends BaseController
 {
 
