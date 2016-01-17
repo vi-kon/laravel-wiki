@@ -9,16 +9,16 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * \ViKon\Wiki\Models\PageContent
  *
- * @property integer                                   $id
- * @property string                                    $title
- * @property string                                    $content
- * @property integer                                   $views
- * @property boolean                                   $draft
- * @property integer                                   $page_id
- * @property integer                                   $created_by_user_id
- * @property \Carbon\Carbon                            $created_at
- * @property-read \ViKon\Wiki\Models\Page              $page
- * @property-read \ViKon\Auth\Models\User              $createdByUser
+ * @property integer                      $id
+ * @property string                       $title
+ * @property string                       $content
+ * @property integer                      $views
+ * @property boolean                      $draft
+ * @property integer                      $page_id
+ * @property integer                      $created_by_user_id
+ * @property \Carbon\Carbon               $created_at
+ * @property-read \ViKon\Wiki\Models\Page $page
+ * @property-read \ViKon\Auth\Models\User $createdByUser
  * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Models\PageContent whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Models\PageContent whereTitle($value)
  * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Models\PageContent whereContent($value)
@@ -28,7 +28,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Models\PageContent whereCreatedByUserId($value)
  * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Models\PageContent whereCreatedAt($value)
  */
-class PageContent extends Model {
+class PageContent extends Model
+{
     use SoftDeletes;
 
     /**
@@ -46,7 +47,8 @@ class PageContent extends Model {
      */
     protected $table = 'wiki_pages_content';
 
-    public function __construct(array $attributes = []) {
+    public function __construct(array $attributes = [])
+    {
         parent::__construct($attributes);
         $this->created_at = new Carbon();
     }
@@ -54,14 +56,16 @@ class PageContent extends Model {
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function page() {
+    public function page()
+    {
         return $this->belongsTo('\ViKon\Wiki\Models\Page', 'page_id', 'id');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function createdByUser() {
+    public function createdByUser()
+    {
         return $this->belongsTo('ViKon\Auth\models\User', 'created_by_user_id', 'id');
     }
 }

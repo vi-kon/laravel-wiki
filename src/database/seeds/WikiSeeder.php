@@ -8,13 +8,15 @@ use Illuminate\Database\Seeder;
  * @author Kovács Vince <vincekovacs@hotmail.com>
  *
  */
-class WikiSeeder extends Seeder {
+class WikiSeeder extends Seeder
+{
     /**
      * Run the database seeds.
      *
      * @return void
      */
-    public function run() {
+    public function run()
+    {
         $this->call('AuthSeeder');
         $this->call('DbConfigSeeder');
     }

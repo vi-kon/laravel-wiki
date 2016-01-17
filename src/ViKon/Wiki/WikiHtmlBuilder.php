@@ -1,6 +1,7 @@
 <?php
 
 namespace ViKon\Wiki;
+
 use Illuminate\Html\HtmlBuilder;
 
 /**
@@ -10,7 +11,8 @@ use Illuminate\Html\HtmlBuilder;
  *
  * @package ViKon\Wiki
  */
-class WikiHtmlBuilder extends HtmlBuilder {
+class WikiHtmlBuilder extends HtmlBuilder
+{
     /**
      * Generate an un-ordered list of items.
      *
@@ -19,7 +21,8 @@ class WikiHtmlBuilder extends HtmlBuilder {
      *
      * @return string
      */
-    public function toc($list, array $attributes = []) {
+    public function toc($list, array $attributes = [])
+    {
         return $this->tocListing('ul', $list, $attributes);
     }
 
@@ -32,7 +35,8 @@ class WikiHtmlBuilder extends HtmlBuilder {
      *
      * @return string
      */
-    protected function tocListing($type, array $list, array $attributes = []) {
+    protected function tocListing($type, array $list, array $attributes = [])
+    {
         $html = '';
 
         if (count($list) === 0) {
@@ -60,7 +64,8 @@ class WikiHtmlBuilder extends HtmlBuilder {
      *
      * @return string
      */
-    protected function tocListingElement($key, $type, $value) {
+    protected function tocListingElement($key, $type, $value)
+    {
         if (is_array($value)) {
             return $this->tocNestedListing($key, $type, $value);
         } else {
@@ -77,7 +82,8 @@ class WikiHtmlBuilder extends HtmlBuilder {
      *
      * @return string
      */
-    protected function tocNestedListing($key, $type, $value) {
+    protected function tocNestedListing($key, $type, $value)
+    {
         if (is_int($key)) {
             return $this->tocListing($type, $value, ['class' => 'nav']);
         } else {

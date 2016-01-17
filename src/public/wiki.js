@@ -1,5 +1,5 @@
 modal = null;
-ajax = null;
+ajax  = null;
 
 Ajax = function () {
 };
@@ -52,9 +52,9 @@ Ajax.prototype.registerErrorHandler = function (jqXHR, options) {
 };
 
 Modal = function () {
-    this._modal = $('#modal');
+    this._modal   = $('#modal');
     this._content = this._modal.find('.modal-content');
-    this._dialog = this._modal.find('.modal-dialog');
+    this._dialog  = this._modal.find('.modal-dialog');
 };
 
 Modal.default = {
@@ -75,7 +75,7 @@ Modal.default = {
 Modal.prototype.ajax = function (url, options) {
     var self, jqXHR;
 
-    self = this;
+    self    = this;
     options = $.extend({}, Modal.default.ajaxOpen, options);
 
     self.open(options.loadingModalContent, {

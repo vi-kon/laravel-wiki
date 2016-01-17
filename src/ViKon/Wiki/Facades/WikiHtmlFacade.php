@@ -11,12 +11,14 @@ use Illuminate\Support\Facades\Facade;
  *
  * @package ViKon\Wiki\Facades
  */
-class WikiHtmlFacade extends Facade {
+class WikiHtmlFacade extends Facade
+{
 
     /**
      * @return string
      */
-    protected static function getFacadeAccessor() {
+    protected static function getFacadeAccessor()
+    {
         return 'html.wiki';
     }
 }

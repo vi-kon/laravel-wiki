@@ -5,7 +5,8 @@ namespace ViKon\Wiki\Http\Controller;
 use Illuminate\Http\Request;
 use ViKon\Wiki\Http\Requests\LoginRequest;
 
-class LoginController extends BaseController {
+class LoginController extends BaseController
+{
 
     /**
      *
@@ -13,7 +14,8 @@ class LoginController extends BaseController {
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
-    public function login(Request $request) {
+    public function login(Request $request)
+    {
         if (\Auth::check()) {
             if (\Request::ajax()) {
                 return view(config('wiki.views.auth.modal.logged'));
@@ -32,7 +34,8 @@ class LoginController extends BaseController {
     /**
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function logout() {
+    public function logout()
+    {
         if (\Auth::check()) {
             \Auth::logout();
         }
@@ -45,7 +48,8 @@ class LoginController extends BaseController {
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function check(LoginRequest $request) {
+    public function check(LoginRequest $request)
+    {
         \Auth::attempt($request->only('username', 'password'), $request->get('remember', false));
 
         if ($request->ajax() || $request->wantsJson()) {

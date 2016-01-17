@@ -19,7 +19,7 @@
 
             var editor, changed, autoSave, autoSaveTimeout;
 
-            changed = false;
+            changed         = false;
             autoSaveTimeout = null;
 
             autoSave = function () {
@@ -40,7 +40,7 @@
                     var time, draftSavedAt;
 
                     draftSavedAt = $('.draft-saved-at');
-                    time = draftSavedAt.find('time');
+                    time         = draftSavedAt.find('time');
                     draftSavedAt
                             .html($('<div class="text-danger"/>')
                                     .html('@lang('wiki::page/create.form.alert.error-saving-draft.content', ['time' => '<time></time>'])'))
@@ -122,7 +122,7 @@
             });
 
             $('.js-btn-cancel').click(function () {
-               modal.ajax('{!!route('ajax.modal.wiki.create.cancel', ['page' => $page->id])!!}');
+                modal.ajax('{!!route('ajax.modal.wiki.create.cancel', ['page' => $page->id])!!}');
             });
         })(jQuery);
     </script>

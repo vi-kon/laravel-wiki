@@ -13,7 +13,7 @@ return [
         'admin' => [
             'home' => [
                 'index' => 'wiki::admin/home/index',
-            ]
+            ],
         ],
         'page'  => [
             'show'       => 'wiki::page/show',

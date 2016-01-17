@@ -1,6 +1,5 @@
 <?php
 
-
 namespace ViKon\Wiki;
 
 use ViKon\Parser\Lexer\Lexer;
@@ -22,9 +21,11 @@ use ViKon\ParserMarkdown\Rule\Single\ReferenceRule;
  *
  * @package ViKon\Wiki
  */
-class WikiParser {
+class WikiParser
+{
     protected $urls = [];
-    protected $toc = [];
+
+    protected $toc  = [];
 
     /**
      * @param string $title
@@ -32,7 +33,8 @@ class WikiParser {
      *
      * @return array
      */
-    public static function parsePage($title, $content) {
+    public static function parsePage($title, $content)
+    {
         $self = new self();
 
         return $self->parse($title, $content);
@@ -43,7 +45,8 @@ class WikiParser {
      *
      * @return string
      */
-    public static function generateId($txt) {
+    public static function generateId($txt)
+    {
         return strtolower(preg_replace(['/[^\dA-Za-z ]/', '/ /'], ['', '-'], $txt));
     }
 
@@ -53,9 +56,10 @@ class WikiParser {
      * @return string
      * @throws \ViKon\Parser\ParserException
      */
-    public static function parseContent($content) {
-        $parser = new Parser();
-        $lexer = new Lexer();
+    public static function parseContent($content)
+    {
+        $parser   = new Parser();
+        $lexer    = new Lexer();
         $renderer = new Renderer();
 
         $markdownSet = new MarkdownRuleSet();
@@ -67,7 +71,8 @@ class WikiParser {
     /**
      * Public instance not allowed
      */
-    protected function __construct() {
+    protected function __construct()
+    {
     }
 
     /**
@@ -77,9 +82,10 @@ class WikiParser {
      * @return array
      * @throws \ViKon\Parser\ParserException
      */
-    public function parse($title, $content) {
-        $parser = new Parser();
-        $lexer = new Lexer();
+    public function parse($title, $content)
+    {
+        $parser   = new Parser();
+        $lexer    = new Lexer();
         $renderer = new Renderer();
 
         $markdownSet = new MarkdownRuleSet();
@@ -87,7 +93,7 @@ class WikiParser {
 
         $events = [
             'vikon.parser.token.render.' . HeaderSetextRule::NAME,
-            'vikon.parser.token.render.' . HeaderAtxRule::NAME
+            'vikon.parser.token.render.' . HeaderAtxRule::NAME,
         ];
         \Event::listen($events, [$this, 'registerTOC']);
 
@@ -106,16 +112,17 @@ class WikiParser {
     /**
      * @param \ViKon\Parser\Token $token
      */
-    public function registerTOC(Token $token) {
+    public function registerTOC(Token $token)
+    {
         $content = $token->get('content', '');
-        $level = $token->get('level');
-        $link = app('html')->link('#' . self::generateId($content), $content);
-        $temp =& $this->toc;
+        $level   = $token->get('level');
+        $link    = app('html')->link('#' . self::generateId($content), $content);
+        $temp    =& $this->toc;
         for ($i = $level; $i > 1; $i--) {
             if (count($temp) === 0) {
                 $temp[] = [];
             } elseif (is_string(end($temp))) {
-                $last = array_pop($temp);
+                $last        = array_pop($temp);
                 $temp[$last] = [];
             }
             end($temp);
@@ -127,14 +134,16 @@ class WikiParser {
     /**
      * @param \ViKon\Parser\Token $token
      */
-    public function registerLinkInline(Token $token) {
+    public function registerLinkInline(Token $token)
+    {
         $this->registerLink($token->get('url'));
     }
 
     /**
      * @param string $url
      */
-    public function registerLink($url) {
+    public function registerLink($url)
+    {
         if (preg_match('/(?:\/[]\d!"#$%&\'()*+,.:;<=>?@[\\\\_`a-z{|}~^-]+){0,9}\/?/', $url)) {
             $this->urls[] = $url;
         }
@@ -146,7 +155,8 @@ class WikiParser {
      *
      * @throws \ViKon\Parser\LexerException
      */
-    public function registerLinkReference(Token $token, TokenList $tokenList) {
+    public function registerLinkReference(Token $token, TokenList $tokenList)
+    {
         $reference = $token->get('reference');
         if ($reference instanceof Token) {
             $referenceToken = $reference;

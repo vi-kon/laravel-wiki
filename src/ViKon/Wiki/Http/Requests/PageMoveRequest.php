@@ -12,13 +12,15 @@ use Illuminate\Validation\Factory as ValidationFactory;
  *
  * @package ViKon\Wiki\Http\Requests
  */
-class PageMoveRequest extends FormRequest {
+class PageMoveRequest extends FormRequest
+{
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
-    public function authorize() {
+    public function authorize()
+    {
         return \Auth::check();
     }
 
@@ -27,7 +29,8 @@ class PageMoveRequest extends FormRequest {
      *
      * @return \Illuminate\Validation\Validator
      */
-    public function validator(ValidationFactory $factory) {
+    public function validator(ValidationFactory $factory)
+    {
         $input = $this->all();
 
         if (array_key_exists('destination', $input)) {
@@ -47,7 +50,8 @@ class PageMoveRequest extends FormRequest {
      *
      * @return array
      */
-    public function rules() {
+    public function rules()
+    {
         return [
             'source'      => '', // disabled field
             'destination' => 'unique:wiki_pages,url',

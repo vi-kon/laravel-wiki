@@ -10,7 +10,8 @@ use ViKon\Utilities\SeederProgressBarTrait;
  * @author Kovács Vince <vincekovacs@hotmail.com>
  *
  */
-class DbConfigSeeder extends Seeder {
+class DbConfigSeeder extends Seeder
+{
     use SeederProgressBarTrait;
 
     protected $output;
@@ -20,7 +21,8 @@ class DbConfigSeeder extends Seeder {
      *
      * @return void
      */
-    public function run() {
+    public function run()
+    {
         $progress = $this->createProgressBar();
 
         $config = [
@@ -32,11 +34,11 @@ class DbConfigSeeder extends Seeder {
         foreach ($config as $key => $value) {
             list($group, $type, $value) = $value;
             Config::create([
-                'key'   => $key,
-                'group' => $group,
-                'type'  => $type,
-                'value' => $value,
-            ]);
+                               'key'   => $key,
+                               'group' => $group,
+                               'type'  => $type,
+                               'value' => $value,
+                           ]);
             /** @noinspection DisconnectedForeachInstructionInspection */
             $progress->advance();
         }

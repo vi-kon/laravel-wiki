@@ -128,7 +128,7 @@ Route::group([
     ]);
 
     Route::get('__ajax/modal/settings', [
-        'as'   => 'ajax.modal.user.settings',
+        'as' => 'ajax.modal.user.settings',
     ]);
 
     // --------------------------------------------------------------

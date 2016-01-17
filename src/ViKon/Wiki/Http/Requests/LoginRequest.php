@@ -3,14 +3,16 @@
 use App\Http\Requests\Request;
 use Illuminate\Validation\Factory as ValidationFactory;
 
-class LoginRequest extends Request {
+class LoginRequest extends Request
+{
 
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
-    public function authorize() {
+    public function authorize()
+    {
         return !app('auth')->check();
     }
 
@@ -19,7 +21,8 @@ class LoginRequest extends Request {
      *
      * @return \Illuminate\Validation\Validator
      */
-    public function validator(ValidationFactory $factory) {
+    public function validator(ValidationFactory $factory)
+    {
         $validator = $factory->make(
             $this->all(), $this->container->call([$this, 'rules']), $this->messages()
         );
@@ -38,7 +41,8 @@ class LoginRequest extends Request {
      *
      * @return array
      */
-    public function rules() {
+    public function rules()
+    {
         return [
             'username' => 'required',
             'password' => 'required',

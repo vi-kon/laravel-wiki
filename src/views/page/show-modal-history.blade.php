@@ -66,13 +66,13 @@
 
 @section('append')
     <script type="text/javascript">
-        (function($){
+        (function ($) {
             var modal = $('#modal');
             modal.find('time').timeago();
 
             modal.find('.list-group-item').eq(0).addClass('active');
             modal.find('.wiki-history-diff').eq(0).addClass('active');
-            modal.find('.list-group-item').on('click', function(e) {
+            modal.find('.list-group-item').on('click', function (e) {
                 e.preventDefault();
                 e.returnValue = false;
                 modal.find('.list-group-item').removeClass('active');

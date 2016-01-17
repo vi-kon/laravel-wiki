@@ -23,11 +23,11 @@
             @if($url === null)
                 window.location.reload();
             @elseif(starts_with($url, '__ajax'))
-                $('#modal').find('.modal-content').load("{{$url}}", null, function(){
-                    $('#modal').trigger('reload.bs.modal');
-                });
+                $('#modal').find('.modal-content').load("{{$url}}", null, function () {
+                $('#modal').trigger('reload.bs.modal');
+            });
             @else
-                window.location.href = '{{$url}}';
+                    window.location.href = '{{$url}}';
             @endif
         })(jQuery);
     </script>

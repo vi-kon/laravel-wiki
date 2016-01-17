@@ -13,10 +13,12 @@ use Illuminate\Routing\Controller;
  *
  * @package ViKon\Wiki\Http\Controller
  */
-class BaseController extends Controller {
+class BaseController extends Controller
+{
     use DispatchesCommands, ValidatesRequests;
 
-    public function __construct() {
+    public function __construct()
+    {
         view()->share('user', \Auth::check()
             ? \Auth::user()
             : null);

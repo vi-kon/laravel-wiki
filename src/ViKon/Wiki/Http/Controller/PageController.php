@@ -12,7 +12,8 @@ use ViKon\Wiki\Models\Page;
 use ViKon\Wiki\Models\PageContent;
 use ViKon\Wiki\WikiParser;
 
-class PageController extends BaseController {
+class PageController extends BaseController
+{
 
     /**
      * Show page
@@ -21,7 +22,8 @@ class PageController extends BaseController {
      *
      * @return \Illuminate\View\View
      */
-    public function show($url = '') {
+    public function show($url = '')
+    {
         /** @var Page $page */
         $page = Page::where('url', $url)->first();
 
@@ -30,8 +32,8 @@ class PageController extends BaseController {
         if ($page !== null && !$page->draft) {
             $titleId = WikiParser::generateId($page->title);
 
-            $editable = $authUser->hasRole('wiki.edit');
-            $movable = $authUser->hasRole('wiki.move');
+            $editable    = $authUser->hasRole('wiki.edit');
+            $movable     = $authUser->hasRole('wiki.move');
             $destroyable = $authUser->hasRole('wiki.destroy');
 
             return view(config('wiki.views.page.show'))
@@ -56,26 +58,27 @@ class PageController extends BaseController {
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
-    public function create(DatabaseManager $db, $url = '') {
+    public function create(DatabaseManager $db, $url = '')
+    {
         /** @var Page $page */
         $page = Page::where('url', $url)
-            ->first();
+                    ->first();
 
         if ($page !== null && !$page->draft) {
             return redirect()->route('wiki.edit', ['url' => $url]);
         }
 
         $draftExists = true;
-        $page = $db->connection()->transaction(function () use ($url, $page, &$draftExists) {
+        $page        = $db->connection()->transaction(function () use ($url, $page, &$draftExists) {
             if ($page === null) {
-                $page = new Page();
+                $page      = new Page();
                 $page->url = $url;
                 $page->save();
             }
 
             if (($pageContent = $page->userDraft()) === null) {
-                $pageContent = new PageContent();
-                $pageContent->draft = true;
+                $pageContent                     = new PageContent();
+                $pageContent->draft              = true;
                 $pageContent->created_by_user_id = app(Guard::class)->id();
                 $page->contents()->save($pageContent);
 
@@ -84,7 +87,7 @@ class PageController extends BaseController {
 
             return $page;
         });
-        $userDraft = $page->userDraft();
+        $userDraft   = $page->userDraft();
         $lastContent = $page->lastContent();
 
         return view(config('wiki.views.page.create'))
@@ -103,7 +106,8 @@ class PageController extends BaseController {
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
      * @throws \Exception
      */
-    public function edit(DatabaseManager $db, $url = '') {
+    public function edit(DatabaseManager $db, $url = '')
+    {
         /** @var Page $page */
         $page = Page::where('url', $url)->first();
 
@@ -116,10 +120,10 @@ class PageController extends BaseController {
         $db->connection()->transaction(function () use ($url, $page, $lastContent, &$draftExists) {
 
             if (($pageContent = $page->userDraft()) === null) {
-                $pageContent = new PageContent();
-                $pageContent->title = $lastContent->title;
-                $pageContent->content = $lastContent->content;
-                $pageContent->draft = true;
+                $pageContent                     = new PageContent();
+                $pageContent->title              = $lastContent->title;
+                $pageContent->content            = $lastContent->content;
+                $pageContent->draft              = true;
                 $pageContent->created_by_user_id = app(Guard::class)->id();
                 $page->contents()->save($pageContent);
 
@@ -144,18 +148,19 @@ class PageController extends BaseController {
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function ajaxStoreDraft(Page $page, Request $request) {
+    public function ajaxStoreDraft(Page $page, Request $request)
+    {
         $draftPageContent = $page->userDraft();
 
         if ($draftPageContent === null) {
-            $draftPageContent = new PageContent();
-            $draftPageContent->page_id = $page->id;
+            $draftPageContent                     = new PageContent();
+            $draftPageContent->page_id            = $page->id;
             $draftPageContent->created_by_user_id = \Auth::user()->id;
-            $draftPageContent->draft = true;
+            $draftPageContent->draft              = true;
         }
 
-        $draftPageContent->title = $request->get('title', '');
-        $draftPageContent->content = $request->get('content', '');
+        $draftPageContent->title      = $request->get('title', '');
+        $draftPageContent->content    = $request->get('content', '');
         $draftPageContent->created_at = new Carbon();
 
         $draftPageContent->save();
@@ -173,7 +178,8 @@ class PageController extends BaseController {
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      */
-    public function ajaxStore(DatabaseManager $db, Page $page = null, Request $request) {
+    public function ajaxStore(DatabaseManager $db, Page $page = null, Request $request)
+    {
         list($content, $toc, $urls) = WikiParser::parsePage($request->get('title', ''), $request->get('content', ''));
 
         $absoluteUrl = preg_quote(route('wiki.show') . '/', '/');
@@ -187,27 +193,27 @@ class PageController extends BaseController {
 
         $db->connection()->transaction(function () use ($page, $toc, $content, $request) {
 
-            $page->toc = $toc;
-            $page->title = $request->get('title', '');
+            $page->toc     = $toc;
+            $page->title   = $request->get('title', '');
             $page->content = $content;
-            $page->draft = false;
+            $page->draft   = false;
             $page->save();
 
             $userDraft = $page->userDraft();
 
             if ($userDraft === null) {
-                $userDraft = new PageContent();
-                $userDraft->page_id = $page->id;
+                $userDraft                     = new PageContent();
+                $userDraft->page_id            = $page->id;
                 $userDraft->created_by_user_id = \Auth::user()->id;
             }
 
-            $userDraft->draft = false;
-            $userDraft->title = trim($request->get('title', ''));
-            $userDraft->content = $request->get('content', '');
+            $userDraft->draft      = false;
+            $userDraft->title      = trim($request->get('title', ''));
+            $userDraft->content    = $request->get('content', '');
             $userDraft->created_at = new Carbon();
 
             $page->contents()
-                ->save($userDraft);
+                 ->save($userDraft);
         });
 
         \Session::flash('message', trans('wiki::page/create.alert.saved.content'));
@@ -223,13 +229,13 @@ class PageController extends BaseController {
      *
      * @return \Illuminate\View\View
      */
-    public function ajaxModalPreview(Page $page, Request $request) {
+    public function ajaxModalPreview(Page $page, Request $request)
+    {
         $content = WikiParser::parseContent($request->get('content', ''));
 
         return view(config('wiki.views.page.modal.preview'))
             ->with('content', $content)
             ->with('url', $page->url);
-
     }
 
     /**
@@ -239,7 +245,8 @@ class PageController extends BaseController {
      *
      * @return \Illuminate\View\View
      */
-    public function ajaxModalCancel(Page $page) {
+    public function ajaxModalCancel(Page $page)
+    {
         return view(config('wiki.views.page.modal.cancel'))
             ->with('page', $page);
     }
@@ -252,10 +259,11 @@ class PageController extends BaseController {
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      */
-    public function ajaxCancel(Page $page) {
+    public function ajaxCancel(Page $page)
+    {
         if ($page->userDraft() !== null) {
             $page->userDraft()
-                ->delete();
+                 ->delete();
         }
 
         \Session::flash('message', trans('wiki::page/create.alert.cancelled.content'));
@@ -270,11 +278,12 @@ class PageController extends BaseController {
      *
      * @return \Illuminate\View\View
      */
-    public function ajaxModalHistory(Page $page) {
+    public function ajaxModalHistory(Page $page)
+    {
         $contents = $page->contents()
-            ->where('draft', false)
-            ->orderBy('created_at', 'desc')
-            ->get();
+                         ->where('draft', false)
+                         ->orderBy('created_at', 'desc')
+                         ->get();
 
         $oldContent = '';
         for ($i = $contents->count() - 1; $i >= 0; $i--) {
@@ -298,7 +307,8 @@ class PageController extends BaseController {
      *
      * @return \Illuminate\View\View
      */
-    public function ajaxModalMove(Page $page) {
+    public function ajaxModalMove(Page $page)
+    {
         return view(config('wiki.views.page.modal.move'))
             ->with('page', $page);
     }
@@ -311,7 +321,8 @@ class PageController extends BaseController {
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function ajaxMove(Page $page, PageMoveRequest $request) {
+    public function ajaxMove(Page $page, PageMoveRequest $request)
+    {
         $source = $page->url;
 
         $page->url = $request->get('destination');
@@ -327,7 +338,8 @@ class PageController extends BaseController {
      *
      * @return \Illuminate\View\View
      */
-    public function ajaxModalDestroy(Page $page) {
+    public function ajaxModalDestroy(Page $page)
+    {
         return view(config('wiki.views.page.modal.destroy'))
             ->with('page', $page);
     }
@@ -339,9 +351,10 @@ class PageController extends BaseController {
      *
      * @throws \Exception
      */
-    public function ajaxDestroy(Page $page) {
+    public function ajaxDestroy(Page $page)
+    {
         $title = $page->title;
-        $url = $page->url;
+        $url   = $page->url;
         $page->delete();
 
         return view(config('wiki.views.page.modal.destroy-success'))

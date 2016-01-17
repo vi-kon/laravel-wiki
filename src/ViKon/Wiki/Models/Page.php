@@ -24,7 +24,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Models\Page whereDraft($value)
  * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Models\Page whereContent($value)
  */
-class Page extends Model {
+class Page extends Model
+{
     use SoftDeletes;
 
     const TYPE_MARKDOWN = 'markdown';
@@ -42,11 +43,12 @@ class Page extends Model {
      *
      * @var string
      */
-    protected $table = 'wiki_pages';
+    protected $table    = 'wiki_pages';
 
     protected $fillable = ['url', 'type'];
 
-    public static function boot() {
+    public static function boot()
+    {
         parent::boot();
 
         static::deleted(function (Page $page) {
@@ -57,44 +59,49 @@ class Page extends Model {
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function contents() {
+    public function contents()
+    {
         return $this->hasMany('\ViKon\Wiki\Models\PageContent', 'page_id', 'id');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function refersTo() {
+    public function refersTo()
+    {
         return $this->belongsToMany('ViKon\Wiki\Models\Page', 'wiki_pages_links', 'page_id', 'refers_to_page_id')
-            ->withPivot('url');
+                    ->withPivot('url');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function refersFrom() {
+    public function refersFrom()
+    {
         return $this->belongsToMany('ViKon\Wiki\Models\Page', 'wiki_pages_links', 'refers_to_page_id', 'page_id');
     }
 
     /**
      * @return \ViKon\Wiki\Models\PageContent|null
      */
-    public function userDraft() {
+    public function userDraft()
+    {
         return $this->contents()
-            ->where('draft', true)
-            ->where('created_by_user_id', \Auth::user()->id)
-            ->orderBy('created_at', 'desc')
-            ->first();
+                    ->where('draft', true)
+                    ->where('created_by_user_id', \Auth::user()->id)
+                    ->orderBy('created_at', 'desc')
+                    ->first();
     }
 
     /**
      * @return \ViKon\Wiki\Models\PageContent|null
      */
-    public function lastContent() {
+    public function lastContent()
+    {
         return $this->contents()
-            ->where('draft', false)
-            ->orderBy('created_at', 'desc')
-            ->first();
+                    ->where('draft', false)
+                    ->orderBy('created_at', 'desc')
+                    ->first();
     }
 
     /**
@@ -102,14 +109,16 @@ class Page extends Model {
      *
      * @return mixed[]
      */
-    public function getTocAttribute($toc) {
+    public function getTocAttribute($toc)
+    {
         return unserialize($toc);
     }
 
     /**
      * @param mixed $toc
      */
-    public function setTocAttribute($toc) {
+    public function setTocAttribute($toc)
+    {
         $this->attributes['toc'] = serialize($toc);
     }
 }
