@@ -4,6 +4,7 @@ namespace ViKon\Wiki\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use ViKon\Auth\Guard;
 
 /**
  * \ViKon\Wiki\Models\Page
@@ -90,7 +91,7 @@ class Page extends Model
     {
         return $this->contents()
                     ->where('draft', true)
-                    ->where('created_by_user_id', \Auth::user()->id)
+                    ->where('created_by_user_id', app(Guard::class)->id())
                     ->orderBy('created_at', 'desc')
                     ->first();
     }

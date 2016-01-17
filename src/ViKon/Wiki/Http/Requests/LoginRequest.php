@@ -21,7 +21,7 @@ class LoginRequest extends Request
      */
     public function authorize()
     {
-        return !app('auth')->check();
+        return !app(Guard::class)->check();
     }
 
     /**
@@ -35,9 +35,9 @@ class LoginRequest extends Request
             $this->all(), $this->container->call([$this, 'rules']), $this->messages()
         );
 
-        if (!app('auth')->validate($this->only('username', 'password'))) {
+        if (!app(Guard::class)->validate($this->only('username', 'password'))) {
             $validator->messages()->add('form', trans('wiki::auth.modal.login.form.alert.not-match.content'));
-        } elseif (app('auth')->getLastAttempted()->blocked) {
+        } elseif (app(Guard::class)->getLastAttempted()->blocked) {
             $validator->messages()->add('form', trans('wiki::auth.modal.login.form.alert.blocked.content'));
         }
 

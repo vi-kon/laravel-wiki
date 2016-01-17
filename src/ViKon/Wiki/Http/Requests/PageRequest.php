@@ -3,6 +3,7 @@
 namespace ViKon\Wiki\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use ViKon\Auth\Guard;
 
 /**
  * Class PageRequest
@@ -21,7 +22,7 @@ class PageRequest extends FormRequest
      */
     public function authorize()
     {
-        return \Auth::check();
+        return $this->container->make(Guard::class)->check();
     }
 
     /**

@@ -2,9 +2,11 @@
 
 namespace ViKon\Wiki\Http\Controller;
 
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Contracts\Container\Container;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller;
+use ViKon\Auth\Guard;
 
 /**
  * Class BaseController
@@ -15,12 +17,25 @@ use Illuminate\Routing\Controller;
  */
 class BaseController extends Controller
 {
-    use DispatchesCommands, ValidatesRequests;
+    use ValidatesRequests;
 
-    public function __construct()
+    /** @type \Illuminate\Contracts\Container\Container */
+    protected $container;
+
+    /**
+     * BaseController constructor.
+     *
+     * @param \Illuminate\Contracts\Container\Container $container
+     */
+    public function __construct(Container $container)
     {
-        view()->share('user', \Auth::check()
-            ? \Auth::user()
+        $this->container = $container;
+
+        $viewFactory = $this->container->make(Factory::class);
+        $guard       = $this->container->make(Guard::class);
+
+        $viewFactory->share('user', $guard->check()
+            ? $guard->user()
             : null);
     }
 }

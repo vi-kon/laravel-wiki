@@ -21,7 +21,6 @@ use ViKon\Wiki\WikiParser;
  */
 class PageController extends BaseController
 {
-
     /**
      * Show page
      *
@@ -31,7 +30,7 @@ class PageController extends BaseController
      */
     public function show($url = '')
     {
-        /** @var Page $page */
+        /** @type \ViKon\Wiki\Models\Page $page */
         $page = Page::where('url', $url)->first();
 
         $authUser = app(Guard::class);
@@ -48,7 +47,7 @@ class PageController extends BaseController
                 ->with('movable', $movable)
                 ->with('destroyable', $destroyable)
                 ->with('titleId', $titleId)
-                ->with('message', \Session::get('message', null))
+                ->with('message', $this->container->make('session')->get('message', null))
                 ->with('page', $page);
         }
 
@@ -162,7 +161,7 @@ class PageController extends BaseController
         if ($draftPageContent === null) {
             $draftPageContent                     = new PageContent();
             $draftPageContent->page_id            = $page->id;
-            $draftPageContent->created_by_user_id = \Auth::user()->id;
+            $draftPageContent->created_by_user_id = $this->container->make(Guard::class)->id();
             $draftPageContent->draft              = true;
         }
 
@@ -223,7 +222,8 @@ class PageController extends BaseController
                  ->save($userDraft);
         });
 
-        \Session::flash('message', trans('wiki::page/create.alert.saved.content'));
+        $this->container->make('session')
+                        ->flash('message', trans('wiki::page/create.alert.saved.content'));
 
         return response()->json();
     }
@@ -273,7 +273,8 @@ class PageController extends BaseController
                  ->delete();
         }
 
-        \Session::flash('message', trans('wiki::page/create.alert.cancelled.content'));
+        $this->make('session')
+             ->flash('message', trans('wiki::page/create.alert.cancelled.content'));
 
         return response()->json();
     }

@@ -4,6 +4,7 @@ namespace ViKon\Wiki\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Factory as ValidationFactory;
+use ViKon\Auth\Guard;
 
 /**
  * Class PageMoveRequest
@@ -21,7 +22,7 @@ class PageMoveRequest extends FormRequest
      */
     public function authorize()
     {
-        return \Auth::check();
+        return $this->container->make(Guard::class)->check();
     }
 
     /**
