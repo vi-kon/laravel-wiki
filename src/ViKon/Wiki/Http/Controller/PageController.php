@@ -8,8 +8,8 @@ use Illuminate\Http\Request;
 use ViKon\Auth\Guard;
 use ViKon\Diff\Diff;
 use ViKon\Wiki\Http\Requests\PageMoveRequest;
-use ViKon\Wiki\Models\Page;
-use ViKon\Wiki\Models\PageContent;
+use ViKon\Wiki\Model\Page;
+use ViKon\Wiki\Model\PageContent;
 use ViKon\Wiki\WikiParser;
 
 /**
@@ -30,7 +30,7 @@ class PageController extends BaseController
      */
     public function show($url = '')
     {
-        /** @type \ViKon\Wiki\Models\Page $page */
+        /** @type \ViKon\Wiki\Model\Page $page */
         $page = Page::where('url', $url)->first();
 
         $authUser = app(Guard::class);
@@ -66,7 +66,7 @@ class PageController extends BaseController
      */
     public function create(DatabaseManager $db, $url = '')
     {
-        /** @var Page $page */
+        /** @type \ViKon\Wiki\Model\Page $page */
         $page = Page::where('url', $url)
                     ->first();
 
@@ -149,7 +149,7 @@ class PageController extends BaseController
     /**
      * Handle draft save request
      *
-     * @param \ViKon\Wiki\Models\Page  $page
+     * @param \ViKon\Wiki\Model\Page   $page
      * @param \Illuminate\Http\Request $request
      *
      * @return \Symfony\Component\HttpFoundation\Response
@@ -178,7 +178,7 @@ class PageController extends BaseController
      * Handle page store request
      *
      * @param \Illuminate\Database\DatabaseManager $db
-     * @param \ViKon\Wiki\Models\Page              $page
+     * @param \ViKon\Wiki\Model\Page               $page
      * @param \Illuminate\Http\Request             $request
      *
      * @return \Symfony\Component\HttpFoundation\Response
@@ -231,7 +231,7 @@ class PageController extends BaseController
     /**
      * Show preview modal dialog
      *
-     * @param \ViKon\Wiki\Models\Page  $page
+     * @param \ViKon\Wiki\Model\Page   $page
      * @param \Illuminate\Http\Request $request
      *
      * @return \Illuminate\View\View
@@ -248,7 +248,7 @@ class PageController extends BaseController
     /**
      * Show cancel modal dialog
      *
-     * @param \ViKon\Wiki\Models\Page $page
+     * @param \ViKon\Wiki\Model\Page $page
      *
      * @return \Illuminate\View\View
      */
@@ -261,7 +261,7 @@ class PageController extends BaseController
     /**
      * Handle cancel request
      *
-     * @param \ViKon\Wiki\Models\Page $page
+     * @param \ViKon\Wiki\Model\Page $page
      *
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Exception
@@ -282,7 +282,7 @@ class PageController extends BaseController
     /**
      * Show history modal dialog
      *
-     * @param \ViKon\Wiki\Models\Page $page
+     * @param \ViKon\Wiki\Model\Page $page
      *
      * @return \Illuminate\View\View
      */
@@ -311,7 +311,7 @@ class PageController extends BaseController
     /**
      * Show move modal dialog
      *
-     * @param \ViKon\Wiki\Models\Page $page
+     * @param \ViKon\Wiki\Model\Page $page
      *
      * @return \Illuminate\View\View
      */
@@ -324,7 +324,7 @@ class PageController extends BaseController
     /**
      * Handle move request
      *
-     * @param \ViKon\Wiki\Models\Page                   $page
+     * @param \ViKon\Wiki\Model\Page                    $page
      * @param \ViKon\Wiki\Http\Requests\PageMoveRequest $request
      *
      * @return \Symfony\Component\HttpFoundation\Response
@@ -342,7 +342,7 @@ class PageController extends BaseController
     }
 
     /**
-     * @param \ViKon\Wiki\Models\Page $page
+     * @param \ViKon\Wiki\Model\Page $page
      *
      * @return \Illuminate\View\View
      */
@@ -353,7 +353,7 @@ class PageController extends BaseController
     }
 
     /**
-     * @param \ViKon\Wiki\Models\Page $page
+     * @param \ViKon\Wiki\Model\Page $page
      *
      * @return \Illuminate\View\View
      *

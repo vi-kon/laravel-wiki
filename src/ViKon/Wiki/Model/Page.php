@@ -1,6 +1,6 @@
 <?php
 
-namespace ViKon\Wiki\Models;
+namespace ViKon\Wiki\Model;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -9,21 +9,21 @@ use ViKon\Auth\Guard;
 /**
  * \ViKon\Wiki\Models\Page
  *
- * @property integer                                                                        $id
- * @property string                                                                         $url
- * @property string                                                                         $type
- * @property string                                                                         $title
- * @property string                                                                         $toc
- * @property string                                                                         $content
- * @property boolean                                                                        $draft
- * @property-read \Illuminate\Database\Eloquent\Collection|\ViKon\Wiki\Models\PageContent[] $contents
- * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Models\Page whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Models\Page whereUrl($value)
- * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Models\Page whereType($value)
- * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Models\Page whereTitle($value)
- * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Models\Page whereToc($value)
- * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Models\Page whereDraft($value)
- * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Models\Page whereContent($value)
+ * @property integer                                                                       $id
+ * @property string                                                                        $url
+ * @property string                                                                        $type
+ * @property string                                                                        $title
+ * @property string                                                                        $toc
+ * @property string                                                                        $content
+ * @property boolean                                                                       $draft
+ * @property-read \Illuminate\Database\Eloquent\Collection|\ViKon\Wiki\Model\PageContent[] $contents
+ * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Model\Page whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Model\Page whereUrl($value)
+ * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Model\Page whereType($value)
+ * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Model\Page whereTitle($value)
+ * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Model\Page whereToc($value)
+ * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Model\Page whereDraft($value)
+ * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Model\Page whereContent($value)
  *
  * @author Kovács Vince<vincekovacs@hotmail.com>
  */
@@ -85,7 +85,7 @@ class Page extends Model
     }
 
     /**
-     * @return \ViKon\Wiki\Models\PageContent|null
+     * @return \ViKon\Wiki\Model\PageContent|null
      */
     public function userDraft()
     {
@@ -97,7 +97,7 @@ class Page extends Model
     }
 
     /**
-     * @return \ViKon\Wiki\Models\PageContent|null
+     * @return \ViKon\Wiki\Model\PageContent|null
      */
     public function lastContent()
     {

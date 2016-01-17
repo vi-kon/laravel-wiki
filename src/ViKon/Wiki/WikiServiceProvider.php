@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use ViKon\Auth\Model\User;
 use ViKon\Wiki\Command\InstallCommand;
 use ViKon\Wiki\Command\SetupCommand;
-use ViKon\Wiki\Models\Page;
+use ViKon\Wiki\Model\Page;
 
 /**
  * Class WikiServiceProvider
