@@ -5,6 +5,8 @@ namespace ViKon\Wiki;
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 use ViKon\Auth\Model\User;
+use ViKon\Wiki\Command\InstallCommand;
+use ViKon\Wiki\Command\SetupCommand;
 use ViKon\Wiki\Models\Page;
 
 /**
@@ -40,6 +42,11 @@ class WikiServiceProvider extends ServiceProvider
         $this->publishes([
                              __DIR__ . '/../../database/seeds/' => base_path('/database/seeds'),
                          ], 'seeds');
+
+        $this->commands([
+                            InstallCommand::class,
+                            SetupCommand::class,
+                        ]);
     }
 
     /**
