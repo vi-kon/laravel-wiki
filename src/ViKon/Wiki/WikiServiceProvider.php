@@ -62,6 +62,16 @@ class WikiServiceProvider extends ServiceProvider
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function provides()
+    {
+        return [
+            'html.wiki',
+        ];
+    }
+
+    /**
      * Set router routes and router options
      *
      * @return void
