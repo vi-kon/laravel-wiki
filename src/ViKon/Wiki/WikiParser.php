@@ -13,6 +13,7 @@ use ViKon\ParserMarkdown\Rule\Single\HeaderSetextRule;
 use ViKon\ParserMarkdown\rule\single\LinkInlineRule;
 use ViKon\ParserMarkdown\Rule\Single\LinkReferenceRule;
 use ViKon\ParserMarkdown\Rule\Single\ReferenceRule;
+use ViKon\ParserMarkdown\Skin\BootstrapSkin;
 
 /**
  * Class WikiParser
@@ -63,7 +64,10 @@ class WikiParser
         $renderer = new Renderer();
 
         $markdownSet = new MarkdownRuleSet();
-        $markdownSet->init($parser, $lexer, $renderer);
+        $markdownSet->init($parser, $lexer);
+
+        $bootstrapSkin = new BootstrapSkin();
+        $bootstrapSkin->init($parser, $renderer);
 
         return $parser->render("\n" . $content . "\n", 'bootstrap');
     }
