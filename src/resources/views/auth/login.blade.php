@@ -5,9 +5,9 @@
         {!! csrf_field() !!}
 
         @if($errors->has('form'))
-            <i class="alert alert-danger">
+            <p class="alert alert-danger">
                 {!!$errors->first('form')!!}
-            </i>
+            </p>
         @endif
 
         {!! app(\ViKon\Bootstrap\FormBuilder::class)->groupText('username', null, [
@@ -21,7 +21,7 @@
                        ]) !!}
 
         <div class="form-group">
-            <div class="col-sm-offset-4 col-sm-8">
+            <div class="col-sm-offset-3 col-sm-9">
 
                 <button type="submit" class="btn btn-primary" data-index="3">
                     @lang('wiki::auth/login.btn.login.content')

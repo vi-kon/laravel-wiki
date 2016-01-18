@@ -1,3 +1,5 @@
+<?php $formAction = route('ajax.modal.auth.login'); ?>
+
 @extends('vi-kon.bootstrap::modal.modal-form')
 
 <?php $onlyContent = true ?>
@@ -8,14 +10,7 @@
     @lang('wiki::auth/login.modal.login.title')
 @stop
 
-
 @section('form')
-    @if($errors->has('form'))
-        <div class="alert alert-danger">
-            {{$errors->first('form')}}
-        </div>
-    @endif
-
     {!! app(\ViKon\Bootstrap\FormBuilder::class)->groupText('username', null, [
                        'label' => trans('wiki::auth/login.form.field.username.label'),
                        'index' => 1,
@@ -25,7 +20,6 @@
                        'label' => trans('wiki::auth/login.form.field.password.label'),
                        'index' => 2,
                    ]) !!}
-
 @stop
 
 

@@ -25,7 +25,7 @@ return [
                         'content' => 'Successful login',
                     ],
                     'not-match' => [
-                        'content' => 'Wrong username or password',
+                        'content' => 'Incorrect username or password',
                     ],
                     'blocked'   => [
                         'content' => 'The username is blocked',
