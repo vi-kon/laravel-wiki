@@ -38,9 +38,9 @@ class PageController extends BaseController
         if ($page !== null && !$page->draft) {
             $titleId = WikiParser::generateId($page->title);
 
-            $editable    = $guard->hasRole('wiki.edit');
-            $movable     = $guard->hasRole('wiki.move');
-            $destroyable = $guard->hasRole('wiki.destroy');
+            $editable    = $guard->hasPermission('wiki.edit');
+            $movable     = $guard->hasPermission('wiki.move');
+            $destroyable = $guard->hasPermission('wiki.destroy');
 
             return view(config('wiki.views.page.show'))
                 ->with('editable', $editable)
@@ -51,7 +51,7 @@ class PageController extends BaseController
                 ->with('page', $page);
         }
 
-        $creatable = $guard->hasRole('wiki.create');
+        $creatable = $guard->hasPermission('wiki.create');
 
         return view(config('wiki.views.page.not-exists'))
             ->with('url', $url)
