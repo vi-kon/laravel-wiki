@@ -87,7 +87,7 @@ Modal.prototype.ajax = function (url, options) {
     jqXHR = ajax.ajax(url, options.ajax);
 
     jqXHR.done(function (data) {
-        self.open(data);
+        self.open(data, options);
     });
 };
 
