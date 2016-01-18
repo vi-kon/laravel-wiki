@@ -81,7 +81,7 @@
                                 <a href="#" class="js-btn-settings">@lang('wiki::base.header.btn.settings.content')</a>
                             </li>
 
-                            @if(app(\ViKon\Auth\Guard::class)->hasRole('admin.index'))
+                            @if(app(\ViKon\Auth\Guard::class)->hasPermission('admin.index'))
                                 <li>
                                     <a href="{!! route('admin.index') !!}">@lang('wiki::base.header.btn.admin.content')</a>
                                 </li>
