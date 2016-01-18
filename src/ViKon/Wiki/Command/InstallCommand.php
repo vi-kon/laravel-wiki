@@ -3,6 +3,7 @@
 namespace ViKon\Wiki\Command;
 
 use Illuminate\Console\Command;
+use ViKon\Auth\Model\Permission;
 use ViKon\Auth\Model\User;
 
 /**
@@ -40,7 +41,7 @@ class InstallCommand extends Command
             return;
         }
 
-        $this->line('Creating <info>system</info> user... ');
+        $this->line('Creating <info>system user</info>... ');
 
         // Create system user
         $systemUser           = new User();
@@ -53,12 +54,52 @@ class InstallCommand extends Command
 
         // --------------------------------------------------------------------
 
-        $this->line('Creating config entries... ');
+        $this->line('Creating <info>config entries</info>... ');
 
         $dbConfig->set('wiki::title', 'Wiki name', $systemUser, true);
 
         // Note this entry have to be at last position to ensure that wiki is installed
         $dbConfig->set('wiki::installed', true, $systemUser, true);
+
+        // --------------------------------------------------------------------
+
+        $this->line('Creating <info>system roles</info>...');
+
+        $permissions = [
+            'admin.index',
+
+            'admin.user.index',
+            'admin.user.show',
+            'admin.user.create',
+            'admin.user.edit',
+            'admin.user.destroy',
+
+            'admin.group.index',
+            'admin.group.show',
+            'admin.group.create',
+            'admin.group.edit',
+            'admin.group.destroy',
+
+            'admin.role.index',
+            'admin.role.show',
+            'admin.role.create',
+            'admin.role.edit',
+            'admin.role.destroy',
+
+            'admin.permission.index',
+
+            'wiki.show',
+            'wiki.create',
+            'wiki.edit',
+            'wiki.move',
+            'wiki.destroy',
+        ];
+
+        foreach ($permissions as $token) {
+            $permission        = new Permission();
+            $permission->token = $token;
+            $permission->save();
+        }
 
         $this->line('Wiki successfully installed');
     }
