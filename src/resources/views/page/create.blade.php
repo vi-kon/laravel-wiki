@@ -1,17 +1,6 @@
 @extends('wiki::layout')
 
 
-@section('styles')
-    <link type="text/css" rel="stylesheet" media="all" href="{!!asset('vendor/codemirror/lib/codemirror.css')!!}"/>
-@append
-
-
-@section('scripts-head')
-    <script type="text/javascript" src="{!!asset('vendor/codemirror/lib/codemirror.js')!!}"></script>
-    <script type="text/javascript" src="{!!asset('vendor/codemirror/mode/markdown/markdown.js')!!}"></script>
-@append
-
-
 @section('scripts')
     <script type="text/javascript">
         (function ($, undefined) {
@@ -30,7 +19,7 @@
                 editor.save();
                 ajax.ajax('{!!route('ajax.wiki.create.store-draft', ['page' => $page->id])!!}', {
                     type            : 'post',
-                    data            : $('#editor').closest('form').serialize(),
+                    data            : $('#field-content').closest('form').serialize(),
                     openModalOnError: false
                 }).done(function () {
                     $('.draft-saved-at')
@@ -50,7 +39,7 @@
                 });
             };
 
-            editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
+            editor = CodeMirror.fromTextArea(document.getElementById("field-content"), {
                 mode          : "markdown",
                 lineNumbers   : true,
                 theme         : "default",
@@ -68,7 +57,7 @@
             });
 
             $('.js-btn-save').click(function () {
-                var form = $('#editor').closest('form');
+                var form = $('#field-content').closest('form');
 
                 editor.save();
                 ajax.ajax('{!!route('ajax.wiki.create.store', ['page' => $page->id])!!}', {
@@ -115,7 +104,7 @@
                 modal.ajax('{!!route('ajax.modal.wiki.create.preview', ['page' => $page->id])!!}', {
                     ajax: {
                         type: 'post',
-                        data: $('#editor').closest('form').serialize()
+                        data: $('#field-content').closest('form').serialize()
                     },
                     size: 'lg'
                 });
@@ -165,33 +154,28 @@
     <div class="row">
         <div class="col-sm-12">
             @if($draftExists)
-                @include('bootstrap::alert/alert', [
-                        'type'        => 'info',
-                        'message'     => trans('wiki::page/create.form.alert.draft-exists.content'),
-                        'dismissible' => true,
-                    ])
+                <p class="alert alert-info">
+                    @lang('wiki::page/create.form.alert.draft-exists.content')
+                </p>
             @endif
+            <form method="POST">
+                <input type="hidden" name="page_id" value="{{ $page->id }}">
+                {!! csrf_field() !!}
 
-            {!!app('form')->open(['class' => 'form-horizontal'])!!}
-            {!!app('form')->hidden('page_id', $page->id)!!}
+                {!!app(\ViKon\Bootstrap\FormBuilder::class)->groupText('title', $userDraft->title, [
+                    'label'     => trans('wiki::page/create.form.field.title.label'),
+                    'vertical'  => true,
+                ])!!}
 
-            @include('bootstrap::form/group-text', [
-                'label'     => 'wiki::page/create.form.field.title.label',
-                'name'      => 'title',
-                'labelSize' => 2,
-                'value'     => $userDraft->title,
-            ])
-
-            <div class="form-group">
-                <div class="col-sm-12">
-                    {!!app('form')->textarea('content', $userDraft->content, [
-                        'id'    => 'editor',
-                        'class' => 'form-control markdown',
+                {!!app(\ViKon\Bootstrap\FormBuilder::class)->groupTextarea('content', $userDraft->content, [
+                    'label'    => trans('wiki::page/create.form.field.content.label'),
+                    'vertical' => true,
+                    'field'    => [
+                        'class' => 'markdown',
                         'rows'  => 20,
-                    ])!!}
-                </div>
-            </div>
-            {!!app('form')->close()!!}
+                    ],
+                ])!!}
+            </form>
         </div>
     </div>
 @overwrite
