@@ -6,7 +6,6 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use ViKon\Auth\Model\User;
-use ViKon\Wiki\Model\Page;
 
 /**
  * \ViKon\Wiki\Model\PageContent
@@ -53,6 +52,10 @@ class PageContent extends Model
 
     public function __construct(array $attributes = [])
     {
+        $this->dates = [
+            'created_at',
+        ];
+
         parent::__construct($attributes);
         $this->created_at = new Carbon();
     }
