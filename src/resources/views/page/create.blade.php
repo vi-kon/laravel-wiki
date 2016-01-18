@@ -162,19 +162,19 @@
                 <input type="hidden" name="page_id" value="{{ $page->id }}">
                 {!! csrf_field() !!}
 
-                {!!app(\ViKon\Bootstrap\FormBuilder::class)->groupText('title', $userDraft->title, [
+                {!! app(\ViKon\Bootstrap\FormBuilder::class)->groupText('title', $userDraft->title, [
                     'label'     => trans('wiki::page/create.form.field.title.label'),
                     'vertical'  => true,
-                ])!!}
+                ]) !!}
 
-                {!!app(\ViKon\Bootstrap\FormBuilder::class)->groupTextarea('content', $userDraft->content, [
+                {!! app(\ViKon\Bootstrap\FormBuilder::class)->groupTextarea('content', $userDraft->content, [
                     'label'    => trans('wiki::page/create.form.field.content.label'),
                     'vertical' => true,
                     'field'    => [
                         'class' => 'markdown',
                         'rows'  => 20,
                     ],
-                ])!!}
+                ]) !!}
             </form>
         </div>
     </div>
