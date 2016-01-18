@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use ViKon\Auth\Guard;
 
 /**
- * \ViKon\Wiki\Models\Page
+ * \ViKon\Wiki\Model\Page
  *
  * @property integer                                                                       $id
  * @property string                                                                        $url
@@ -64,7 +64,7 @@ class Page extends Model
      */
     public function contents()
     {
-        return $this->hasMany('\ViKon\Wiki\Models\PageContent', 'page_id', 'id');
+        return $this->hasMany(PageContent::class, 'page_id', 'id');
     }
 
     /**
@@ -72,7 +72,7 @@ class Page extends Model
      */
     public function refersTo()
     {
-        return $this->belongsToMany('ViKon\Wiki\Models\Page', 'wiki_pages_links', 'page_id', 'refers_to_page_id')
+        return $this->belongsToMany(Page::class, 'wiki_pages_links', 'page_id', 'refers_to_page_id')
                     ->withPivot('url');
     }
 
@@ -81,7 +81,7 @@ class Page extends Model
      */
     public function refersFrom()
     {
-        return $this->belongsToMany('ViKon\Wiki\Models\Page', 'wiki_pages_links', 'refers_to_page_id', 'page_id');
+        return $this->belongsToMany(Page::class, 'wiki_pages_links', 'refers_to_page_id', 'page_id');
     }
 
     /**

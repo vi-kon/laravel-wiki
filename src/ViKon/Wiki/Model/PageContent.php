@@ -9,7 +9,7 @@ use ViKon\Auth\Model\User;
 use ViKon\Wiki\Model\Page;
 
 /**
- * \ViKon\Wiki\Models\PageContent
+ * \ViKon\Wiki\Model\PageContent
  *
  * @property integer                     $id
  * @property string                      $title
