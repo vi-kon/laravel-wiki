@@ -28,15 +28,15 @@ Route::group([
     ]);
 
     Route::get('wiki-create/{url?}', [
-        'roles' => 'wiki.create',
-        'as'    => 'wiki.create',
-        'uses'  => 'PageController@create',
+        'permission' => 'wiki.create',
+        'as'         => 'wiki.create',
+        'uses'       => 'PageController@create',
     ]);
 
     Route::get('wiki-edit/{url?}', [
-        'as'    => 'wiki.edit',
-        'roles' => 'wiki.edit',
-        'uses'  => 'PageController@edit',
+        'as'         => 'wiki.edit',
+        'permission' => 'wiki.edit',
+        'uses'       => 'PageController@edit',
     ]);
 
     Route::get('__ajax/modal/wiki/{pageId}/history', [
@@ -50,54 +50,54 @@ Route::group([
     ]);
 
     Route::get('__ajax/modal/wiki/{pageId}/move', [
-        'roles' => 'wiki.move',
-        'as'    => 'ajax.modal.wiki.move',
-        'uses'  => 'PageController@ajaxModalMove',
+        'permission' => 'wiki.move',
+        'as'         => 'ajax.modal.wiki.move',
+        'uses'       => 'PageController@ajaxModalMove',
     ]);
 
     Route::post('__ajax/modal/wiki/{pageId}/move', [
-        'roles' => 'wiki.move',
-        'uses'  => 'PageController@ajaxMove',
+        'permission' => 'wiki.move',
+        'uses'       => 'PageController@ajaxMove',
     ]);
 
     Route::post('__ajax/wiki/{pageId}/create/store', [
-        'roles' => 'wiki.create',
-        'as'    => 'ajax.wiki.create.store',
-        'uses'  => 'PageController@ajaxStore',
+        'permission' => 'wiki.create',
+        'as'         => 'ajax.wiki.create.store',
+        'uses'       => 'PageController@ajaxStore',
     ]);
 
     Route::post('__ajax/wiki/{pageId}/create/store-draft', [
-        'roles' => 'wiki.create',
-        'as'    => 'ajax.wiki.create.store-draft',
-        'uses'  => 'PageController@ajaxStoreDraft',
+        'permission' => 'wiki.create',
+        'as'         => 'ajax.wiki.create.store-draft',
+        'uses'       => 'PageController@ajaxStoreDraft',
     ]);
 
     Route::post('__ajax/modal/wiki/{pageId}/create/preview', [
-        'roles' => 'wiki.create',
-        'as'    => 'ajax.modal.wiki.create.preview',
-        'uses'  => 'PageController@ajaxModalPreview',
+        'permission' => 'wiki.create',
+        'as'         => 'ajax.modal.wiki.create.preview',
+        'uses'       => 'PageController@ajaxModalPreview',
     ]);
 
     Route::get('__ajax/modal/wiki/{pageId}/create/cancel', [
-        'roles' => 'wiki.create',
-        'as'    => 'ajax.modal.wiki.create.cancel',
-        'uses'  => 'PageController@ajaxModalCancel',
+        'permission' => 'wiki.create',
+        'as'         => 'ajax.modal.wiki.create.cancel',
+        'uses'       => 'PageController@ajaxModalCancel',
     ]);
 
     Route::post('__ajax/modal/wiki/{pageId}/create/cancel', [
-        'roles' => 'wiki.create',
-        'uses'  => 'PageController@ajaxCancel',
+        'permission' => 'wiki.create',
+        'uses'       => 'PageController@ajaxCancel',
     ]);
 
     Route::get('__ajax/modal/wiki/{pageId}/destroy', [
-        'roles' => 'wiki.destroy',
-        'as'    => 'ajax.modal.wiki.destroy',
-        'uses'  => 'PageController@ajaxModalDestroy',
+        'permission' => 'wiki.destroy',
+        'as'         => 'ajax.modal.wiki.destroy',
+        'uses'       => 'PageController@ajaxModalDestroy',
     ]);
 
     Route::post('__ajax/modal/wiki/{pageId}/destroy', [
-        'roles' => 'wiki.destroy',
-        'uses'  => 'PageController@ajaxDestroy',
+        'permission' => 'wiki.destroy',
+        'uses'       => 'PageController@ajaxDestroy',
     ]);
 
     // --------------------------------------------------------------
@@ -136,9 +136,9 @@ Route::group([
     // --------------------------------------------------------------
 
     Route::get('admin', [
-        'roles' => 'admin.index',
-        'as'    => 'admin.index',
-        'uses'  => 'Admin\HomeController@index',
+        'permission' => 'admin.index',
+        'as'         => 'admin.index',
+        'uses'       => 'Admin\HomeController@index',
     ]);
 
     // --------------------------------------------------------------
@@ -146,57 +146,57 @@ Route::group([
     // --------------------------------------------------------------
 
     Route::get('admin/user', [
-        'roles' => 'admin.user.index',
-        'as'    => 'admin.user.index',
-        'uses'  => 'admin\UserController@index',
+        'permission' => 'admin.user.index',
+        'as'         => 'admin.user.index',
+        'uses'       => 'admin\UserController@index',
     ]);
 
     Route::get('__ajax/table/admin/users', [
-        'roles' => 'admin.user.index',
-        'as'    => 'ajax.table.admin.user.index.users',
-        'uses'  => 'admin\UserController@ajaxIndexTableUsers',
+        'permission' => 'admin.user.index',
+        'as'         => 'ajax.table.admin.user.index.users',
+        'uses'       => 'admin\UserController@ajaxIndexTableUsers',
     ]);
 
     Route::get('__ajax/modal/admin/user/{userId}/show', [
-        'roles' => 'admin.user.show',
-        'as'    => 'ajax.modal.admin.user.show',
-        'uses'  => 'admin\UserController@ajaxShow',
+        'permission' => 'admin.user.show',
+        'as'         => 'ajax.modal.admin.user.show',
+        'uses'       => 'admin\UserController@ajaxShow',
     ]);
 
     Route::get('__ajax/modal/admin/user/create', [
-        'roles' => 'admin.user.create',
-        'as'    => 'ajax.modal.admin.user.create',
-        'uses'  => 'admin\UserController@ajaxCreate',
+        'permission' => 'admin.user.create',
+        'as'         => 'ajax.modal.admin.user.create',
+        'uses'       => 'admin\UserController@ajaxCreate',
     ]);
 
     Route::post('__ajax/modal/admin/user/create', [
-        'roles' => 'admin.user.create',
-        'as'    => 'ajax.modal.admin.user.store',
-        'uses'  => 'admin\UserController@ajaxStore',
+        'permission' => 'admin.user.create',
+        'as'         => 'ajax.modal.admin.user.store',
+        'uses'       => 'admin\UserController@ajaxStore',
     ]);
 
     Route::get('__ajax/modal/admin/user/{userId}/edit', [
-        'roles' => 'admin.user.edit',
-        'as'    => 'ajax.modal.admin.user.edit',
-        'uses'  => 'admin\UserController@ajaxEdit',
+        'permission' => 'admin.user.edit',
+        'as'         => 'ajax.modal.admin.user.edit',
+        'uses'       => 'admin\UserController@ajaxEdit',
     ]);
 
     Route::post('__ajax/modal/admin/user/{userId}/edit', [
-        'roles' => 'admin.user.edit',
-        'as'    => 'ajax.modal.admin.user.update',
-        'uses'  => 'admin\UserController@ajaxUpdate',
+        'permission' => 'admin.user.edit',
+        'as'         => 'ajax.modal.admin.user.update',
+        'uses'       => 'admin\UserController@ajaxUpdate',
     ]);
 
     Route::get('__ajax/modal/admin/user/{userId}/destroy', [
-        'roles' => 'admin.user.destroy',
-        'as'    => 'ajax.modal.admin.user.destroy-confirm',
-        'uses'  => 'admin\UserController@ajaxDestroyConfirm',
+        'permission' => 'admin.user.destroy',
+        'as'         => 'ajax.modal.admin.user.destroy-confirm',
+        'uses'       => 'admin\UserController@ajaxDestroyConfirm',
     ]);
 
     Route::post('__ajax/modal/admin/user/{userId}/destroy', [
-        'roles' => 'admin.user.destroy',
-        'as'    => 'ajax.modal.admin.user.destroy',
-        'uses'  => 'admin\UserController@ajaxDestroy',
+        'permission' => 'admin.user.destroy',
+        'as'         => 'ajax.modal.admin.user.destroy',
+        'uses'       => 'admin\UserController@ajaxDestroy',
     ]);
 
     // --------------------------------------------------------------
