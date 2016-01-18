@@ -1,5 +1,7 @@
-modal = null;
-ajax  = null;
+"use strict";
+
+window.modal = null;
+window.ajax  = null;
 
 Ajax = function () {
 };
@@ -78,9 +80,9 @@ Modal.prototype.ajax = function (url, options) {
     self    = this;
     options = $.extend({}, Modal.default.ajaxOpen, options);
 
-    self.open(options.loadingModalContent, {
-        size: 'sm'
-    });
+//    self.open(options.loadingModalContent, {
+//        size: 'sm'
+//    });
 
     jqXHR = ajax.ajax(url, options.ajax);
 
@@ -104,11 +106,6 @@ Modal.prototype.open = function (content, options) {
         keyboard: false
     });
 };
-
-/** @type {Ajax} */
-ajax = new Ajax();
-/** @type {Modal} */
-modal = new Modal();
 
 (function ($) {
     'use strict';
@@ -172,6 +169,11 @@ modal = new Modal();
 
     $(document).ready(function () {
         var pageHeaderTopOffset;
+
+        /** @type {Ajax} */
+        window.ajax = new Ajax();
+        /** @type {Modal} */
+        window.modal = new Modal();
 
         if ($.fn.scrollspy) {
             pageHeaderTopOffset = $('.page-header').outerHeight(true) + $('.wiki-page-header').outerHeight(true);
