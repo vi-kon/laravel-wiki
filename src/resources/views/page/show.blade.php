@@ -128,9 +128,9 @@
 
     <div class="row">
         <div class="col-md-9" style="margin-right: -1px; border-right: 1px solid #eee;">
-            {!!$page->content!!}
+            {!! $page->content !!}
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3 hidden-sm">
             <div class="wiki-page-toc">
                 <strong class="lead">@lang('wiki::page/show.toc.title')</strong>
                 <div class="wiki-navbar-toc">
