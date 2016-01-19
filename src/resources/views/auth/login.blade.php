@@ -21,7 +21,7 @@
                        ]) !!}
 
         <div class="form-group">
-            <div class="col-sm-offset-3 col-sm-9">
+            <div class="col-md-offset-3 col-md-9">
 
                 <button type="submit" class="btn btn-primary" data-index="3">
                     @lang('wiki::auth/login.btn.login.content')

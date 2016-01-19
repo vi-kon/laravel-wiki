@@ -64,12 +64,12 @@
     <div id="top" class="container">
         <header class="page-header">
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col-md-6">
                     <h1 class="wiki-page-header">
                         <a href="{!! route('home') !!}">{!! config_db('wiki::title') !!}</a>
                     </h1>
                 </div>
-                <div class="col-sm-6 text-right">
+                <div class="col-md-6 text-right">
                     <ul>
                         @if(app(\ViKon\Auth\Guard::class)->check())
 
@@ -99,7 +99,7 @@
                     </ul>
                 </div>
 
-                <div class="col-sm-6 text-right search-form valign-bottom">
+                <div class="col-md-6 text-right search-form valign-bottom">
 
                     <form method="get" class="form-inline" role="search">
 

@@ -3,13 +3,13 @@
 
 @section('content')
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-md-12">
             <h1>@lang('wiki::admin/home/index.header.title')</h1>
         </div>
     </div>
     <hr/>
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col-md-6">
             <div class="list-group">
 
                 @if(app(\ViKon\Auth\Guard::class)->hasRole('admin.user.index'))

@@ -13,7 +13,7 @@
 
 @section('body')
     <div class="row wiki-history">
-        <div class="col-sm-4">
+        <div class="col-md-4">
             <div class="list-group">
                 @foreach($contents as $content)
                     <a href="#diff-{{$content['content']->id}}" class="list-group-item">
@@ -30,7 +30,7 @@
                 @endforeach
             </div>
         </div>
-        <div class="col-sm-8">
+        <div class="col-md-8">
             @foreach($contents as $content)
                 <div id="diff-{{$content['content']->id}}" class="wiki-history-diff">
                     @foreach($content['diff']->getGroups() as $i => $group)

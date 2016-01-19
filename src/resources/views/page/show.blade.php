@@ -26,7 +26,7 @@
 
 @section('content')
     <div class="row wiki-page-title">
-        <div class="col-sm-6">
+        <div class="col-md-6">
             <h1 id="{{$titleId}}" style="position: relative;">
                 {{$page->title}}
                 <div class="btn-group visible-xs" style="position: absolute; right: 0; top: 0;">
@@ -77,7 +77,7 @@
                 </div>
             </h1>
         </div>
-        <div class="col-sm-6 text-right valign-bottom">
+        <div class="col-md-6 text-right valign-bottom">
             <p>
                 @lang('wiki::page/show.header.last_modified', ['date' => $page->lastContent()->created_at->toATOMString()])
             </p>
@@ -127,10 +127,10 @@
     @endif
 
     <div class="row">
-        <div class="col-sm-9" style="margin-right: -1px; border-right: 1px solid #eee;">
+        <div class="col-md-9" style="margin-right: -1px; border-right: 1px solid #eee;">
             {!!$page->content!!}
         </div>
-        <div class="col-sm-3">
+        <div class="col-md-3">
             <div class="wiki-page-toc">
                 <strong class="lead">@lang('wiki::page/show.toc.title')</strong>
                 <div class="wiki-navbar-toc">

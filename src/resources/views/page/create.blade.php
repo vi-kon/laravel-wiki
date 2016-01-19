@@ -119,10 +119,10 @@
 
 @section('content')
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col-md-6">
             <h1>@lang('wiki::page/create.title')</h1>
         </div>
-        <div class="col-sm-6 text-right valign-bottom">
+        <div class="col-md-6 text-right valign-bottom">
             <p class="draft-saved-at">
                 @lang('wiki::page/create.form.alert.saved-draft.content', ['time' => '<time datetime="' . $userDraft->created_at->toATOMString(). '"></time>'])
             </p>
@@ -152,7 +152,7 @@
     </div>
     <hr/>
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-md-12">
             @if($draftExists)
                 <p class="alert alert-info">
                     @lang('wiki::page/create.form.alert.draft-exists.content')
