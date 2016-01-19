@@ -93,7 +93,10 @@ class WikiParser
         $renderer = new Renderer();
 
         $markdownSet = new MarkdownRuleSet();
-        $markdownSet->init($parser, $lexer, $renderer);
+        $markdownSet->init($parser, $lexer);
+
+        $bootstrapSkin = new BootstrapSkin();
+        $bootstrapSkin->init($parser, $renderer);
 
         $events = [
             'vikon.parser.token.render.' . HeaderSetextRule::NAME,
