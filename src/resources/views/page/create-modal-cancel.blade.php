@@ -1,5 +1,6 @@
-@extends('bootstrap::modal/modal')
+@extends('vi-kon.bootstrap::modal.modal-form')
 
+<?php $onlyContent = true ?>
 
 @section('title')
     <i class="icon-io-bin2"></i>
@@ -15,15 +16,13 @@
 
 
 @section('footer')
-    <div class="modal-footer">
-        <button type="button" class="btn btn-danger btn-submit"
-                data-loading-text="@lang('wiki::page/create.modal.cancel.btn.yes.loading')">
-            @lang('wiki::page/create.modal.cancel.btn.yes.content')
-        </button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal">
-            @lang('wiki::page/create.modal.cancel.btn.no.content')
-        </button>
-    </div>
+    <button type="button" class="btn btn-danger btn-submit"
+            data-loading-text="@lang('wiki::page/create.modal.cancel.btn.yes.loading')">
+        @lang('wiki::page/create.modal.cancel.btn.yes.content')
+    </button>
+    <button type="button" class="btn btn-primary" data-dismiss="modal">
+        @lang('wiki::page/create.modal.cancel.btn.no.content')
+    </button>
 @overwrite
 
 
