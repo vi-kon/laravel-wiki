@@ -28,10 +28,13 @@ return [
             ],
         ],
         'field' => [
-            'title' => [
+            'title'   => [
                 'label' => 'Title',
             ],
-            'note'  => [
+            'content' => [
+                'label' => 'Content',
+            ],
+            'note'    => [
                 'label' => 'Comment',
             ],
         ],

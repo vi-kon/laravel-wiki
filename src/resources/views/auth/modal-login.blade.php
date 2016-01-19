@@ -1,7 +1,6 @@
-<?php $formAction = route('ajax.modal.auth.login'); ?>
-
 @extends('vi-kon.bootstrap::modal.modal-form')
 
+<?php $formAction = route('ajax.modal.auth.login'); ?>
 <?php $onlyContent = true ?>
 
 @section('title')

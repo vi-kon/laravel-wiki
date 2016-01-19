@@ -11,7 +11,7 @@
 
 
 @section('body')
-    <div class="alert alert-success">
+    <div class="alert alert-success" role="alert">
         @lang('wiki::auth/login.modal.login.form.alert.success.content')
     </div>
 @overwrite
