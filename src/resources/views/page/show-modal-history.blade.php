@@ -1,4 +1,7 @@
-@extends('bootstrap::modal/modal')
+@extends('vi-kon.bootstrap::modal.modal')
+
+
+<?php $onlyContent = true ?>
 
 
 @section('title')

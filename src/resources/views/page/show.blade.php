@@ -118,11 +118,12 @@
     <hr/>
 
     @if($message)
-        @include('bootstrap::alert/alert', [
-                        'type'        => 'success',
-                        'message'     => $message,
-                        'dismissible' => true,
-                    ])
+        <div class="alert alert-success" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            {!! $message !!}
+        </div>
     @endif
 
     <div class="row">
@@ -133,7 +134,7 @@
             <div class="wiki-page-toc">
                 <strong class="lead">@lang('wiki::page/show.toc.title')</strong>
                 <div class="wiki-navbar-toc">
-                    {!!WikiHtml::toc($page->toc, ['class' => 'nav'])!!}
+                    {!! app('html.wiki')->toc($page->toc, ['class' => 'nav']) !!}
                     <ul class="nav">
                         <li><a href="#top">@lang('wiki::page/show.toc.backToTop')</a></li>
                     </ul>

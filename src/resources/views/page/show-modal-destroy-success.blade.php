@@ -1,5 +1,6 @@
-@extends('bootstrap::modal/modal-alert')
+@extends('vi-kon.bootstrap::modal.modal')
 
+<?php $onlyContent = true ?>
 
 @section('title')
     <i class="icon-io-folder"></i>
@@ -7,14 +8,10 @@
     @lang('wiki::page/show.modal.destroy-success.title')
 @overwrite
 
-
-@section('type')
-    alert-success
-@overwrite
-
-
-@section('message')
-    @lang('wiki::page/show.modal.destroy-success.content', ['title', $title])
+@section('body')
+    <div class="alert alert-success" role="alert">
+        @lang('wiki::page/show.modal.destroy-success.content', ['title', $title])
+    </div>
 @overwrite
 
 @section('append')

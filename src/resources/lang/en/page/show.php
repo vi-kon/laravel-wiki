@@ -26,11 +26,11 @@ return [
         ],
     ],
     'modal'  => [
-        'history'      => [
+        'history'         => [
             'title' => 'History',
             'lines' => 'Hunk :hunk : Lines :lines',
         ],
-        'move'         => [
+        'move'            => [
             'title' => 'Move page',
             'form'  => [
                 'field' => [
@@ -52,11 +52,11 @@ return [
                 ],
             ],
         ],
-        'move-success' => [
+        'move-success'    => [
             'title'   => 'Move page',
             'content' => 'Page successfully moved from <strong>:source</strong> to <strong>:destination</strong>',
         ],
-        'destroy'      => [
+        'destroy'         => [
             'title'    => 'Delete page',
             'question' => 'Delete page with their content?',
             'note'     => 'This action cannot undone.',
@@ -69,6 +69,10 @@ return [
                     'content' => 'No',
                 ],
             ],
+        ],
+        'destroy-success' => [
+            'title'   => 'Delete page',
+            'content' => 'Page successfully deleted',
         ],
     ],
 ];
