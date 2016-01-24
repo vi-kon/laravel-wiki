@@ -31,6 +31,14 @@ class Page extends Model
 {
     use SoftDeletes;
 
+    const FIELD_ID      = 'id';
+    const FIELD_URL     = 'url';
+    const FIELD_TYPE    = 'type';
+    const FIELD_TITLE   = 'title';
+    const FIELD_TOC     = 'toc';
+    const FIELD_CONTENT = 'content';
+    const FIELD_DRAFT   = 'draft';
+
     const TYPE_MARKDOWN = 'markdown';
 
     /**
@@ -54,6 +62,7 @@ class Page extends Model
     {
         parent::boot();
 
+        // Trigger delete all contents if page is deleted
         static::deleted(function (Page $page) {
             $page->contents()->delete();
         });

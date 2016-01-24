@@ -35,6 +35,15 @@ class PageContent extends Model
 {
     use SoftDeletes;
 
+    const FIELD_ID                 = 'id';
+    const FIELD_TITLE              = 'title';
+    const FIELD_CONTENT            = 'content';
+    const FIELD_VIEWS              = 'views';
+    const FIELD_DRAFT              = 'draft';
+    const FIELD_PAGE_ID            = 'page_id';
+    const FIELD_CREATED_BY_USER_ID = 'created_by_user_id';
+    const FIELD_CREATED_AT         = 'created_by';
+
     /**
      *
      * Disable updated_at and created_at columns
@@ -57,6 +66,7 @@ class PageContent extends Model
         ];
 
         parent::__construct($attributes);
+
         $this->created_at = new Carbon();
     }
 
