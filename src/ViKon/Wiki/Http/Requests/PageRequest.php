@@ -3,7 +3,7 @@
 namespace ViKon\Wiki\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use ViKon\Auth\Guard;
+use ViKon\Auth\Helper\FormRequestRouteAuthorizer;
 
 /**
  * Class PageRequest
@@ -14,16 +14,7 @@ use ViKon\Auth\Guard;
  */
 class PageRequest extends FormRequest
 {
-
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return $this->container->make(Guard::class)->check();
-    }
+    use FormRequestRouteAuthorizer;
 
     /**
      * Get the validation rules that apply to the request.

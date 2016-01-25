@@ -4,6 +4,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Factory as ValidationFactory;
 use Illuminate\Validation\Validator;
 use ViKon\Auth\Guard;
+use ViKon\Auth\Helper\FormRequestRouteAuthorizer;
 
 /**
  * Class LoginRequest
@@ -14,15 +15,7 @@ use ViKon\Auth\Guard;
  */
 class LoginRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return !app(Guard::class)->check();
-    }
+    use FormRequestRouteAuthorizer;
 
     /**
      * @param \Illuminate\Validation\Factory $factory

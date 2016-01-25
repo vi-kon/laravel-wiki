@@ -4,7 +4,7 @@ namespace ViKon\Wiki\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Factory as ValidationFactory;
-use ViKon\Auth\Guard;
+use ViKon\Auth\Helper\FormRequestRouteAuthorizer;
 
 /**
  * Class PageMoveRequest
@@ -15,15 +15,7 @@ use ViKon\Auth\Guard;
  */
 class PageMoveRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return $this->container->make(Guard::class)->check();
-    }
+    use FormRequestRouteAuthorizer;
 
     /**
      * @param \Illuminate\Validation\Factory $factory
