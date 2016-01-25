@@ -1,6 +1,6 @@
 @extends('vi-kon.bootstrap::modal.modal-form')
 
-<?php $formAction = route('ajax.modal.wiki.move', ['pageId' => $page->id]); ?>
+<?php $formAction = route('ajax.modal.wiki.move', ['pageToken' => $page->getToken()]); ?>
 <?php $onlyContent = true ?>
 
 @section('title')
@@ -11,7 +11,7 @@
 
 
 @section('form')
-    {!! app(\ViKon\Bootstrap\FormBuilder::class)->groupText('source', '/' . $page->url, [
+    {!! app(\ViKon\Bootstrap\FormBuilder::class)->groupText('source', '/' . $page->getUrl(), [
         'label'     => trans('wiki::page/show.modal.move.form.field.source.label'),
         'labelSize' => 3,
         'disabled'  => true,

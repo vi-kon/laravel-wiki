@@ -17,7 +17,7 @@
                 btn.button('loading');
                 autoSaveTimeout = null;
                 editor.save();
-                ajax.ajax('{!!route('ajax.wiki.create.store-draft', ['page' => $page->id])!!}', {
+                ajax.ajax('{!! route('ajax.wiki.create.store-draft', ['pageToken' => $page->getToken()]) !!}', {
                     type            : 'post',
                     data            : $('#field-content').closest('form').serialize(),
                     openModalOnError: false
@@ -60,12 +60,12 @@
                 var form = $('#field-content').closest('form');
 
                 editor.save();
-                ajax.ajax('{!!route('ajax.wiki.create.store', ['page' => $page->id])!!}', {
+                ajax.ajax('{!! route('ajax.wiki.create.store', ['pageToken' => $page->getToken()]) !!}', {
                     type            : 'post',
                     data            : form.serialize(),
                     openModalOnError: false
                 }).done(function () {
-                    window.location.href = "{!!route('wiki.show', ['url' => $page->url])!!}";
+                    {{--window.location.href = "{!! route('wiki.show', ['url' => $page->getUrl()]) !!}";--}}
                 }).fail(function (jqXHR) {
                     var name;
 
@@ -101,7 +101,7 @@
 
             $('.js-btn-preview').click(function () {
                 editor.save();
-                modal.ajax('{!!route('ajax.modal.wiki.create.preview', ['page' => $page->id])!!}', {
+                modal.ajax('{!! route('ajax.modal.wiki.create.preview', ['pageToken' => $page->getToken()]) !!}', {
                     ajax: {
                         type: 'post',
                         data: $('#field-content').closest('form').serialize()
@@ -111,7 +111,7 @@
             });
 
             $('.js-btn-cancel').click(function () {
-                modal.ajax('{!!route('ajax.modal.wiki.create.cancel', ['page' => $page->id])!!}');
+                modal.ajax('{!! route('ajax.modal.wiki.create.cancel', ['pageToken' => $page->getToken()]) !!}');
             });
         })(jQuery);
     </script>
@@ -124,7 +124,7 @@
         </div>
         <div class="col-md-6 text-right valign-bottom">
             <p class="draft-saved-at">
-                @lang('wiki::page/create.form.alert.saved-draft.content', ['time' => '<time datetime="' . $userDraft->created_at->toATOMString(). '"></time>'])
+                @lang('wiki::page/create.form.alert.saved-draft.content', ['time' => '<time datetime="' . $userDraft->getCreatedAt()->toATOMString(). '"></time>'])
             </p>
 
             <div class="btn-group btn-group-sm hidden-xs">
@@ -153,21 +153,21 @@
     <hr/>
     <div class="row">
         <div class="col-md-12">
-            @if($draftExists)
-                <p class="alert alert-info">
-                    @lang('wiki::page/create.form.alert.draft-exists.content')
-                </p>
-            @endif
+            {{--@if($userDraft->getTitle() !== '' || $userDraft->getContent() !== '')--}}
+                {{--<p class="alert alert-info">--}}
+                    {{--@lang('wiki::page/create.form.alert.draft-exists.content')--}}
+                {{--</p>--}}
+            {{--@endif--}}
             <form method="POST">
-                <input type="hidden" name="page_id" value="{{ $page->id }}">
                 {!! csrf_field() !!}
+                <input type="hidden" name="page_token" value="{{ $page->getToken() }}">
 
-                {!! app(\ViKon\Bootstrap\FormBuilder::class)->groupText('title', $userDraft->title, [
+                {!! app(\ViKon\Bootstrap\FormBuilder::class)->groupText('title', $userDraft->getTitle(), [
                     'label'     => trans('wiki::page/create.form.field.title.label'),
                     'vertical'  => true,
                 ]) !!}
 
-                {!! app(\ViKon\Bootstrap\FormBuilder::class)->groupTextarea('content', $userDraft->content, [
+                {!! app(\ViKon\Bootstrap\FormBuilder::class)->groupTextarea('content', $userDraft->getRawContent(), [
                     'label'    => trans('wiki::page/create.form.field.content.label'),
                     'vertical' => true,
                     'field'    => [

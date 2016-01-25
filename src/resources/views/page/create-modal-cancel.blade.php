@@ -31,13 +31,13 @@
         (function ($) {
             var modal = $('#modal');
             modal.find('.modal-footer').find('.btn-danger').on('click', function () {
-                ajax.ajax('{{route('ajax.modal.wiki.create.cancel', ['page' => $page->id])}}', {
+                ajax.ajax('{{ route('ajax.modal.wiki.create.cancel', ['pageToken' => $page->getToken()]) }}', {
                     type: 'post',
                     data: {
-                        _token: '{{csrf_token()}}'
+                        _token: '{{ csrf_token() }}'
                     }
                 }).done(function () {
-                    window.location.href = "{{route('wiki.show', ['url' => $page->url])}}";
+                    window.location.href = "{{ route('wiki.show', ['url' => $page->getUrl()]) }}";
                 });
             });
         })(jQuery);

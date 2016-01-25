@@ -5,19 +5,19 @@
     <script type="text/javascript">
         (function ($) {
             $('.js-btn-page-history').click(function () {
-                modal.ajax('{!!route('ajax.modal.wiki.history', ['page' => $page->id])!!}', {size: 'lg'});
+                modal.ajax('{!! route('ajax.modal.wiki.history', ['pageToken' => $page->getToken()]) !!}', {size: 'lg'});
             });
 
             $('.js-btn-page-link').click(function () {
-                modal.ajax('{!!route('ajax.modal.wiki.link', ['page' => $page->id])!!}');
+                modal.ajax('{!! route('ajax.modal.wiki.link', ['pageToken' => $page->getToken()]) !!}');
             });
 
             $('.js-btn-page-move').click(function () {
-                modal.ajax('{!!route('ajax.modal.wiki.move', ['page' => $page->id])!!}');
+                modal.ajax('{!! route('ajax.modal.wiki.move', ['pageToken' => $page->getToken()]) !!}');
             });
 
             $('.js-btn-page-destroy').click(function () {
-                modal.ajax('{!!route('ajax.modal.wiki.destroy', ['page' => $page->id])!!}');
+                modal.ajax('{!! route('ajax.modal.wiki.destroy', ['pageToken' => $page->getToken()]) !!}');
             });
         }(jQuery));
     </script>
@@ -28,7 +28,7 @@
     <div class="row wiki-page-title">
         <div class="col-md-6">
             <h1 id="{{$titleId}}" style="position: relative;">
-                {{$page->title}}
+                {{$page->getTitle()}}
                 <div class="btn-group visible-xs" style="position: absolute; right: 0; top: 0;">
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                         <i class="icon-io-menu2"></i>
@@ -36,7 +36,7 @@
                     <ul class="dropdown-menu dropdown-menu-right" role="menu">
                         @if($editable)
                             <li>
-                                <a href="{!!route('wiki.edit', ['url' => $page->url])!!}">
+                                <a href="{!! route('wiki.edit', ['url' => $page->getUrl()]) !!}">
                                     <i class="icon-io-pencil"></i>
                                     &nbsp;@lang('wiki::page/show.btn.edit.content')
                                 </a>
@@ -79,11 +79,11 @@
         </div>
         <div class="col-md-6 text-right valign-bottom">
             <p>
-                @lang('wiki::page/show.header.last_modified', ['date' => $page->lastContent()->created_at->toATOMString()])
+                @lang('wiki::page/show.header.last_modified', ['date' => $page->getLastContent()->getCreatedAt()->toATOMString()])
             </p>
             <div class="btn-group btn-group-sm hidden-xs">
                 @if($editable)
-                    <a href="{!!route('wiki.edit', ['url' => $page->url])!!}" class="btn btn-primary">
+                    <a href="{!! route('wiki.edit', ['url' => $page->getUrl()]) !!}" class="btn btn-primary">
                         <i class="icon-io-pencil"></i>
                         <span class="hidden-sm">&nbsp;@lang('wiki::page/show.btn.edit.content')</span>
                     </a>
@@ -128,13 +128,13 @@
 
     <div class="row">
         <div class="col-md-9" style="margin-right: -1px; border-right: 1px solid #eee;">
-            {!! $page->content !!}
+            {!! $page->getContent() !!}
         </div>
         <div class="col-md-3 hidden-sm">
             <div class="wiki-page-toc">
                 <strong class="lead">@lang('wiki::page/show.toc.title')</strong>
                 <div class="wiki-navbar-toc">
-                    {!! app('html.wiki')->toc($page->toc, ['class' => 'nav']) !!}
+                    {!! app('html.wiki')->toc($page->getToc(), ['class' => 'nav']) !!}
                     <ul class="nav">
                         <li><a href="#top">@lang('wiki::page/show.toc.backToTop')</a></li>
                     </ul>

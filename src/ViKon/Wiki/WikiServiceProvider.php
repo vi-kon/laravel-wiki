@@ -2,12 +2,13 @@
 
 namespace ViKon\Wiki;
 
+use Illuminate\Contracts\Container\Container;
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 use ViKon\Auth\Model\User;
 use ViKon\Wiki\Command\InstallCommand;
 use ViKon\Wiki\Command\SetupCommand;
-use ViKon\Wiki\Model\Page;
+use ViKon\Wiki\Parser\WikiParser;
 
 /**
  * Class WikiServiceProvider
@@ -56,6 +57,14 @@ class WikiServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->singleton(WikiEngine::class, function (Container $container) {
+            return new WikiEngine($container);
+        });
+
+        $this->app->singleton(WikiParser::class, function (Container $container) {
+            return new WikiParser($container);
+        });
+
         $this->app->singleton('html.wiki', 'ViKon\Wiki\WikiHtmlBuilder');
 
         $this->mergeConfigFrom(__DIR__ . '/../../config/config.php', 'wiki');
@@ -67,6 +76,8 @@ class WikiServiceProvider extends ServiceProvider
     public function provides()
     {
         return [
+            WikiEngine::class,
+            WikiParser::class,
             'html.wiki',
         ];
     }
@@ -91,9 +102,18 @@ class WikiServiceProvider extends ServiceProvider
 
         $router->pattern('url', '.+');
 
-        $router->pattern('pageId', '\d+');
-        $router->model('pageId', Page::class, function () {
-            abort(404);
+        $router->pattern('pageToken', '\[a-z0-9]+');
+        $router->bind('pageToken', function ($token) {
+            $repository = $this->app->make(WikiEngine::class)->repository();
+
+            $page = $repository->pageByToken($token);
+
+            // Throw 404 error if page not found by token
+            if ($page === null) {
+                abort(404);
+            }
+
+            return $page;
         });
 
         $router->pattern('userId', '\d+');

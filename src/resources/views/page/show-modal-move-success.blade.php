@@ -10,12 +10,12 @@
 
 @section('body')
     <div class="alert alert-success" role="alert">
-        @lang('wiki::page/show.modal.move-success.content', ['source' => $source, 'destination' => $page->url])
+        @lang('wiki::page/show.modal.move-success.content', ['source' => $source, 'destination' => $page->getUrl()])
     </div>
 @overwrite
 
 @section('append')
     <script type="text/javascript">
-        history.replaceState(null, '{{$page->title}}', '{{route('wiki.show', ['url' => $page->url])}}');
+        history.replaceState(null, '{{ $page->getTitle() }}', '{!! route('wiki.show', ['url' => $page->getUrl()]) !!}');
     </script>
 @append

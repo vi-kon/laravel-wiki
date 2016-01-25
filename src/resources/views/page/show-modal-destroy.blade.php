@@ -1,6 +1,6 @@
 @extends('vi-kon.bootstrap::modal.modal-form')
 
-<?php $formAction = route('ajax.modal.wiki.destroy', ['pageId' => $page->id]); ?>
+<?php $formAction = route('ajax.modal.wiki.destroy', ['pageToken' => $page->getToken()]); ?>
 <?php $onlyContent = true ?>
 
 @section('title')

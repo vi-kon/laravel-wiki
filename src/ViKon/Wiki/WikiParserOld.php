@@ -22,7 +22,7 @@ use ViKon\ParserMarkdown\Skin\BootstrapSkin;
  *
  * @author  Kovács Vince<vincekovacs@hotmail.com>
  */
-class WikiParser
+class WikiParserOld
 {
     protected $urls = [];
 

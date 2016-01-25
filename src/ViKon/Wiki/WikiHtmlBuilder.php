@@ -21,7 +21,7 @@ class WikiHtmlBuilder extends HtmlBuilder
      *
      * @return string
      */
-    public function toc($list, array $attributes = [])
+    public function toc(array $list, array $attributes = [])
     {
         return $this->tocListing('ul', $list, $attributes);
     }
@@ -69,7 +69,7 @@ class WikiHtmlBuilder extends HtmlBuilder
         if (is_array($value)) {
             return $this->tocNestedListing($key, $type, $value);
         } else {
-            return '<li>' . $value . '</li>';
+            return '<li><a href="#' . WikiParserOld::generateId($value) . '">' . $value . '</a></li>';
         }
     }
 
@@ -87,7 +87,7 @@ class WikiHtmlBuilder extends HtmlBuilder
         if (is_int($key)) {
             return $this->tocListing($type, $value, ['class' => 'nav']);
         } else {
-            return '<li>' . $key . $this->tocListing($type, $value, ['class' => 'nav']) . '</li>';
+            return '<li><a href="#' . WikiParserOld::generateId($key) . '">' . $key . '</a>' . $this->tocListing($type, $value, ['class' => 'nav']) . '</li>';
         }
     }
 }

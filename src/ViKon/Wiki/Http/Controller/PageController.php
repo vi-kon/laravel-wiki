@@ -2,15 +2,15 @@
 
 namespace ViKon\Wiki\Http\Controller;
 
-use Carbon\Carbon;
-use Illuminate\Database\DatabaseManager;
 use Illuminate\Http\Request;
+use Illuminate\Session\SessionManager;
 use ViKon\Auth\Guard;
 use ViKon\Diff\Diff;
+use ViKon\Wiki\Contract\Page;
 use ViKon\Wiki\Http\Requests\PageMoveRequest;
-use ViKon\Wiki\Model\Page;
-use ViKon\Wiki\Model\PageContent;
-use ViKon\Wiki\WikiParser;
+use ViKon\Wiki\Parser\WikiParser;
+use ViKon\Wiki\WikiEngine;
+use ViKon\Wiki\WikiParserOld;
 
 /**
  * Class PageController
@@ -30,13 +30,14 @@ class PageController extends BaseController
      */
     public function show($url = '')
     {
-        /** @type \ViKon\Wiki\Model\Page $page */
-        $page = Page::where('url', $url)->first();
+        $session    = $this->container->make(SessionManager::class)->driver();
+        $guard      = $this->container->make(Guard::class);
+        $repository = $this->container->make(WikiEngine::class)->repository();
 
-        $guard = app(Guard::class);
+        $page = $repository->page($url);
 
-        if ($page !== null && !$page->draft) {
-            $titleId = WikiParser::generateId($page->title);
+        if ($page->isPublished()) {
+            $titleId = WikiParserOld::generateId($page->getTitle());
 
             $editable    = $guard->hasPermission('wiki.edit');
             $movable     = $guard->hasPermission('wiki.move');
@@ -47,128 +48,79 @@ class PageController extends BaseController
                 ->with('movable', $movable)
                 ->with('destroyable', $destroyable)
                 ->with('titleId', $titleId)
-                ->with('message', $this->container->make('session')->get('message', null))
+                ->with('message', $session->get('message', null))
                 ->with('page', $page);
         }
 
         $creatable = $guard->hasPermission('wiki.create');
 
         return view(config('wiki.views.page.not-exists'))
-            ->with('url', $url)
+            ->with('page', $page)
             ->with('creatable', $creatable);
     }
 
     /**
-     * @param \Illuminate\Database\DatabaseManager $db
-     * @param string                               $url
+     * @param string $url
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
-    public function create(DatabaseManager $db, $url = '')
+    public function create($url = '')
     {
-        /** @type \ViKon\Wiki\Model\Page $page */
-        $page = Page::where('url', $url)
-                    ->first();
+        $repository = $this->container->make(WikiEngine::class)->repository();
 
-        if ($page !== null && !$page->draft) {
+        $page = $repository->page($url);
+
+        if ($page->isPublished()) {
             return redirect()->route('wiki.edit', ['url' => $url]);
         }
 
-        $draftExists = true;
-        $page        = $db->connection()->transaction(function () use ($url, $page, &$draftExists) {
-            if ($page === null) {
-                $page      = new Page();
-                $page->url = $url;
-                $page->save();
-            }
-
-            if (($pageContent = $page->userDraft()) === null) {
-                $pageContent                     = new PageContent();
-                $pageContent->draft              = true;
-                $pageContent->created_by_user_id = app(Guard::class)->id();
-                $page->contents()->save($pageContent);
-
-                $draftExists = false;
-            }
-
-            return $page;
-        });
-        $userDraft   = $page->userDraft();
-        $lastContent = $page->lastContent();
+        $userDraft = $page->getDraftForCurrentUser();
 
         return view(config('wiki.views.page.create'))
             ->with('page', $page)
-            ->with('draftExists', $draftExists)
-            ->with('userDraft', $userDraft)
-            ->with('lastContent', $lastContent);
+            ->with('userDraft', $userDraft);
+
     }
 
     /**
      * Show page edit
      *
-     * @param \Illuminate\Database\DatabaseManager $db
-     * @param string                               $url
+     * @param string $url
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
      * @throws \Exception
      */
-    public function edit(DatabaseManager $db, $url = '')
+    public function edit($url = '')
     {
-        /** @var Page $page */
-        $page = Page::where('url', $url)->first();
+        $repository = $this->container->make(WikiEngine::class)->repository();
 
-        if ($page === null || $page->draft) {
+        $page = $repository->page($url);
+
+        if ($page->isDraft()) {
             return redirect()->route('wiki.create', ['url' => $url]);
         }
 
-        $draftExists = true;
-        $lastContent = $page->lastContent();
-        $db->connection()->transaction(function () use ($url, $page, $lastContent, &$draftExists) {
-
-            if (($pageContent = $page->userDraft()) === null) {
-                $pageContent                     = new PageContent();
-                $pageContent->title              = $lastContent->title;
-                $pageContent->content            = $lastContent->content;
-                $pageContent->draft              = true;
-                $pageContent->created_by_user_id = app(Guard::class)->id();
-                $page->contents()->save($pageContent);
-
-                $draftExists = false;
-            }
-        });
-
-        $userDraft = $page->userDraft();
+        $userDraft = $page->getDraftForCurrentUser();
 
         return view(config('wiki.views.page.edit'))
             ->with('page', $page)
-            ->with('draftExists', $draftExists)
-            ->with('userDraft', $userDraft)
-            ->with('lastContent', $lastContent);
+            ->with('userDraft', $userDraft);
     }
 
     /**
      * Handle draft save request
      *
-     * @param \ViKon\Wiki\Model\Page   $page
-     * @param \Illuminate\Http\Request $request
+     * @param \ViKon\Wiki\Contract\Page $page
+     * @param \Illuminate\Http\Request  $request
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function ajaxStoreDraft(Page $page, Request $request)
     {
-        $draftPageContent = $page->userDraft();
+        $draftPageContent = $page->getDraftForCurrentUser();
 
-        if ($draftPageContent === null) {
-            $draftPageContent                     = new PageContent();
-            $draftPageContent->page_id            = $page->id;
-            $draftPageContent->created_by_user_id = $this->container->make(Guard::class)->id();
-            $draftPageContent->draft              = true;
-        }
-
-        $draftPageContent->title      = $request->get('title', '');
-        $draftPageContent->content    = $request->get('content', '');
-        $draftPageContent->created_at = new Carbon();
-
+        $draftPageContent->setTitle($request->get('title', ''));
+        $draftPageContent->setRawContent($request->get('content', ''));
         $draftPageContent->save();
 
         return response()->json();
@@ -177,53 +129,35 @@ class PageController extends BaseController
     /**
      * Handle page store request
      *
-     * @param \Illuminate\Database\DatabaseManager $db
-     * @param \ViKon\Wiki\Model\Page               $page
-     * @param \Illuminate\Http\Request             $request
+     * @param \ViKon\Wiki\Contract\Page $page
+     * @param \Illuminate\Http\Request  $request
      *
      * @return \Symfony\Component\HttpFoundation\Response
-     * @throws \Exception
      */
-    public function ajaxStore(DatabaseManager $db, Page $page = null, Request $request)
+    public function ajaxStore(Page $page = null, Request $request)
     {
-        list($content, $toc, $urls) = WikiParser::parsePage($request->get('title', ''), $request->get('content', ''));
+        $session = $this->container->make(SessionManager::class)->driver();
 
-        $absoluteUrl = preg_quote(route('wiki.show') . '/', '/');
-        $relativeUrl = preg_quote(str_replace(url('/'), '', route('wiki.show')) . '/', '/');
+//        list($content, $toc, $urls) = WikiParserOld::parsePage($request->get('title', ''), $request->get('content', ''));
 
-        foreach ($urls as $url) {
-            if (preg_match('/^(?:' . $absoluteUrl . '|' . $relativeUrl . ')/', $url)) {
-                // TODO
-            }
-        }
+//        $absoluteUrl = preg_quote(route('wiki.show') . '/', '/');
+//        $relativeUrl = preg_quote(str_replace(url('/'), '', route('wiki.show')) . '/', '/');
 
-        $db->connection()->transaction(function () use ($page, $toc, $content, $request) {
+//        foreach ($urls as $url) {
+//            if (preg_match('/^(?:' . $absoluteUrl . '|' . $relativeUrl . ')/', $url)) {
+//                // TODO
+//            }
+//        }
 
-            $page->toc     = $toc;
-            $page->title   = $request->get('title', '');
-            $page->content = $content;
-            $page->draft   = false;
-            $page->save();
+//        $page->setToc($toc);
 
-            $userDraft = $page->userDraft();
+        $userDraft = $page->getDraftForCurrentUser();
+        $userDraft->setTitle($request->get('title', ''));
+        $userDraft->setRawContent($request->get('content', ''));
 
-            if ($userDraft === null) {
-                $userDraft                     = new PageContent();
-                $userDraft->page_id            = $page->id;
-                $userDraft->created_by_user_id = $this->container->make(Guard::class)->id();
-            }
+        $userDraft->publish();
 
-            $userDraft->draft      = false;
-            $userDraft->title      = trim($request->get('title', ''));
-            $userDraft->content    = $request->get('content', '');
-            $userDraft->created_at = new Carbon();
-
-            $page->contents()
-                 ->save($userDraft);
-        });
-
-        $this->container->make('session')
-                        ->flash('message', trans('wiki::page/create.alert.saved.content'));
+        $session->flash('message', trans('wiki::page/create.alert.saved.content'));
 
         return response()->json();
     }
@@ -231,24 +165,24 @@ class PageController extends BaseController
     /**
      * Show preview modal dialog
      *
-     * @param \ViKon\Wiki\Model\Page   $page
-     * @param \Illuminate\Http\Request $request
+     * @param \ViKon\Wiki\Contract\Page $page
+     * @param \Illuminate\Http\Request  $request
      *
      * @return \Illuminate\View\View
      */
     public function ajaxModalPreview(Page $page, Request $request)
     {
-        $content = WikiParser::parseContent($request->get('content', ''));
+        $content = WikiParserOld::parseContent($request->get('content', ''));
 
         return view(config('wiki.views.page.modal.preview'))
             ->with('content', $content)
-            ->with('url', $page->url);
+            ->with('url', $page->getUrl());
     }
 
     /**
      * Show cancel modal dialog
      *
-     * @param \ViKon\Wiki\Model\Page $page
+     * @param \ViKon\Wiki\Contract\Page $page
      *
      * @return \Illuminate\View\View
      */
@@ -261,20 +195,17 @@ class PageController extends BaseController
     /**
      * Handle cancel request
      *
-     * @param \ViKon\Wiki\Model\Page $page
+     * @param \ViKon\Wiki\Contract\Page $page
      *
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      */
     public function ajaxCancel(Page $page)
     {
-        if ($page->userDraft() !== null) {
-            $page->userDraft()
-                 ->delete();
-        }
+        $page->getDraftForCurrentUser()->delete();
 
-        $this->make('session')
-             ->flash('message', trans('wiki::page/create.alert.cancelled.content'));
+        $this->container->make(SessionManager::class)->driver()
+                        ->flash('message', trans('wiki::page/create.alert.cancelled.content'));
 
         return response()->json();
     }
@@ -282,16 +213,13 @@ class PageController extends BaseController
     /**
      * Show history modal dialog
      *
-     * @param \ViKon\Wiki\Model\Page $page
+     * @param \ViKon\Wiki\Contract\Page $page
      *
      * @return \Illuminate\View\View
      */
     public function ajaxModalHistory(Page $page)
     {
-        $contents = $page->contents()
-                         ->where('draft', false)
-                         ->orderBy('created_at', 'desc')
-                         ->get();
+        $contents = $page->getHistory();
 
         $oldContent = '';
         for ($i = $contents->count() - 1; $i >= 0; $i--) {
@@ -311,7 +239,7 @@ class PageController extends BaseController
     /**
      * Show move modal dialog
      *
-     * @param \ViKon\Wiki\Model\Page $page
+     * @param \ViKon\Wiki\Contract\Page $page
      *
      * @return \Illuminate\View\View
      */
@@ -324,16 +252,16 @@ class PageController extends BaseController
     /**
      * Handle move request
      *
-     * @param \ViKon\Wiki\Model\Page                    $page
+     * @param \ViKon\Wiki\Contract\Page                 $page
      * @param \ViKon\Wiki\Http\Requests\PageMoveRequest $request
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function ajaxMove(Page $page, PageMoveRequest $request)
     {
-        $source = $page->url;
+        $source = $page->getUrl();
 
-        $page->url = $request->get('destination');
+        $page->setUrl($request->get('destination'));
         $page->save();
 
         return view(config('wiki.views.page.modal.move-success'))
@@ -342,7 +270,7 @@ class PageController extends BaseController
     }
 
     /**
-     * @param \ViKon\Wiki\Model\Page $page
+     * @param \ViKon\Wiki\Contract\Page $page
      *
      * @return \Illuminate\View\View
      */
@@ -353,7 +281,7 @@ class PageController extends BaseController
     }
 
     /**
-     * @param \ViKon\Wiki\Model\Page $page
+     * @param \ViKon\Wiki\Contract\Page $page
      *
      * @return \Illuminate\View\View
      *
@@ -361,8 +289,8 @@ class PageController extends BaseController
      */
     public function ajaxDestroy(Page $page)
     {
-        $title = $page->title;
-        $url   = $page->url;
+        $title = $page->getTitle();
+        $url   = $page->getUrl();
         $page->delete();
 
         return view(config('wiki.views.page.modal.destroy-success'))
