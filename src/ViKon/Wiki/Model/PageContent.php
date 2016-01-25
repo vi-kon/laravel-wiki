@@ -42,7 +42,7 @@ class PageContent extends Model
     const FIELD_DRAFT              = 'draft';
     const FIELD_PAGE_ID            = 'page_id';
     const FIELD_CREATED_BY_USER_ID = 'created_by_user_id';
-    const FIELD_CREATED_AT         = 'created_by';
+    const FIELD_CREATED_AT         = 'created_at';
 
     /**
      *
@@ -59,6 +59,11 @@ class PageContent extends Model
      */
     protected $table = 'wiki_pages_content';
 
+    /**
+     * PageContent constructor.
+     *
+     * @param array $attributes
+     */
     public function __construct(array $attributes = [])
     {
         $this->dates = [
