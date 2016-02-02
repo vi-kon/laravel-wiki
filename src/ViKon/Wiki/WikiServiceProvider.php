@@ -40,10 +40,6 @@ class WikiServiceProvider extends ServiceProvider
                              __DIR__ . '/../../database/migrations/' => base_path('/database/migrations'),
                          ], 'migrations');
 
-        $this->publishes([
-                             __DIR__ . '/../../database/seeds/' => base_path('/database/seeds'),
-                         ], 'seeds');
-
         $this->commands([
                             InstallCommand::class,
                             SetupCommand::class,
@@ -91,15 +87,6 @@ class WikiServiceProvider extends ServiceProvider
     {
         $router = $this->app->make(Router::class);
 
-        if (!$this->app->make('app')->routesAreCached()) {
-            $attributes = [
-                'namespace' => 'ViKon\\Wiki\\Http\\Controller',
-            ];
-            $router->group($attributes, function () {
-                require __DIR__ . '/Http/routes.php';
-            });
-        }
-
         $router->pattern('url', '.+');
 
         $router->pattern('pageToken', '\[a-z0-9]+');
@@ -120,5 +107,14 @@ class WikiServiceProvider extends ServiceProvider
         $router->model('userId', User::class, function () {
             abort(404);
         });
+
+        if (!$this->app->make('app')->routesAreCached()) {
+            $attributes = [
+                'namespace' => 'ViKon\\Wiki\\Http\\Controller',
+            ];
+            $router->group($attributes, function () {
+                require __DIR__ . '/Http/routes.php';
+            });
+        }
     }
 }
