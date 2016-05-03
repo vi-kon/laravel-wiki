@@ -55,7 +55,7 @@ Required npm packages (`package.json` in project's root directory):
         "gulp-rev": "^7.0.0",
         "gulp-sourcemaps": "^1.6.0",
         "gulp-uglify": "^1.5.3",
-        "less": "^2.6.1"
+        "less": "^2.6.1",
         "rev-del": "^1.0.5",
         "underscore": "^1.8.3"
     },
