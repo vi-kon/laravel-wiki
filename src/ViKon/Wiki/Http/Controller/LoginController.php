@@ -4,7 +4,7 @@ namespace ViKon\Wiki\Http\Controller;
 
 use Illuminate\Http\Request;
 use Illuminate\Session\SessionManager;
-use ViKon\Auth\Guard;
+use ViKon\Auth\Contracts\Keeper;
 use ViKon\Wiki\Http\Requests\LoginRequest;
 
 /**
@@ -24,9 +24,9 @@ class LoginController extends BaseController
      */
     public function login(Request $request)
     {
-        $guard = $this->container->make(Guard::class);
+        $keeper = $this->container->make(Keeper::class);
 
-        if ($guard->check()) {
+        if ($keeper->check()) {
             if ($request->ajax()) {
                 return view(config('wiki.views.auth.modal.logged'));
             }
@@ -46,10 +46,10 @@ class LoginController extends BaseController
      */
     public function logout()
     {
-        $guard = $this->container->make(Guard::class);
+        $keeper = $this->container->make(Keeper::class);
 
-        if ($guard->check()) {
-            $guard->logout();
+        if ($keeper->check()) {
+            $keeper->logout();
         }
 
         return redirect()->home();
@@ -63,9 +63,9 @@ class LoginController extends BaseController
     public function check(LoginRequest $request)
     {
         $session = $this->container->make(SessionManager::class)->driver();
-        $guard   = $this->container->make(Guard::class);
+        $keeper  = $this->container->make(Keeper::class);
 
-        $guard->attempt($request->only('username', 'password'), $request->get('remember', false));
+        $keeper->attempt($request->only('username', 'password'), $request->get('remember', false));
 
         if ($request->ajax() || $request->wantsJson()) {
             $url = $session->pull('url.intended', null);

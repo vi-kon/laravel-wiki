@@ -9,7 +9,7 @@
 namespace ViKon\Wiki\Driver\Eloquent;
 
 use Carbon\Carbon;
-use ViKon\Auth\Guard;
+use ViKon\Auth\Contracts\Keeper;
 use ViKon\Wiki\Contract\Page as PageContract;
 use ViKon\Wiki\Model\Page as PageModel;
 use ViKon\Wiki\Model\PageContent;
@@ -112,7 +112,7 @@ class Page implements PageContract
      */
     public function getLastContent()
     {
-        $guard = app(Guard::class);
+        $keeper = app(Keeper::class);
 
         /** @type \ViKon\Wiki\Model\PageContent|null $pageContent */
         $pageContent = $this->model->contents()
@@ -123,7 +123,7 @@ class Page implements PageContract
         if ($pageContent === null) {
             $pageContent                     = new PageContent();
             $pageContent->draft              = true;
-            $pageContent->created_by_user_id = $guard->id();
+            $pageContent->created_by_user_id = $keeper->id();
             $pageContent->created_at         = new Carbon();
 
             $this->model->contents()->save($pageContent);
@@ -137,12 +137,12 @@ class Page implements PageContract
      */
     public function getDraftForCurrentUser()
     {
-        $guard = app(Guard::class);
+        $keeper = app(Keeper::class);
 
         /** @type \ViKon\Wiki\Model\PageContent|null $pageContent */
         $pageContent = $this->model->contents()
                                    ->where(PageContent::FIELD_DRAFT, true)
-                                   ->where(PageContent::FIELD_CREATED_BY_USER_ID, $guard->id())
+                                   ->where(PageContent::FIELD_CREATED_BY_USER_ID, $keeper->id())
                                    ->orderBy(PageContent::FIELD_CREATED_AT, 'desc')
                                    ->first();
 
@@ -154,7 +154,7 @@ class Page implements PageContract
             $pageContent->title              = $lastContent->getTitle();
             $pageContent->content            = $lastContent->getRawContent();
             $pageContent->draft              = true;
-            $pageContent->created_by_user_id = $guard->id();
+            $pageContent->created_by_user_id = $keeper->id();
             $pageContent->created_at         = new Carbon();
 
             $this->model->contents()->save($pageContent);

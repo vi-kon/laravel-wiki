@@ -3,7 +3,7 @@
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Factory as ValidationFactory;
 use Illuminate\Validation\Validator;
-use ViKon\Auth\Guard;
+use ViKon\Auth\Contracts\Keeper;
 use ViKon\Auth\Helper\FormRequestRouteAuthorizer;
 
 /**
@@ -34,11 +34,11 @@ class LoginRequest extends FormRequest
                 return;
             }
 
-            $guard = $this->container->make(Guard::class);
+            $keeper = $this->container->make(Keeper::class);
 
-            if (!$guard->validate($this->only('username', 'password'))) {
+            if (!$keeper->validate($this->only('username', 'password'))) {
                 $validator->messages()->add('form', trans('wiki::auth/login.modal.login.form.alert.not-match.content'));
-            } elseif ($guard->getLastAttempted()->blocked) {
+            } elseif ($keeper->getLastAttempted()->blocked) {
                 $validator->messages()->add('form', trans('wiki::auth/login.modal.login.form.alert.blocked.content'));
             }
         });

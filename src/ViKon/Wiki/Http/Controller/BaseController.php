@@ -6,7 +6,7 @@ use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller;
-use ViKon\Auth\Guard;
+use ViKon\Auth\Contracts\Keeper;
 
 /**
  * Class BaseController
@@ -32,10 +32,10 @@ class BaseController extends Controller
         $this->container = $container;
 
         $viewFactory = $this->container->make(Factory::class);
-        $guard       = $this->container->make(Guard::class);
+        $keeper      = $this->container->make(Keeper::class);
 
-        $viewFactory->share('user', $guard->check()
-            ? $guard->user()
+        $viewFactory->share('user', $keeper->check()
+            ? $keeper->user()
             : null);
     }
 }

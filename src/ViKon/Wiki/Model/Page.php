@@ -4,7 +4,7 @@ namespace ViKon\Wiki\Model;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use ViKon\Auth\Guard;
+use ViKon\Auth\Contracts\Keeper;
 
 /**
  * \ViKon\Wiki\Model\Page
@@ -54,7 +54,7 @@ class Page extends Model
      *
      * @var string
      */
-    protected $table    = 'wiki_pages';
+    protected $table = 'wiki_pages';
 
     protected $fillable = ['url', 'type'];
 
@@ -100,7 +100,7 @@ class Page extends Model
     {
         return $this->contents()
                     ->where('draft', true)
-                    ->where('created_by_user_id', app(Guard::class)->id())
+                    ->where('created_by_user_id', app(Keeper::class)->id())
                     ->orderBy('created_at', 'desc')
                     ->first();
     }
