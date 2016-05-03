@@ -31,11 +31,11 @@
     "illuminate/validation"         : "~5.1",
     "illuminate/view"               : "~5.1",
     "laravelcollective/html"        : "~5.1",
-    "vi-kon/laravel-auth"           : "dev-develop",
-    "vi-kon/laravel-bootstrap"      : "dev-develop",
-    "vi-kon/laravel-db-config"      : "dev-develop",
-    "vi-kon/laravel-diff"           : "dev-develop",
-    "vi-kon/laravel-parser-markdown": "dev-develop"
+    "vi-kon/laravel-auth"           : "~3.1",
+    "vi-kon/laravel-bootstrap"      : "~2.0",
+    "vi-kon/laravel-db-config"      : "~1.0",
+    "vi-kon/laravel-diff"           : "~1.0",
+    "vi-kon/laravel-parser-markdown": "~1.0"
   },
 
   "autoload"         : {
