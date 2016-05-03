@@ -2,10 +2,18 @@
 
 namespace ViKon\Wiki;
 
+use Collective\Html\HtmlServiceProvider;
 use Illuminate\Contracts\Container\Container;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Routing\Router;
+use Illuminate\Support\AggregateServiceProvider;
 use Illuminate\Support\ServiceProvider;
+use ViKon\Auth\AuthServiceProvider;
 use ViKon\Auth\Model\User;
+use ViKon\Bootstrap\BootstrapServiceProvider;
+use ViKon\DbConfig\DbConfigServiceProvider;
+use ViKon\ParserMarkdown\ParserMarkdownServiceProvider;
+use ViKon\Support\SupportServiceProvider;
 use ViKon\Wiki\Command\InstallCommand;
 use ViKon\Wiki\Command\SetupCommand;
 use ViKon\Wiki\Parser\WikiParser;
@@ -17,8 +25,26 @@ use ViKon\Wiki\Parser\WikiParser;
  *
  * @author  Kovács Vince<vincekovacs@hotmail.com>
  */
-class WikiServiceProvider extends ServiceProvider
+class WikiServiceProvider extends AggregateServiceProvider
 {
+    /**
+     * WikiServiceProvider constructor.
+     *
+     * @param \Illuminate\Contracts\Foundation\Application $application
+     */
+    public function __construct(Application $application)
+    {
+        $this->providers = [
+            AuthServiceProvider::class,
+            BootstrapServiceProvider::class,
+            DbConfigServiceProvider::class,
+            ParserMarkdownServiceProvider::class,
+            SupportServiceProvider::class,
+            HtmlServiceProvider::class,
+        ];
+
+        parent::__construct($application);
+    }
 
     /**
      * Bootstrap the application events.
@@ -53,6 +79,8 @@ class WikiServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        parent::register();
+
         $this->app->singleton(WikiEngine::class, function (Container $container) {
             return new WikiEngine($container);
         });
