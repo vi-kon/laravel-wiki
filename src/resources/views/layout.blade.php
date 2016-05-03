@@ -13,11 +13,11 @@
 
 
 @section('styles')
-    <link type="text/css" rel="stylesheet" media="all" href="{!! elixir('css/wiki.min.css') !!}"/>
+    <link type="text/css" rel="stylesheet" media="all" href="{!! elixir('css/main.min.css') !!}"/>
 @append
 
 @section('scripts-head')
-    <script type="text/javascript" src="{!! elixir('js/wiki.min.js') !!}"></script>
+    <script type="text/javascript" src="{!! elixir('js/main.min.js') !!}"></script>
 @append
 
 
