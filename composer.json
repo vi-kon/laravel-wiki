@@ -30,7 +30,7 @@
         "laravelcollective/html"        : "~5.1",
         "vi-kon/laravel-auth"           : "~3.1",
         "vi-kon/laravel-bootstrap"      : "~2.0",
-        "vi-kon/laravel-db-config"      : "~1.0",
+        "vi-kon/laravel-db-config"      : "~1.2",
         "vi-kon/laravel-diff"           : "~1.0",
         "vi-kon/laravel-parser-markdown": "~1.0",
         "vi-kon/laravel-support"        : "~1.0"

@@ -56,10 +56,10 @@ class InstallCommand extends Command
 
         $this->line('Creating <info>config entries</info>... ');
 
-        $dbConfig->set('wiki::title', 'Wiki name', $systemUser, true);
+        $dbConfig->create('wiki::title', 'string', 'Wiki name');
 
         // Note this entry have to be at last position to ensure that wiki is installed
-        $dbConfig->set('wiki::installed', true, $systemUser, true);
+        $dbConfig->create('wiki::installed', 'bool', true);
 
         // --------------------------------------------------------------------
 
