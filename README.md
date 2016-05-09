@@ -40,25 +40,25 @@ Required npm packages (`package.json` in project's root directory):
 
 ```json
 {
-    "private": true,
+    "private"     : true,
     "dependencies": {
-        "bower": "^1.7.9",
-        "gulp": "^3.9.1",
-        "gulp-clean": "^0.3.2",
-        "gulp-concat": "^2.6.0",
-        "gulp-debug": "^2.1.2",
-        "gulp-less": "^3.0.5",
+        "bower"          : "^1.7.9",
+        "gulp"           : "^3.9.1",
+        "gulp-clean"     : "^0.3.2",
+        "gulp-concat"    : "^2.6.0",
+        "gulp-debug"     : "^2.1.2",
+        "gulp-less"      : "^3.0.5",
         "gulp-livereload": "^3.8.1",
         "gulp-minify-css": "^1.2.4",
-        "gulp-notify": "^2.2.0",
-        "gulp-rename": "^1.2.2",
-        "gulp-rev": "^7.0.0",
+        "gulp-notify"    : "^2.2.0",
+        "gulp-rename"    : "^1.2.2",
+        "gulp-rev"       : "^7.0.0",
         "gulp-sourcemaps": "^1.6.0",
-        "gulp-uglify": "^1.5.3",
-        "less": "^2.6.1",
-        "rev-del": "^1.0.5",
-        "underscore": "^1.8.3"
-    },
+        "gulp-uglify"    : "^1.5.3",
+        "less"           : "^2.6.1",
+        "rev-del"        : "^1.0.5",
+        "underscore"     : "^1.8.3"
+    }
 }
 ```
 
@@ -66,17 +66,17 @@ Required bower packages (`bower.json` in project's root directory):
 
 ```json
 {
-    "name": "laravel-5.2-wiki",
-    "version": "1.0.0",
-    "description": "Wiki",
-    "moduleType": [
+    "name"        : "laravel-5.2-wiki",
+    "version"     : "1.0.0",
+    "description" : "Wiki Engine",
+    "moduleType"  : [
         "node"
     ],
-        "authors": [
+    "authors"     : [
         "Kovács Vince"
     ],
-    "license": "MIT",
-    "ignore": [
+    "license"     : "MIT",
+    "ignore"      : [
         "**/.*",
         "node_modules",
         "bower_components",
@@ -84,8 +84,10 @@ Required bower packages (`bower.json` in project's root directory):
         "tests"
     ],
     "dependencies": {
-        "jquery": "~2.1.4",
-        "bootstrap": "^3.3.6"
+        "bootstrap"     : "^3.3.6",
+        "jquery"        : "~2.1.4",
+        "jquery-timeago": "~1.4.3",
+        "codemirror"    : "~5.10.0"
     }
 }
 ```
@@ -106,16 +108,21 @@ gulper
     .setBowerComponentsDirname(__bower_components)
     .registerLessInclude(__bower_components)
     .registerCssTask([
-                         path.join(__bower_components, 'bootstrap', 'less', 'bootstrap.less')
+                         path.join(__bower_components, 'bootstrap', 'less', 'bootstrap.less'),
+                         path.join(__bower_components, 'codemirror', 'lib', 'codemirror.css')
                      ], path.join('css', 'main.css'))
     .registerJsTask([
                         path.join(__bower_components, 'jquery', 'dist', 'jquery.js'),
-                        path.join(__bower_components, 'bootstrap', 'dist', 'js', 'bootstrap.js')
+                        path.join(__bower_components, 'jquery-timeago', 'jquery.timeago.js'),
+                        path.join(__bower_components, 'bootstrap', 'dist', 'js', 'bootstrap.js'),
+                        path.join(__bower_components, 'codemirror', 'lib', 'codemirror.js'),
+                        path.join(__bower_components, 'codemirror', 'mode', 'markdown', 'markdown.js')
                     ], path.join('js', 'main.js'));
 
 new WikiGulper(gulper);
 
 gulper.registerTasks();
+
 ```
 
 
