@@ -17,7 +17,7 @@
                 btn.button('loading');
                 autoSaveTimeout = null;
                 editor.save();
-                ajax.ajax('{!! route('ajax.wiki.create.store-draft', ['pageToken' => $page->getToken()]) !!}', {
+                ajax.ajax('{!! route('ajax.wiki.page.create.store-draft', ['pageToken' => $page->getToken()]) !!}', {
                     type            : 'post',
                     data            : $('#field-content').closest('form').serialize(),
                     openModalOnError: false
@@ -60,12 +60,12 @@
                 var form = $('#field-content').closest('form');
 
                 editor.save();
-                ajax.ajax('{!! route('ajax.wiki.create.store', ['pageToken' => $page->getToken()]) !!}', {
+                ajax.ajax('{!! route('ajax.wiki.page.create.store', ['pageToken' => $page->getToken()]) !!}', {
                     type            : 'post',
                     data            : form.serialize(),
                     openModalOnError: false
                 }).done(function () {
-                    {{--window.location.href = "{!! route('wiki.show', ['url' => $page->getUrl()]) !!}";--}}
+                    {{--window.location.href = "{!! route('wiki.page.show', ['url' => $page->getUrl()]) !!}";--}}
                 }).fail(function (jqXHR) {
                     var name;
 
@@ -101,7 +101,7 @@
 
             $('.js-btn-preview').click(function () {
                 editor.save();
-                modal.ajax('{!! route('ajax.modal.wiki.create.preview', ['pageToken' => $page->getToken()]) !!}', {
+                modal.ajax('{!! route('ajax.modal.wiki.page.create.preview', ['pageToken' => $page->getToken()]) !!}', {
                     ajax: {
                         type: 'post',
                         data: $('#field-content').closest('form').serialize()
@@ -111,7 +111,7 @@
             });
 
             $('.js-btn-cancel').click(function () {
-                modal.ajax('{!! route('ajax.modal.wiki.create.cancel', ['pageToken' => $page->getToken()]) !!}');
+                modal.ajax('{!! route('ajax.modal.wiki.page.create.cancel', ['pageToken' => $page->getToken()]) !!}');
             });
         })(jQuery);
     </script>

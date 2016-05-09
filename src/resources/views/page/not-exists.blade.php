@@ -9,7 +9,7 @@
         <div class="col-md-6 text-right valign-bottom">
             <div class="btn-group btn-group-sm">
                 @can('create', $page)
-                    <a href="{!! route('wiki.create', ['url' => $page->getUrl()]) !!}" class="btn btn-primary">
+                    <a href="{!! route('wiki.page.create', ['url' => $page->getUrl()]) !!}" class="btn btn-primary">
                         <i class="icon-io-plus"></i>
                         &nbsp;
                         @lang('wiki::page/not-exists.btn.create.content')

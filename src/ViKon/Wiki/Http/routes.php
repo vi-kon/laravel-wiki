@@ -14,7 +14,7 @@ Route::group([
     Route::get('/', [
         'as'   => 'home',
         'uses' => function () {
-            return redirect(route('wiki.show'));
+            return redirect(route('wiki.page.show'));
         },
     ]);
 
@@ -23,80 +23,80 @@ Route::group([
     // --------------------------------------------------------------
 
     Route::get('wiki/{url?}', [
-        'as'   => 'wiki.show',
+        'as'   => 'wiki.page.show',
         'uses' => 'PageController@show',
     ]);
 
     Route::get('wiki-create/{url?}', [
-        'permission' => 'wiki.create',
-        'as'         => 'wiki.create',
+        'permission' => 'wiki.page.create',
+        'as'         => 'wiki.page.create',
         'uses'       => 'PageController@create',
     ]);
 
     Route::get('wiki-edit/{url?}', [
-        'as'         => 'wiki.edit',
-        'permission' => 'wiki.edit',
+        'permission' => 'wiki.page.edit',
+        'as'         => 'wiki.page.edit',
         'uses'       => 'PageController@edit',
     ]);
 
     Route::get('__ajax/modal/wiki/{pageToken}/history', [
-        'as'   => 'ajax.modal.wiki.history',
+        'as'   => 'ajax.modal.wiki.page.history',
         'uses' => 'PageController@ajaxModalHistory',
     ]);
 
     Route::get('__ajax/modal/wiki/{pageToken}/link', [
-        'as'   => 'ajax.modal.wiki.link',
+        'as'   => 'ajax.modal.wiki.page.link',
         'uses' => 'PageController@ajaxModalLink',
     ]);
 
     Route::get('__ajax/modal/wiki/{pageToken}/move', [
-        'permission' => 'wiki.move',
-        'as'         => 'ajax.modal.wiki.move',
+        'permission' => 'wiki.page.move',
+        'as'         => 'ajax.modal.wiki.page.move',
         'uses'       => 'PageController@ajaxModalMove',
     ]);
 
     Route::post('__ajax/modal/wiki/{pageToken}/move', [
-        'permission' => 'wiki.move',
+        'permission' => 'wiki.page.move',
         'uses'       => 'PageController@ajaxMove',
     ]);
 
     Route::post('__ajax/wiki/{pageToken}/create/store', [
-        'permission' => 'wiki.create',
-        'as'         => 'ajax.wiki.create.store',
+        'permission' => 'wiki.page.create',
+        'as'         => 'ajax.wiki.page.create.store',
         'uses'       => 'PageController@ajaxStore',
     ]);
 
     Route::post('__ajax/wiki/{pageToken}/create/store-draft', [
-        'permission' => 'wiki.create',
-        'as'         => 'ajax.wiki.create.store-draft',
+        'permission' => 'wiki.page.create',
+        'as'         => 'ajax.wiki.page.create.store-draft',
         'uses'       => 'PageController@ajaxStoreDraft',
     ]);
 
     Route::post('__ajax/modal/wiki/{pageToken}/create/preview', [
-        'permission' => 'wiki.create',
-        'as'         => 'ajax.modal.wiki.create.preview',
+        'permission' => 'wiki.page.create',
+        'as'         => 'ajax.modal.wiki.page.create.preview',
         'uses'       => 'PageController@ajaxModalPreview',
     ]);
 
     Route::get('__ajax/modal/wiki/{pageToken}/create/cancel', [
-        'permission' => 'wiki.create',
-        'as'         => 'ajax.modal.wiki.create.cancel',
+        'permission' => 'wiki.page.create',
+        'as'         => 'ajax.modal.wiki.page.create.cancel',
         'uses'       => 'PageController@ajaxModalCancel',
     ]);
 
     Route::post('__ajax/modal/wiki/{pageToken}/create/cancel', [
-        'permission' => 'wiki.create',
+        'permission' => 'wiki.page.create',
         'uses'       => 'PageController@ajaxCancel',
     ]);
 
     Route::get('__ajax/modal/wiki/{pageToken}/destroy', [
-        'permission' => 'wiki.destroy',
-        'as'         => 'ajax.modal.wiki.destroy',
+        'permission' => 'wiki.page.destroy',
+        'as'         => 'ajax.modal.wiki.page.destroy',
         'uses'       => 'PageController@ajaxModalDestroy',
     ]);
 
     Route::post('__ajax/modal/wiki/{pageToken}/destroy', [
-        'permission' => 'wiki.destroy',
+        'permission' => 'wiki.page.destroy',
         'uses'       => 'PageController@ajaxDestroy',
     ]);
 

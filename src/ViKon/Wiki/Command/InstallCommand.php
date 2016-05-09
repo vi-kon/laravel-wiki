@@ -88,11 +88,11 @@ class InstallCommand extends Command
 
             'admin.permission.index',
 
-            'wiki.show',
-            'wiki.create',
-            'wiki.edit',
-            'wiki.move',
-            'wiki.destroy',
+            'wiki.page.show',
+            'wiki.page.create',
+            'wiki.page.edit',
+            'wiki.page.move',
+            'wiki.page.destroy',
         ];
 
         foreach ($permissions as $token) {

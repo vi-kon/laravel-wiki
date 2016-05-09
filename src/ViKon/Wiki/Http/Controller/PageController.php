@@ -43,6 +43,7 @@ class PageController extends BaseController
                 ->with('page', $page);
         }
 
+
         return view(config('wiki.views.page.not-exists'))
             ->with('page', $page);
     }
@@ -59,7 +60,7 @@ class PageController extends BaseController
         $page = $repository->page($url);
 
         if ($page->isPublished()) {
-            return redirect()->route('wiki.edit', ['url' => $url]);
+            return redirect()->route('wiki.page.edit', ['url' => $url]);
         }
 
         $userDraft = $page->getDraftForCurrentUser();
