@@ -138,7 +138,8 @@ class WikiServiceProvider extends AggregateServiceProvider
 
         if (!$this->app->make('app')->routesAreCached()) {
             $attributes = [
-                'namespace' => 'ViKon\\Wiki\\Http\\Controller',
+                'namespace'  => 'ViKon\\Wiki\\Http\\Controller',
+                'middleware' => 'web',
             ];
             $router->group($attributes, function () {
                 require __DIR__ . '/Http/routes.php';
