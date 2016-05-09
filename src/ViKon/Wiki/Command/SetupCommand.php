@@ -54,7 +54,7 @@ class SetupCommand extends Command
         // Create admin user
         $systemUser           = new User();
         $systemUser->username = $username;
-        $systemUser->password = bcrypt($password);
+        $systemUser->password = $password;
         $systemUser->hidden   = true;
         $systemUser->save();
     }
