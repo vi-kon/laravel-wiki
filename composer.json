@@ -1,46 +1,44 @@
 {
-  "name"             : "vi-kon/laravel-wiki",
-  "description"      : "Wiki Engine for Laravel 5.1, based on Markdown syntax",
-  "keywords"         : [
-    "laravel",
-    "wiki",
-    "markdown"
-  ],
-  "license"          : "MIT",
-
-  "authors"          : [
-    {
-      "name" : "Kovács Vince",
-      "email": "vincekovacs@hotmail.com"
-    }
-  ],
-
-  "require"          : {
-    "php"                           : ">=5.5.9",
-    "illuminate/config"             : "~5.1",
-    "illuminate/console"            : "~5.1",
-    "illuminate/container"          : "~5.1",
-    "illuminate/contracts"          : "~5.1",
-    "illuminate/database"           : "~5.1",
-    "illuminate/http"               : "~5.1",
-    "illuminate/routing"            : "~5.1",
-    "illuminate/session"            : "~5.1",
-    "illuminate/support"            : "~5.1",
-    "illuminate/translation"        : "~5.1",
-    "illuminate/validation"         : "~5.1",
-    "illuminate/view"               : "~5.1",
-    "laravelcollective/html"        : "~5.1",
-    "vi-kon/laravel-auth"           : "~3.1",
-    "vi-kon/laravel-bootstrap"      : "~2.0",
-    "vi-kon/laravel-db-config"      : "~1.0",
-    "vi-kon/laravel-diff"           : "~1.0",
-    "vi-kon/laravel-parser-markdown": "~1.0"
-  },
-
-  "autoload"         : {
-    "psr-0": {
-      "ViKon\\Wiki\\": "src/"
-    }
-  },
-  "minimum-stability": "stable"
+    "name"             : "vi-kon/laravel-wiki",
+    "description"      : "Wiki Engine for Laravel 5.1, based on Markdown syntax",
+    "keywords"         : [
+        "laravel",
+        "wiki",
+        "markdown"
+    ],
+    "license"          : "MIT",
+    "authors"          : [
+        {
+            "name" : "Kovács Vince",
+            "email": "vincekovacs@hotmail.com"
+        }
+    ],
+    "require"          : {
+        "php"                           : ">=5.5.9",
+        "illuminate/config"             : "~5.1",
+        "illuminate/console"            : "~5.1",
+        "illuminate/container"          : "~5.1",
+        "illuminate/contracts"          : "~5.1",
+        "illuminate/database"           : "~5.1",
+        "illuminate/http"               : "~5.1",
+        "illuminate/routing"            : "~5.1",
+        "illuminate/session"            : "~5.1",
+        "illuminate/support"            : "~5.1",
+        "illuminate/translation"        : "~5.1",
+        "illuminate/validation"         : "~5.1",
+        "illuminate/view"               : "~5.1",
+        "laravelcollective/html"        : "~5.1",
+        "vi-kon/laravel-auth"           : "~3.1",
+        "vi-kon/laravel-bootstrap"      : "~2.0",
+        "vi-kon/laravel-db-config"      : "~1.0",
+        "vi-kon/laravel-diff"           : "~1.0",
+        "vi-kon/laravel-parser-markdown": "~1.0",
+        "vi-kon/laravel-support"        : "~1.0"
+    },
+    "autoload"         : {
+        "psr-0": {
+            "ViKon\\Wiki\\": "src/"
+        }
+    },
+    "minimum-stability": "stable"
 }
