@@ -34,14 +34,14 @@
                         <i class="icon-io-menu2"></i>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                        @if($editable)
+                        @can('edit', $page)
                             <li>
                                 <a href="{!! route('wiki.edit', ['url' => $page->getUrl()]) !!}">
                                     <i class="icon-io-pencil"></i>
                                     &nbsp;@lang('wiki::page/show.btn.edit.content')
                                 </a>
                             </li>
-                        @endif
+                        @endcan
 
                         <li>
                             <a href="#" class="js-btn-page-history">
@@ -56,23 +56,23 @@
                             </a>
                         </li>
 
-                        @if($movable)
+                        @can('move', $page)
                             <li>
                                 <a href="#" class="js-btn-page-move">
                                     <i class="icon-io-folder"></i>
                                     &nbsp;@lang('wiki::page/show.btn.move.content')
                                 </a>
                             </li>
-                        @endif
+                        @endcan
 
-                        @if($destroyable)
+                        @can('destroy', $page)
                             <li>
                                 <a href="#" class="js-btn-page-destroy">
                                     <i class="icon-io-remove2"></i>
                                     &nbsp;@lang('wiki::page/show.btn.destroy.content')
                                 </a>
                             </li>
-                        @endif
+                        @endcan
                     </ul>
                 </div>
             </h1>
@@ -82,12 +82,12 @@
                 @lang('wiki::page/show.header.last_modified', ['date' => $page->getLastContent()->getCreatedAt()->toATOMString()])
             </p>
             <div class="btn-group btn-group-sm hidden-xs">
-                @if($editable)
+                @can('edit', $page)
                     <a href="{!! route('wiki.edit', ['url' => $page->getUrl()]) !!}" class="btn btn-primary">
                         <i class="icon-io-pencil"></i>
                         <span class="hidden-sm">&nbsp;@lang('wiki::page/show.btn.edit.content')</span>
                     </a>
-                @endif
+                @endcan
 
                 <a href="#" class="btn btn-default js-btn-page-history">
                     <i class="icon-io-history"></i>
@@ -99,19 +99,19 @@
                     <span class="hidden-sm">&nbsp;@lang('wiki::page/show.btn.link.content')</span>
                 </a>
 
-                @if($movable)
+                @can('move', $page)
                     <a href="#" class="btn btn-default js-btn-page-move">
                         <i class="icon-io-folder"></i>
                         <span class="hidden-sm">&nbsp;@lang('wiki::page/show.btn.move.content')</span>
                     </a>
-                @endif
+                @endcan
 
-                @if($destroyable)
+                @can('destroy', $page)
                     <a href="#" class="btn btn-danger js-btn-page-destroy">
                         <i class="icon-io-bin2"></i>
                         <span class="hidden-sm">&nbsp;@lang('wiki::page/show.btn.destroy.content')</span>
                     </a>
-                @endif
+                @endcan
             </div>
         </div>
     </div>

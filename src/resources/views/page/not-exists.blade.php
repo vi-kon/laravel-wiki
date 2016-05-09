@@ -8,13 +8,13 @@
         </div>
         <div class="col-md-6 text-right valign-bottom">
             <div class="btn-group btn-group-sm">
-                @if($creatable)
+                @can('create', $page)
                     <a href="{!! route('wiki.create', ['url' => $page->getUrl()]) !!}" class="btn btn-primary">
                         <i class="icon-io-plus"></i>
                         &nbsp;
                         @lang('wiki::page/not-exists.btn.create.content')
                     </a>
-                @endif
+                @endcan
             </div>
         </div>
     </div>

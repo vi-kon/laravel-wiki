@@ -3,11 +3,12 @@
 namespace ViKon\Wiki;
 
 use Collective\Html\HtmlServiceProvider;
+use Illuminate\Contracts\Auth\Access\Gate;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Routing\Router;
 use Illuminate\Support\AggregateServiceProvider;
-use Illuminate\Support\ServiceProvider;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use ViKon\Auth\AuthServiceProvider;
 use ViKon\Auth\Model\User;
 use ViKon\Bootstrap\BootstrapServiceProvider;
@@ -16,7 +17,9 @@ use ViKon\ParserMarkdown\ParserMarkdownServiceProvider;
 use ViKon\Support\SupportServiceProvider;
 use ViKon\Wiki\Command\InstallCommand;
 use ViKon\Wiki\Command\SetupCommand;
+use ViKon\Wiki\Contract\Page;
 use ViKon\Wiki\Parser\WikiParser;
+use ViKon\Wiki\Policy\PagePolicy;
 
 /**
  * Class WikiServiceProvider
@@ -49,11 +52,15 @@ class WikiServiceProvider extends AggregateServiceProvider
     /**
      * Bootstrap the application events.
      *
+     * @param \Illuminate\Routing\Router             $router
+     * @param \Illuminate\Contracts\Auth\Access\Gate $gate
+     *
      * @return void
      */
-    public function boot()
+    public function boot(Router $router, Gate $gate)
     {
-        $this->loadRoutes();
+        $this->loadRoutes($router);
+        $this->loadPolicies($gate);
 
         $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'wiki');
         $this->loadTranslationsFrom(__DIR__ . '/../../resources/lang', 'wiki');
@@ -109,12 +116,12 @@ class WikiServiceProvider extends AggregateServiceProvider
     /**
      * Set router routes and router options
      *
+     * @param \Illuminate\Routing\Router $router
+     *
      * @return void
      */
-    protected function loadRoutes()
+    protected function loadRoutes(Router $router)
     {
-        $router = $this->app->make(Router::class);
-
         $router->pattern('url', '.+');
 
         $router->pattern('pageToken', '\[a-z0-9]+');
@@ -125,7 +132,7 @@ class WikiServiceProvider extends AggregateServiceProvider
 
             // Throw 404 error if page not found by token
             if ($page === null) {
-                abort(404);
+                throw new NotFoundHttpException();
             }
 
             return $page;
@@ -133,7 +140,7 @@ class WikiServiceProvider extends AggregateServiceProvider
 
         $router->pattern('userId', '\d+');
         $router->model('userId', User::class, function () {
-            abort(404);
+            throw new NotFoundHttpException();
         });
 
         if (!$this->app->make('app')->routesAreCached()) {
@@ -144,6 +151,24 @@ class WikiServiceProvider extends AggregateServiceProvider
             $router->group($attributes, function () {
                 require __DIR__ . '/Http/routes.php';
             });
+        }
+    }
+
+    /**
+     * Load authentication policies
+     *
+     * @param \Illuminate\Contracts\Auth\Access\Gate $gate
+     *
+     * @return void
+     */
+    protected function loadPolicies(Gate $gate)
+    {
+        $policies = [
+            Page::class => PagePolicy::class,
+        ];
+
+        foreach ($policies as $class => $policy) {
+            $gate->policy($class, $policy);
         }
     }
 }

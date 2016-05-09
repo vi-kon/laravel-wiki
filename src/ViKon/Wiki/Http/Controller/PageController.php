@@ -4,7 +4,6 @@ namespace ViKon\Wiki\Http\Controller;
 
 use Illuminate\Http\Request;
 use Illuminate\Session\SessionManager;
-use ViKon\Auth\Contracts\Keeper;
 use ViKon\Diff\Diff;
 use ViKon\Wiki\Contract\Page;
 use ViKon\Wiki\Http\Requests\PageMoveRequest;
@@ -30,32 +29,22 @@ class PageController extends BaseController
     public function show($url = '')
     {
         $session    = $this->container->make(SessionManager::class)->driver();
-        $keeper     = $this->container->make(Keeper::class);
         $repository = $this->container->make(WikiEngine::class)->repository();
 
         $page = $repository->page($url);
 
         if ($page->isPublished()) {
+
             $titleId = WikiParserOld::generateId($page->getTitle());
 
-            $editable    = $keeper->hasPermission('wiki.edit');
-            $movable     = $keeper->hasPermission('wiki.move');
-            $destroyable = $keeper->hasPermission('wiki.destroy');
-
             return view(config('wiki.views.page.show'))
-                ->with('editable', $editable)
-                ->with('movable', $movable)
-                ->with('destroyable', $destroyable)
                 ->with('titleId', $titleId)
                 ->with('message', $session->get('message', null))
                 ->with('page', $page);
         }
 
-        $creatable = $keeper->hasPermission('wiki.create');
-
         return view(config('wiki.views.page.not-exists'))
-            ->with('page', $page)
-            ->with('creatable', $creatable);
+            ->with('page', $page);
     }
 
     /**
