@@ -3,6 +3,7 @@
 namespace ViKon\Wiki\Command;
 
 use Illuminate\Console\Command;
+use ViKon\Auth\Model\Permission;
 use ViKon\Auth\Model\User;
 
 /**
@@ -52,10 +53,13 @@ class SetupCommand extends Command
         } while ($password !== $passwordConfirmation && strlen($password) < 8);
 
         // Create admin user
-        $systemUser           = new User();
-        $systemUser->username = $username;
-        $systemUser->password = $password;
-        $systemUser->hidden   = true;
-        $systemUser->save();
+        $adminUser           = new User();
+        $adminUser->username = $username;
+        $adminUser->password = $password;
+        $adminUser->hidden   = true;
+        $adminUser->save();
+
+        // Grant every permission to admin user
+        $adminUser->permissions()->sync(Permission::all());
     }
 }
