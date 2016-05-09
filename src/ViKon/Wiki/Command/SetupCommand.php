@@ -36,6 +36,9 @@ class SetupCommand extends Command
         $this->line('Creating <info>admin</info> user... ');
 
         $username = $this->ask('Username', 'admin');
+
+        $password             = null;
+        $passwordConfirmation = null;
         do {
             $password = $this->secret('Password');
 
