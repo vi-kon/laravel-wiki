@@ -29,16 +29,21 @@ class Page implements PageContract
     /** @type \ViKon\Wiki\Driver\Eloquent\Repository */
     protected $repository;
 
+    /** @type \ViKon\Auth\Contracts\Keeper */
+    protected $keeper;
+
     /**
      * Page constructor.
      *
      * @param \ViKon\Wiki\Model\Page                 $page
      * @param \ViKon\Wiki\Driver\Eloquent\Repository $repository
+     * @param \ViKon\Auth\Contracts\Keeper           $keeper
      */
-    public function __construct(PageModel $page, Repository $repository)
+    public function __construct(PageModel $page, Repository $repository, Keeper $keeper)
     {
         $this->model      = $page;
         $this->repository = $repository;
+        $this->keeper     = $keeper;
     }
 
     /**
@@ -112,8 +117,6 @@ class Page implements PageContract
      */
     public function getLastContent()
     {
-        $keeper = app(Keeper::class);
-
         /** @type \ViKon\Wiki\Model\PageContent|null $pageContent */
         $pageContent = $this->model->contents()
                                    ->where(PageContent::FIELD_DRAFT, false)
@@ -123,7 +126,7 @@ class Page implements PageContract
         if ($pageContent === null) {
             $pageContent                     = new PageContent();
             $pageContent->draft              = true;
-            $pageContent->created_by_user_id = $keeper->id();
+            $pageContent->created_by_user_id = $this->keeper->id();
             $pageContent->created_at         = new Carbon();
 
             $this->model->contents()->save($pageContent);
@@ -137,12 +140,10 @@ class Page implements PageContract
      */
     public function getDraftForCurrentUser()
     {
-        $keeper = app(Keeper::class);
-
         /** @type \ViKon\Wiki\Model\PageContent|null $pageContent */
         $pageContent = $this->model->contents()
                                    ->where(PageContent::FIELD_DRAFT, true)
-                                   ->where(PageContent::FIELD_CREATED_BY_USER_ID, $keeper->id())
+                                   ->where(PageContent::FIELD_CREATED_BY_USER_ID, $this->keeper->id())
                                    ->orderBy(PageContent::FIELD_CREATED_AT, 'desc')
                                    ->first();
 
@@ -154,7 +155,7 @@ class Page implements PageContract
             $pageContent->title              = $lastContent->getTitle();
             $pageContent->content            = $lastContent->getRawContent();
             $pageContent->draft              = true;
-            $pageContent->created_by_user_id = $keeper->id();
+            $pageContent->created_by_user_id = $this->keeper->id();
             $pageContent->created_at         = new Carbon();
 
             $this->model->contents()->save($pageContent);

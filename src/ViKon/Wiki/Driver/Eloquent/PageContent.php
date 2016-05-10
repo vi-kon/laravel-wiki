@@ -21,16 +21,21 @@ class PageContent implements \ViKon\Wiki\Contract\PageContent
     /** @type \ViKon\Wiki\Driver\Eloquent\Repository */
     protected $repository;
 
+    /** @type \ViKon\Wiki\Parser\WikiParser */
+    protected $parser;
+
     /**
      * PageContent constructor.
      *
      * @param \ViKon\Wiki\Model\PageContent          $pageContent
      * @param \ViKon\Wiki\Driver\Eloquent\Repository $repository
+     * @param \ViKon\Wiki\Parser\WikiParser          $parser
      */
-    public function __construct(PageContentModel $pageContent, Repository $repository)
+    public function __construct(PageContentModel $pageContent, Repository $repository, WikiParser $parser)
     {
         $this->model      = $pageContent;
         $this->repository = $repository;
+        $this->parser     = $parser;
     }
 
     /**
@@ -62,7 +67,7 @@ class PageContent implements \ViKon\Wiki\Contract\PageContent
      */
     public function getContent()
     {
-        return app(WikiParser::class)->parse($this->getRawContent())->getContent();
+        return $this->parser->parse($this->getRawContent())->getContent();
     }
 
     /**
@@ -110,15 +115,13 @@ class PageContent implements \ViKon\Wiki\Contract\PageContent
      */
     public function publish()
     {
-        $parser = app(WikiParser::class);
-
         $this->model->draft = false;
         $this->save();
 
         $page      = $this->getPage();
         $pageModel = $page->getModel();
 
-        $data = $parser->parse($this->getRawContent(), $this->getTitle());
+        $data = $this->parser->parse($this->getRawContent(), $this->getTitle());
 
         $pageModel->draft   = false;
         $pageModel->title   = $data->getTitle();

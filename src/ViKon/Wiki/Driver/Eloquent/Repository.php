@@ -4,9 +4,11 @@ namespace ViKon\Wiki\Driver\Eloquent;
 
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Collection;
+use ViKon\Auth\Contracts\Keeper;
 use ViKon\Wiki\Contract\Repository as RepositoryContract;
 use ViKon\Wiki\Model\Page as PageModel;
 use ViKon\Wiki\Model\PageContent as PageContentModel;
+use ViKon\Wiki\Parser\WikiParser;
 
 /**
  * Class Repository
@@ -147,7 +149,7 @@ class Repository implements RepositoryContract
      */
     protected function wrapPageModelToPage(PageModel $pageModel)
     {
-        $this->pages[$pageModel->id] = new Page($pageModel, $this);
+        $this->pages[$pageModel->id] = new Page($pageModel, $this, $this->container->make(Keeper::class));
 
         return $this->pages[$pageModel->id];
     }
@@ -161,7 +163,7 @@ class Repository implements RepositoryContract
      */
     protected function wrapPageContentModelToPageContent(PageContentModel $pageContentModel)
     {
-        $this->pageContents[$pageContentModel->id] = new PageContent($pageContentModel, $this);
+        $this->pageContents[$pageContentModel->id] = new PageContent($pageContentModel, $this, $this->container->make(WikiParser::class));
 
         return $this->pageContents[$pageContentModel->id];
     }
