@@ -80,6 +80,8 @@ interface Page
     /**
      * Get last content's instance
      *
+     * Note: This method can return draft contents too
+     *
      * @return \ViKon\Wiki\Contract\PageContent
      */
     public function getLastContent();

@@ -3,6 +3,11 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
+/**
+ * Class CreateWikiPagesTable
+ *
+ * @author Kovács Vince<vincekovacs@hotmail.com>
+ */
 class CreateWikiPagesTable extends Migration
 {
 

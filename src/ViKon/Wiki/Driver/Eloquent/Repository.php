@@ -61,7 +61,7 @@ class Repository implements RepositoryContract
                               ->first();
 
         if ($pageModel === null) {
-            // If page not exists then new page will be created and stored in database
+            // If page does not exists then new page will be created and stored in database
             $pageModel        = new PageModel();
             $pageModel->url   = $url;
             $pageModel->draft = true;

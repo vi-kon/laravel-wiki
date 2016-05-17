@@ -107,6 +107,7 @@ class Page implements PageContract
      */
     public function getContents()
     {
+        // Wrap page content models into page contents
         return $this->model->contents->map(function (PageContent $pageContent) {
             return $this->repository->contentByModel($pageContent);
         });
@@ -117,12 +118,14 @@ class Page implements PageContract
      */
     public function getLastContent()
     {
+        // Load page content from database
         /** @type \ViKon\Wiki\Model\PageContent|null $pageContent */
         $pageContent = $this->model->contents()
                                    ->where(PageContent::FIELD_DRAFT, false)
                                    ->orderBy(PageContent::FIELD_CREATED_AT, 'desc')
                                    ->first();
 
+        // Create new page content if not found in database
         if ($pageContent === null) {
             $pageContent                     = new PageContent();
             $pageContent->draft              = true;
@@ -132,6 +135,7 @@ class Page implements PageContract
             $this->model->contents()->save($pageContent);
         }
 
+        // Wrap page content model into page content
         return $this->repository->contentByModel($pageContent);
     }
 
@@ -140,6 +144,7 @@ class Page implements PageContract
      */
     public function getDraftForCurrentUser()
     {
+        // Load page content from database
         /** @type \ViKon\Wiki\Model\PageContent|null $pageContent */
         $pageContent = $this->model->contents()
                                    ->where(PageContent::FIELD_DRAFT, true)
@@ -147,7 +152,7 @@ class Page implements PageContract
                                    ->orderBy(PageContent::FIELD_CREATED_AT, 'desc')
                                    ->first();
 
-        // If draft not found for current user than need create one
+        // Create new page content for current user if not found in database
         if ($pageContent === null) {
             $lastContent = $this->getLastContent();
 
@@ -161,6 +166,7 @@ class Page implements PageContract
             $this->model->contents()->save($pageContent);
         }
 
+        // Wrap page content model into page content
         return $this->repository->contentByModel($pageContent);
     }
 
@@ -177,12 +183,14 @@ class Page implements PageContract
      */
     public function getHistory()
     {
+        // Load contents from database which are not draft
         /** @type \Illuminate\Database\Eloquent\Collection $contents */
         $contents = $this->model->contents()
                                 ->where('draft', false)
                                 ->orderBy('created_at', 'desc')
                                 ->get();
 
+        // Wrap page content models into page contents
         return $contents->map(function (PageContent $pageContent) {
             return $this->repository->contentByModel($pageContent);
         });
