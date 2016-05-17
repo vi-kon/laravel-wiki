@@ -225,7 +225,12 @@ class Page implements PageContract
      */
     public function delete()
     {
-        $this->model->delete();
+        // Do not delete model, just set to draft and empty title and content
+        $this->model->title   = '';
+        $this->model->content = '';
+        $this->model->draft   = false;
+
+        $this->model->save();
     }
 
     /**
