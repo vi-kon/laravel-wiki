@@ -149,9 +149,12 @@ class Repository implements RepositoryContract
      */
     protected function wrapPageModelToPage(PageModel $pageModel)
     {
-        $this->pages[$pageModel->id] = new Page($pageModel, $this, $this->container->make(Keeper::class));
+        $page = new Page($pageModel, $this, $this->container->make(Keeper::class));
 
-        return $this->pages[$pageModel->id];
+        // Cannot cache via model's ID, because cannot guarantee that model has valid ID
+        $this->pages[] = $page;
+
+        return $page;
     }
 
     /**
@@ -163,8 +166,11 @@ class Repository implements RepositoryContract
      */
     protected function wrapPageContentModelToPageContent(PageContentModel $pageContentModel)
     {
-        $this->pageContents[$pageContentModel->id] = new PageContent($pageContentModel, $this, $this->container->make(WikiParser::class));
+        $pageContent = new PageContent($pageContentModel, $this, $this->container->make(WikiParser::class));
 
-        return $this->pageContents[$pageContentModel->id];
+        // Cannot cache via model's ID, because cannot guarantee that model has valid ID
+        $this->pageContents[] = $pageContent;
+
+        return $pageContent;
     }
 }
