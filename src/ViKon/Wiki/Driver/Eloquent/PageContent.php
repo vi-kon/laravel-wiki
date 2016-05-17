@@ -3,6 +3,7 @@
 namespace ViKon\Wiki\Driver\Eloquent;
 
 use Carbon\Carbon;
+use ViKon\Wiki\Contract\PageContent as PageContentContract;
 use ViKon\Wiki\Model\PageContent as PageContentModel;
 use ViKon\Wiki\Parser\WikiParser;
 
@@ -13,7 +14,7 @@ use ViKon\Wiki\Parser\WikiParser;
  *
  * @author  Kovács Vince <vincekovacs@hotmail.com>
  */
-class PageContent implements \ViKon\Wiki\Contract\PageContent
+class PageContent implements PageContentContract
 {
     /** @type \ViKon\Wiki\Model\PageContent */
     protected $model;
