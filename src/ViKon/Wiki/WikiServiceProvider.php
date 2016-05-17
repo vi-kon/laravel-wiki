@@ -17,7 +17,7 @@ use ViKon\ParserMarkdown\ParserMarkdownServiceProvider;
 use ViKon\Support\SupportServiceProvider;
 use ViKon\Wiki\Command\InstallCommand;
 use ViKon\Wiki\Command\SetupCommand;
-use ViKon\Wiki\Contract\Page;
+use ViKon\Wiki\Driver;
 use ViKon\Wiki\Parser\WikiParser;
 use ViKon\Wiki\Policy\PagePolicy;
 
@@ -164,7 +164,7 @@ class WikiServiceProvider extends AggregateServiceProvider
     protected function loadPolicies(Gate $gate)
     {
         $policies = [
-            Page::class => PagePolicy::class,
+            Driver\Eloquent\Page::class => PagePolicy::class,
         ];
 
         foreach ($policies as $class => $policy) {
