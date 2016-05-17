@@ -2,7 +2,6 @@
 
 namespace ViKon\Wiki\Parser;
 
-use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Events\Dispatcher;
 use ViKon\Parser\Lexer\Lexer;
 use ViKon\Parser\Parser;
@@ -22,8 +21,8 @@ use ViKon\ParserMarkdown\Skin\BootstrapSkin;
  */
 class WikiParser
 {
-    /** @type \Illuminate\Contracts\Container\Container */
-    protected $container;
+    /** @type \Illuminate\Contracts\Events\Dispatcher */
+    protected $dispatcher;
 
     /** @type \ViKon\Parser\Parser */
     protected $parser;
@@ -43,11 +42,11 @@ class WikiParser
     /**
      * WikiParser constructor.
      *
-     * @param \Illuminate\Contracts\Container\Container $container
+     * @param \Illuminate\Contracts\Events\Dispatcher $dispatcher
      */
-    public function __construct(Container $container)
+    public function __construct(Dispatcher $dispatcher)
     {
-        $this->container = $container;
+        $this->dispatcher = $dispatcher;
 
         $this->parser   = new Parser();
         $this->lexer    = new Lexer();
@@ -99,14 +98,12 @@ class WikiParser
      */
     protected function registerTocCollector()
     {
-        $dispatcher = $this->container->make(Dispatcher::class);
-
         $events = [
             'vikon.parser.token.render.' . HeaderSetextRule::NAME,
             'vikon.parser.token.render.' . HeaderAtxRule::NAME,
         ];
 
-        $dispatcher->listen($events, function (Token $token) {
+        $this->dispatcher->listen($events, function (Token $token) {
             $content = $token->get('content', '');
             $level   = $token->get('level');
             $temp    = &$this->toc;

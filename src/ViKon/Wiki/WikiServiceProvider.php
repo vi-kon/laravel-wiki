@@ -5,6 +5,7 @@ namespace ViKon\Wiki;
 use Collective\Html\HtmlServiceProvider;
 use Illuminate\Contracts\Auth\Access\Gate;
 use Illuminate\Contracts\Container\Container;
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Routing\Router;
 use Illuminate\Support\AggregateServiceProvider;
@@ -93,7 +94,7 @@ class WikiServiceProvider extends AggregateServiceProvider
         });
 
         $this->app->singleton(WikiParser::class, function (Container $container) {
-            return new WikiParser($container);
+            return new WikiParser($container->make(Dispatcher::class));
         });
 
         $this->app->singleton('html.wiki', 'ViKon\Wiki\WikiHtmlBuilder');
