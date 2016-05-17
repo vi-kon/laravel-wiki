@@ -36,12 +36,13 @@ class CreateWikiPagesContentTable extends Migration
                   ->onUpdate('cascade')
                   ->onDelete('cascade');
 
-            $table->unsignedInteger('created_by_user_id');
+            $table->unsignedInteger('created_by_user_id')
+                  ->nullable(true);
             $table->foreign('created_by_user_id')
                   ->references('id')
                   ->on('users')
                   ->onUpdate('cascade')
-                  ->onDelete('cascade');
+                  ->onDelete('set null');
             $table->timestamp('created_at');
 
             $table->softDeletes();
