@@ -119,22 +119,17 @@ class Page implements PageContract
      */
     public function getLastContent()
     {
+        // Do not return page content if page is marked as draft (even on existing published page content)
+        if ($this->isDraft()) {
+            return null;
+        }
+
         // Load page content from database
         /** @type \ViKon\Wiki\Model\PageContent|null $pageContent */
         $pageContent = $this->model->contents()
                                    ->where(PageContent::FIELD_DRAFT, false)
                                    ->orderBy(PageContent::FIELD_CREATED_AT, 'desc')
                                    ->first();
-
-        // Create new page content if not found in database
-        if ($pageContent === null) {
-            $pageContent                     = new PageContent();
-            $pageContent->draft              = true;
-            $pageContent->created_by_user_id = $this->keeper->id();
-            $pageContent->created_at         = new Carbon();
-
-            $this->model->contents()->save($pageContent);
-        }
 
         // Wrap page content model into page content
         return $this->repository->contentByModel($pageContent);

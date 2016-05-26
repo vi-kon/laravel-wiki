@@ -83,9 +83,9 @@ interface Page extends Arrayable, Jsonable
     /**
      * Get last content's instance
      *
-     * Note: This method can return draft contents too
+     * Note: This method should return only published content
      *
-     * @return \ViKon\Wiki\Contract\PageContent
+     * @return \ViKon\Wiki\Contract\PageContent|null return NULL if page is not published, otherwise returns last published content
      */
     public function getLastContent();
 
