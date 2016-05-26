@@ -10,7 +10,7 @@ use ViKon\Wiki\Contract\Page;
  *
  * @package ViKon\Wiki\Policy
  *
- * @author  Kovács Vince<kovacs.vince@sicontact.hu>
+ * @author  Kovács Vince<vincekovacs@hotmail.com>
  */
 class PagePolicy
 {

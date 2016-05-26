@@ -5,6 +5,7 @@ namespace ViKon\Wiki\Contract;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
+
 /**
  * Interface Page
  *

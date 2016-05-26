@@ -16,6 +16,7 @@ use ViKon\Auth\Contracts\Keeper;
  * @property string                                                                        $toc
  * @property string                                                                        $content
  * @property boolean                                                                       $draft
+ *
  * @property-read \Illuminate\Database\Eloquent\Collection|\ViKon\Wiki\Model\PageContent[] $contents
  *
  * @author Kovács Vince<vincekovacs@hotmail.com>
@@ -34,6 +35,9 @@ class Page extends Model
 
     const TYPE_MARKDOWN = 'markdown';
 
+    /**
+     * {@inheritDoc}
+     */
     public static function boot()
     {
         parent::boot();
@@ -45,7 +49,6 @@ class Page extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany|\Illuminate\Database\Eloquent\Builder
      * Page constructor.
      *
      * @param array $attributes
@@ -63,6 +66,7 @@ class Page extends Model
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany|\Illuminate\Database\Eloquent\Builder
      */
     public function contents()
     {

@@ -18,6 +18,7 @@ use ViKon\Auth\Model\User;
  * @property integer                     $page_id
  * @property integer                     $created_by_user_id
  * @property \Carbon\Carbon              $created_at
+ *
  * @property-read Page                   $page
  * @property-read \ViKon\Auth\Model\User $createdByUser
  *

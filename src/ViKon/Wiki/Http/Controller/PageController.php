@@ -43,7 +43,6 @@ class PageController extends BaseController
                 ->with('page', $page);
         }
 
-
         return view(config('wiki.views.page.not-exists'))
             ->with('page', $page);
     }
