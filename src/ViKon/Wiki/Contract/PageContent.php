@@ -88,7 +88,7 @@ interface PageContent extends Arrayable, Jsonable
     /**
      * Publish current content
      *
-     * @return static
+     * @return bool return TRUE if page content successfully published, otherwise return FALSE
      */
     public function publish();
 

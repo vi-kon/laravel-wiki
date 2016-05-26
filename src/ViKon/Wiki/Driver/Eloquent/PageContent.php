@@ -116,6 +116,10 @@ class PageContent implements PageContentContract
      */
     public function publish()
     {
+        if ($this->isPublished()) {
+            return false;
+        }
+
         $this->model->draft = false;
         $this->save();
 
@@ -130,7 +134,7 @@ class PageContent implements PageContentContract
         $pageModel->toc     = $data->getToc();
         $page->save();
 
-        return $this;
+        return true;
     }
 
     /**
