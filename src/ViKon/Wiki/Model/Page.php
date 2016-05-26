@@ -17,13 +17,6 @@ use ViKon\Auth\Contracts\Keeper;
  * @property string                                                                        $content
  * @property boolean                                                                       $draft
  * @property-read \Illuminate\Database\Eloquent\Collection|\ViKon\Wiki\Model\PageContent[] $contents
- * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Model\Page whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Model\Page whereUrl($value)
- * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Model\Page whereType($value)
- * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Model\Page whereTitle($value)
- * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Model\Page whereToc($value)
- * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Model\Page whereDraft($value)
- * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Model\Page whereContent($value)
  *
  * @author Kovács Vince<vincekovacs@hotmail.com>
  */

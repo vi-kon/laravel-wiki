@@ -20,14 +20,6 @@ use ViKon\Auth\Model\User;
  * @property \Carbon\Carbon              $created_at
  * @property-read Page                   $page
  * @property-read \ViKon\Auth\Model\User $createdByUser
- * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Model\PageContent whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Model\PageContent whereTitle($value)
- * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Model\PageContent whereContent($value)
- * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Model\PageContent whereViews($value)
- * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Model\PageContent whereDraft($value)
- * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Model\PageContent wherePageId($value)
- * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Model\PageContent whereCreatedByUserId($value)
- * @method static \Illuminate\Database\Query\Builder|\ViKon\Wiki\Model\PageContent whereCreatedAt($value)
  *
  * @author Kovács Vince<vincekovacs@hotmail.com>
  */
