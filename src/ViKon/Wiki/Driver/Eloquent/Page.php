@@ -109,7 +109,7 @@ class Page implements PageContract
     public function getContents()
     {
         // Wrap page content models into page contents
-        return $this->model->contents->map(function (PageContent $pageContent) {
+        return $this->model->contents->toBase()->map(function (PageContent $pageContent) {
             return $this->repository->contentByModel($pageContent);
         });
     }
@@ -217,6 +217,8 @@ class Page implements PageContract
                                 ->where('draft', false)
                                 ->orderBy('created_at', 'desc')
                                 ->get();
+
+        $contents = $contents->toBase();
 
         // Wrap page content models into page contents
         return $contents->map(function (PageContent $pageContent) {
