@@ -2,6 +2,8 @@
 
 namespace ViKon\Wiki\Contract;
 
+use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Contracts\Support\Jsonable;
 /**
  * Interface Page
  *
@@ -9,7 +11,7 @@ namespace ViKon\Wiki\Contract;
  *
  * @author  Kovács Vince<vincekovacs@hotmail.com>
  */
-interface Page
+interface Page extends Arrayable, Jsonable
 {
     /**
      * Get page URL

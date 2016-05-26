@@ -168,6 +168,22 @@ class PageContent implements PageContentContract
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function toArray()
+    {
+        return $this->model->toArray();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function toJson($options = 0)
+    {
+        return $this->model->toJson($options);
+    }
+
+    /**
      * Get eloquent model which represents current page content
      *
      * @return \ViKon\Wiki\Model\PageContent

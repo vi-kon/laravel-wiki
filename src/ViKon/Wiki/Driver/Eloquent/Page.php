@@ -234,6 +234,22 @@ class Page implements PageContract
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function toArray()
+    {
+        return $this->model->toArray();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function toJson($options = 0)
+    {
+        return $this->model->toJson($options);
+    }
+
+    /**
      * Get eloquent model which represents current page
      *
      * @return \ViKon\Wiki\Model\Page
