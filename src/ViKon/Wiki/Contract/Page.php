@@ -2,6 +2,7 @@
 
 namespace ViKon\Wiki\Contract;
 
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 /**
@@ -89,9 +90,38 @@ interface Page extends Arrayable, Jsonable
     public function getLastContent();
 
     /**
+     * Check if given user has draft
+     *
+     * @param \Illuminate\Contracts\Auth\Authenticatable $user
+     *
+     * @return bool
+     */
+    public function hasDraftForUser(Authenticatable $user);
+
+    /**
+     * Get draft for given user
+     *
+     * Note: If user has no existing draft to current page then new draft will be created base on last published content. If page was not published
+     * then create empty content.
+     *
+     * @param \Illuminate\Contracts\Auth\Authenticatable $user
+     *
+     * @return \ViKon\Wiki\Contract\PageContent
+     */
+    public function getDraftForUser(Authenticatable $user);
+
+    /**
+     * Check if current user has draft
+     *
+     * @return bool
+     */
+    public function hasDraftForCurrentUser();
+
+    /**
      * Get draft content for current user
      *
-     * Note: If user has no existing draft to current page then new draft will be created base on last published content
+     * Note: If user has no existing draft to current page then new draft will be created base on last published content. If page was not published
+     * then create empty content.
      *
      * @return \ViKon\Wiki\Contract\PageContent
      */

@@ -9,6 +9,7 @@
 namespace ViKon\Wiki\Driver\Eloquent;
 
 use Carbon\Carbon;
+use Illuminate\Contracts\Auth\Authenticatable;
 use ViKon\Auth\Contracts\Keeper;
 use ViKon\Wiki\Contract\Page as PageContract;
 use ViKon\Wiki\Model\Page as PageModel;
@@ -142,32 +143,64 @@ class Page implements PageContract
     /**
      * {@inheritDoc}
      */
-    public function getDraftForCurrentUser()
+    public function hasDraftForUser(Authenticatable $user)
+    {
+        return $this->model->contents()
+                           ->where(PageContent::FIELD_DRAFT, true)
+                           ->where(PageContent::FIELD_CREATED_BY_USER_ID, $user->getAuthIdentifier())
+                           ->orderBy(PageContent::FIELD_CREATED_AT, 'desc')
+                           ->exists();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getDraftForUser(Authenticatable $user)
     {
         // Load page content from database
         /** @type \ViKon\Wiki\Model\PageContent|null $pageContent */
         $pageContent = $this->model->contents()
                                    ->where(PageContent::FIELD_DRAFT, true)
-                                   ->where(PageContent::FIELD_CREATED_BY_USER_ID, $this->keeper->id())
+                                   ->where(PageContent::FIELD_CREATED_BY_USER_ID, $user->getAuthIdentifier())
                                    ->orderBy(PageContent::FIELD_CREATED_AT, 'desc')
                                    ->first();
 
-        // Create new page content for current user if not found in database
+        // Create new page content for given user if not found in database
         if ($pageContent === null) {
-            $lastContent = $this->getLastContent();
 
             $pageContent                     = new PageContent();
-            $pageContent->title              = $lastContent->getTitle();
-            $pageContent->content            = $lastContent->getRawContent();
             $pageContent->draft              = true;
-            $pageContent->created_by_user_id = $this->keeper->id();
+            $pageContent->created_by_user_id = $user->getAuthIdentifier();
             $pageContent->created_at         = new Carbon();
+
+            // Set title and raw content for current draft if page was already published
+            $lastContent = $this->getLastContent();
+            if ($lastContent !== null) {
+                $pageContent->title   = $lastContent->getTitle();
+                $pageContent->content = $lastContent->getRawContent();
+            }
 
             $this->model->contents()->save($pageContent);
         }
 
         // Wrap page content model into page content
         return $this->repository->contentByModel($pageContent);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function hasDraftForCurrentUser()
+    {
+        return $this->hasDraftForUser($this->keeper->user());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getDraftForCurrentUser()
+    {
+        return $this->getDraftForUser($this->keeper->user());
     }
 
     /**
