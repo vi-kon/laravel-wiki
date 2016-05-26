@@ -45,29 +45,17 @@ class PageContent extends Model
     const FIELD_CREATED_AT         = 'created_at';
 
     /**
-     *
-     * Disable updated_at and created_at columns
-     *
-     * @var boolean
-     */
-    public $timestamps = false;
-
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
-    protected $table = 'wiki_pages_content';
-
-    /**
      * PageContent constructor.
      *
      * @param array $attributes
      */
     public function __construct(array $attributes = [])
     {
-        $this->dates = [
-            'created_at',
+        $this->table      = 'wiki_pages_content';
+        $this->timestamps = false;
+        $this->dates      = [
+            static::CREATED_AT,
+        ];
         ];
 
         parent::__construct($attributes);

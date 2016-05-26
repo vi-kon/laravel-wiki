@@ -41,23 +41,6 @@ class Page extends Model
 
     const TYPE_MARKDOWN = 'markdown';
 
-    /**
-     *
-     * Disable updated_at and created_at columns
-     *
-     * @var boolean
-     */
-    public $timestamps = false;
-
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
-    protected $table = 'wiki_pages';
-
-    protected $fillable = ['url', 'type'];
-
     public static function boot()
     {
         parent::boot();
@@ -70,6 +53,23 @@ class Page extends Model
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany|\Illuminate\Database\Eloquent\Builder
+     * Page constructor.
+     *
+     * @param array $attributes
+     */
+    public function __construct(array $attributes = [])
+    {
+        $this->table      = 'wiki_pages';
+        $this->timestamps = false;
+        $this->fillable   = [
+            static::FIELD_URL,
+            static::FIELD_TYPE,
+        ];
+
+        parent::__construct($attributes);
+    }
+
+    /**
      */
     public function contents()
     {
